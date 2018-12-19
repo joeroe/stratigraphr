@@ -1,0 +1,24 @@
+library("tidyverse")
+library("tidygraph")
+library("ggraph")
+
+harris <- function(strat) {
+  to <- c(rep(strat$context, times = map_int(strat$above, length)))
+  from <- unlist(strat$above)
+  tibble(to, from) %>%
+    drop_na() %>%
+    return()
+}
+
+# Example data after Harris 1979, Fig. 12
+harris12 <- tibble(context = c(1:9, "natural"),
+                   above = list(NA, 1, 1, 1, c(2, 3, 4), 5, 6, 6, c(7,8), 9),
+                   below = list(c(2, 3, 4), 5, c(5, 7), c(5, 8), 6, c(7, 8), 9, 9, "natural", NA),
+                   equal = list(NA, NA, NA, NA, NA, NA, 8, 7, NA, NA))
+
+h12_graph <- tbl_graph(nodes = harris12, edges = harris(harris12))
+
+ggraph(h12_graph, layout = "sugiyama") +
+  geom_edge_link() +
+  geom_node_label(aes(label = context), label.r = unit(0, "mm")) +
+  theme_graph()

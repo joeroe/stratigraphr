@@ -1,0 +1,15 @@
+Package: stratigraphr
+Type: Package
+Title: Archaeological Stratigraphy and Chronological Sequences
+Version: 0.1.0
+Date: 2018-12-19
+Authors@R: person("Joe", "Roe", email = "jwg983@hum.ku.dk",
+  role = c("aut", "cre"))
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
