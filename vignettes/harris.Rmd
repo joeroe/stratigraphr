@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 library("tidyverse")
 library("tidygraph")
 library("ggraph")
+library("stratigraphr")
 
 harris <- function(strat) {
   to <- c(rep(strat$context, times = map_int(strat$above, length)))
@@ -31,10 +32,7 @@ harris <- function(strat) {
 }
 
 # Example data after Harris 1979, Fig. 12
-harris12 <- tibble(context = c(1:9, "natural"),
-                   above = list(NA, 1, 1, 1, c(2, 3, 4), 5, 6, 6, c(7,8), 9),
-                   below = list(c(2, 3, 4), 5, c(5, 7), c(5, 8), 6, c(7, 8), 9, 9, "natural", NA),
-                   equal = list(NA, NA, NA, NA, NA, NA, 8, 7, NA, NA))
+data("harris12")
 
 h12_graph <- tbl_graph(nodes = harris12, edges = harris(harris12))
 
