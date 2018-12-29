@@ -24,3 +24,24 @@ harris <- function(data, context, relation) {
     drop_na() %>%
     return()
 }
+
+#' Validate stratigraphic graphs
+#'
+#' Checks whether a stratigraphic graph is a valid Harris matrix.
+#'
+#' @param stratgraph  A stratigraphic graph.
+#' @param warn        Display warnings for invalid graphs (Default: `TRUE`).
+#'
+#' @return `TRUE` or `FALSE`
+#' @export
+#'
+#' @examples
+is_valid_harris <- function(stratgraph, warn = TRUE) {
+  if (!igraph::is.dag(stratgraph)) {
+    if(warn) warning("Invalid Harris matrix: graph contains cycles")
+    return(FALSE)
+  }
+  else {
+    return(TRUE)
+  }
+}
