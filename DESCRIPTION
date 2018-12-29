@@ -16,4 +16,5 @@ VignetteBuilder: knitr
 Imports: dplyr,
     tibble,
     magrittr
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
