@@ -2,17 +2,17 @@
 % Please edit documentation in R/graph.R
 \name{is_valid_harris}
 \alias{is_valid_harris}
-\title{Validate stratigraphc graphs}
+\title{Validate stratigraphic graphs}
 \usage{
-is_valid_harris(stratgraph, warn = TRUE)
+is_valid_harris(stratigraph, warn = TRUE)
 }
 \arguments{
-\item{stratgraph}{A stratigraphic graph.}
+\item{stratigraph}{A \code{stratigraph} object (see \code{\link[=stratigraph]{stratigraph()}})}
 
-\item{warn}{Display warnings for invalid graphs (Default: `TRUE`).}
+\item{warn}{Display warnings for invalid graphs (Default: \code{TRUE}).}
 }
 \value{
-`TRUE` or `FALSE`
+\code{TRUE} or \code{FALSE}
 }
 \description{
 Checks whether a stratigraphic graph is a valid Harris matrix.

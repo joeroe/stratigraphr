@@ -2,27 +2,33 @@
 % Please edit documentation in R/graph.R
 \name{harris}
 \alias{harris}
-\title{Construct a Harris matrix from a stratigraphic sequence.}
+\title{Harris Matrices}
 \usage{
 harris(data, context, relation)
 }
 \arguments{
-\item{data}{`tibble` or `data.frame` of contexts and the stratigraphic
+\item{data}{\code{tibble} or \code{data.frame} of contexts and the stratigraphic
 relationships between them.}
 
-\item{context}{`character`. Name of the column containing context labels (nodes)}
+\item{context}{\code{character}. Name of the column containing context labels (nodes)}
 
-\item{relation}{`character`. Name of the column describing relations (edges)
+\item{relation}{\code{character}. Name of the column describing relations (edges)
 between contexts}
 }
 \value{
-A `tibble` of edges with `to` and `from` columns (see [tidygraph::tbl_graph()])
+A \code{tibble} of edges with \code{to} and \code{from} columns (see \code{\link[tidygraph:tbl_graph]{tidygraph::tbl_graph()}})
 }
 \description{
-Construct a Harris matrix from a stratigraphic sequence.
+Join stratigraphic units using the Harris matrix method (Harris 1979).
 }
 \examples{
 data(harris12)
 matrix <- harris(harris12, "context", "above")
 plot(matrix)
+}
+\references{
+\itemize{
+\item Harris, E. C. 1979. \emph{Principles of archaeological stratigraphy}. London:
+Academic Press.
+}
 }

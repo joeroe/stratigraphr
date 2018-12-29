@@ -1,6 +1,52 @@
 # Functions for constructing graphs from stratigraphic sequences
 
-#' Construct a Harris matrix from a stratigraphic sequence.
+#' Stratigraphic graphs
+#'
+#' @param data      `tibble` or `data.frame` of contexts and the stratigraphic
+#'                   relationships between them.
+#' @param context   `character`. Name of the column containing context labels (nodes)
+#' @param relation  `character`. Name of the column describing relations (edges)
+#'                               between contexts
+#' @param type      Type of graph. Currently only "harris" is supported.
+#'
+#' @return  A `stratigraph` object.
+#' @export
+#'
+#' @examples
+stratigraph <- function(data, context, relation, type = "harris") {
+  # Join nodes
+  if (type == "harris") {
+    edges <- harris(data, context, relation)
+  }
+  else {
+    stop("Stratigraphic graphs other than Harris matrices not yet implemented!")
+  }
+
+  # Construct graph
+  stratigraph <- tidygraph::tbl_graph(nodes = data, edges = edges,
+                                      directed = TRUE)
+
+  # Add stratigraph class
+  # TODO: turn into an as.stratigraph function?
+  class(stratigraph) %>%
+    purrr::prepend("stratigraph") ->
+    class(stratigraph)
+  attr(stratigraph, "type") <- type
+
+  # Check validity and return
+  if (type == "harris") {
+    if (is_valid_harris(stratigraph)) {
+      return(stratigraph)
+    }
+    else {
+      return(NULL)
+    }
+  }
+}
+
+#' Harris Matrices
+#'
+#' Join stratigraphic units using the Harris matrix method (Harris 1979).
 #'
 #' @param data      `tibble` or `data.frame` of contexts and the stratigraphic
 #'                   relationships between them.
@@ -12,6 +58,10 @@
 #' A `tibble` of edges with `to` and `from` columns (see [tidygraph::tbl_graph()])
 #'
 #' @export
+#'
+#' @references
+#' * Harris, E. C. 1979. *Principles of archaeological stratigraphy*. London:
+#'   Academic Press.
 #'
 #' @examples
 #' data(harris12)
@@ -29,15 +79,15 @@ harris <- function(data, context, relation) {
 #'
 #' Checks whether a stratigraphic graph is a valid Harris matrix.
 #'
-#' @param stratgraph  A stratigraphic graph.
-#' @param warn        Display warnings for invalid graphs (Default: `TRUE`).
+#' @param stratigraph   A `stratigraph` object (see [stratigraph()])
+#' @param warn          Display warnings for invalid graphs (Default: `TRUE`).
 #'
 #' @return `TRUE` or `FALSE`
 #' @export
 #'
 #' @examples
-is_valid_harris <- function(stratgraph, warn = TRUE) {
-  if (!igraph::is.dag(stratgraph)) {
+is_valid_harris <- function(stratigraph, warn = TRUE) {
+  if (!igraph::is.dag(stratigraph)) {
     if(warn) warning("Invalid Harris matrix: graph contains cycles")
     return(FALSE)
   }
