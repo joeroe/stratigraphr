@@ -13,8 +13,11 @@ LazyData: true
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
-Imports: dplyr,
+Imports: 
+    dplyr,
     tibble,
-    magrittr
+    magrittr,
+    rcarbon,
+    purrr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
