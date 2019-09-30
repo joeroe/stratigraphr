@@ -28,7 +28,7 @@ data("harris12")
 h12_graph <- stratigraph(harris12, "context", "above", type = "harris")
 
 ggraph(h12_graph, layout = "sugiyama") +
-  geom_edge_link() +
+  geom_edge_elbow() +
   geom_node_label(aes(label = context), label.r = unit(0, "mm")) +
   theme_graph()
 ```
