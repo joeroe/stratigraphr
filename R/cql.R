@@ -202,7 +202,7 @@ cql_phase <- function(name, ...) {
 
   cql <- paste0("Phase(\"", name, "\")\n",
                 "{\n",
-                paste(..., sep = "\n"),
+                paste(..., sep = "\n", collapse = "\n"),
                 "\n}")
   return(cql)
 }
