@@ -226,7 +226,18 @@ cql_r_date <- function(name, cra, error) {
   checkmate::check_int(cra)
   checkmate::check_int(error)
 
+  if(length(name) != length(cra) |
+     length(cra) != length(error) |
+     length(error) != length(name)) {
+    stop("Vector arguments to name, cra, error must all be the same length.")
+  }
+
   cql <- paste0("R_Date(\"", name, "\", ", cra, ", ", error, ");")
+
+  if(length(cql) > 1) {
+    cql <- paste0(cql, collapse = "\n")
+  }
+
   return(cql)
 }
 
