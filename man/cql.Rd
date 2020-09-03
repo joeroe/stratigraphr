@@ -78,7 +78,7 @@ cql_axis()
 
 cql_before()
 
-cql_boundary()
+cql_boundary(name, likelihood = NULL)
 
 cql_c_date()
 
@@ -146,7 +146,7 @@ cql_p()
 
 cql_p_sequence()
 
-cql_phase()
+cql_phase(name, ...)
 
 cql_pois()
 
@@ -170,7 +170,7 @@ cql_sapwood()
 
 cql_sapwood_model()
 
-cql_sequence()
+cql_sequence(name, ...)
 
 cql_sigma_boundary()
 
