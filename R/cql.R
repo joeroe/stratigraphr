@@ -285,14 +285,24 @@ cql_sapwood_model <- function() { warning("CQL command Sapwood_Model is not yet 
 
 #' @rdname cql
 #' @export
-cql_sequence <- function(name, ...) {
+cql_sequence <- function(name, ..., add_boundaries = FALSE) {
   checkmate::assert_character(name)
   assert_cql_dots(...)
 
-  cql <- paste0("Sequence(\"", name, "\")\n",
-                "{\n",
-                paste(..., sep = "\n"),
-                "\n};")
+  cql <- paste(..., sep = "\n")
+
+  if(add_boundaries) {
+    cql <- paste(cql_boundary(paste(name, "start")),
+                 cql,
+                 cql_boundary(paste(name, "end")),
+                 sep = "\n")
+  }
+
+  cql <- paste(paste0("Sequence(\"", name, "\")"),
+               "{",
+               cql,
+               "};",
+               sep = "\n")
 
   cql <- cql(cql)
   return(cql)
