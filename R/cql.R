@@ -287,6 +287,7 @@ cql_sapwood_model <- function() { warning("CQL command Sapwood_Model is not yet 
 #' @export
 cql_sequence <- function(name, ..., add_boundaries = FALSE) {
   checkmate::assert_character(name)
+  checkmate::assert_logical(add_boundaries)
   assert_cql_dots(...)
 
   cql <- paste(..., sep = "\n")

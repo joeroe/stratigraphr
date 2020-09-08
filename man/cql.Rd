@@ -170,7 +170,7 @@ cql_sapwood()
 
 cql_sapwood_model()
 
-cql_sequence(name, ...)
+cql_sequence(name, ..., add_boundaries = FALSE)
 
 cql_sigma_boundary()
 
@@ -199,7 +199,7 @@ cql_v_sequence()
 cql_zero_boundary()
 }
 \value{
-\code{character}. A CQL script.
+\code{cql}. A CQL script.
 }
 \description{
 Provides an R API for the Chronological Query Language (CQL), primarily used
