@@ -205,3 +205,6 @@ cql_zero_boundary()
 Provides an R API for the Chronological Query Language (CQL), primarily used
 to input commands and describe models to OxCal.
 }
+\references{
+\url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html}
+}

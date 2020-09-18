@@ -15,6 +15,10 @@
 #' to input commands and describe models to OxCal.
 #'
 #' @return `cql`. A CQL script.
+#'
+#' @references
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html>
+#'
 #' @export
 cql <- function(...) {
   cql <- paste(..., sep = "\n")
