@@ -29,6 +29,8 @@ shub1_radiocarbon <- tidyr::fill(shub1_radiocarbon, phase)
 
 # Separate CRA and error in radiocarbon age
 shub1_radiocarbon <- tidyr::separate(shub1_radiocarbon, age, c("cra", "error"), " ±")
+shub1_radiocarbon$cra <- as.integer(shub1_radiocarbon$cra)
+shub1_radiocarbon$error <- as.integer(shub1_radiocarbon$error)
 
 # Add schematic context numbers to match "shub1" dataset
 shub1_radiocarbon <- dplyr::mutate(shub1_radiocarbon,
@@ -61,6 +63,7 @@ shub1_radiocarbon <- dplyr::mutate(shub1_radiocarbon,
                                                            `RTD-8903` = 1,
                                                            `RTK-6815` = 1))
 shub1_radiocarbon <- dplyr::relocate(shub1_radiocarbon, context, .after = lab_id)
+shub1_radiocarbon$context <- as.integer(shub1_radiocarbon$context)
 
 # Export
 usethis::use_data(shub1_radiocarbon, overwrite = TRUE)
