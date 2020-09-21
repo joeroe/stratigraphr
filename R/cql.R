@@ -239,7 +239,7 @@ cql_probability <- function() { warning("CQL command Probability is not yet impl
 #' @rdname cql
 #' @export
 cql_r_date <- function(name, cra, error) {
-  checkmate::assert_character(name)
+  checkmate::assert_character(as.character(name))
   checkmate::assert_integerish(cra)
   checkmate::assert_integerish(error)
 
@@ -250,10 +250,6 @@ cql_r_date <- function(name, cra, error) {
   }
 
   cql <- paste0("R_Date(\"", name, "\", ", cra, ", ", error, ");")
-
-  if(length(cql) > 1) {
-    cql <- paste0(cql, collapse = "\n")
-  }
 
   cql <- cql(cql)
   return(cql)
