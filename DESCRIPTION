@@ -10,14 +10,20 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: knitr,
-    rmarkdown
+Suggests: 
+    knitr,
+    rmarkdown,
+    readxl
 VignetteBuilder: knitr
 Imports: 
     dplyr,
     tibble,
     magrittr,
     rcarbon,
-    purrr
+    purrr,
+    Rdpack
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+RdMacros: Rdpack
+Depends: 
+    R (>= 2.10)
