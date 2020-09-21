@@ -68,10 +68,10 @@ stratigraph <- function(data, context, relation, type = "harris") {
 #' matrix <- harris(harris12, "context", "above")
 #' plot(matrix)
 harris <- function(data, context, relation) {
-  to <- rep(data[[context]], times = map_int(data[[relation]], length))
+  to <- rep(data[[context]], times = purrr::map_int(data[[relation]], length))
   from <- unlist(data[[relation]])
   tibble::tibble(to, from) %>%
-    drop_na() %>%
+    tidyr::drop_na() %>%
     return()
 }
 
