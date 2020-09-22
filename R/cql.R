@@ -21,7 +21,7 @@
 #'
 #' @export
 cql <- function(...) {
-  cql <- paste(..., sep = "\n")
+  cql <- paste(..., sep = "\n", collapse = "\n")
   class(cql) <- c("cql", class(cql))
   return(cql)
 }
@@ -42,6 +42,32 @@ assert_cql_dots <- function(...) {
              checkmate::assert_class,
              classes= "cql",
              .var.name = "...")
+}
+
+
+# Read/write functions ----------------------------------------------------
+
+#' Write CQL to a file
+#'
+#' Writes CQL code from [cql()] to an .oxcal file, for input to OxCal.
+#'
+#' @param cql   A `cql` object. See [cql()].
+#' @param file  Path to a file.
+#'
+#' @return Returns `cql` invisibly.
+#' @export
+write_oxcal <- function(cql, file) {
+  checkmate::assert_class(cql, "cql")
+
+  if(!stringr::str_ends(file, ".oxcal")) {
+    file <- paste0(file, ".oxcal")
+    message("Writing to ", file)
+  }
+
+  out <- capture.output(print(cql))
+  readr::write_lines(out, file, sep = "\r\n")
+
+  invisible(cql)
 }
 
 # CQL commands ------------------------------------------------------------
@@ -251,7 +277,7 @@ cql_r_date <- function(name, cra, error) {
 
   cql <- paste0("R_Date(\"", name, "\", ", cra, ", ", error, ");")
 
-  cql <- cql(cql)
+  cql <- purrr::map(cql, stratigraphr::cql)
   return(cql)
 }
 
