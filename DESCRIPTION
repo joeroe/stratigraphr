@@ -1,12 +1,15 @@
 Package: stratigraphr
 Type: Package
 Title: Archaeological Stratigraphy and Chronological Sequences
-Version: 0.1.0
+Version: 0.2.0
 Date: 2018-12-19
-Authors@R: person("Joe", "Roe", email = "jwg983@hum.ku.dk",
+Authors@R: person("Joe", "Roe", email = "joe@joeroe.io",
   role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: A tidy framework for working with archaeological stratigraphy and
+    chronology in R. Includes tools for reading, analysing, and visualising
+    stratigraphies ("Harris matrices") and sequences as directed graphs; 
+    helper functions for using radiocarbon dates in a tidy data analysis; and an
+    R interface to OxCal's Chronological Query Language (CQL).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
