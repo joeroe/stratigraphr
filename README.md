@@ -1,4 +1,4 @@
-# stratigraphr <img src="man/figures/stratigraphr_logo.svg" align="right" height="150" />
+# stratigraphr <img src="man/figures/stratigraphr_logo.svg" align="right" height="180" />
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
