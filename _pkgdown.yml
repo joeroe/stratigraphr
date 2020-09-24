@@ -1,0 +1,30 @@
+authors:
+  Joe Roe:
+    href: "https://joeroe.io"
+
+reference:
+- title: "Reading and writing data"
+  desc: "Functions for reading and writing stratigraphic data."
+- contents:
+  - starts_with("read_")
+  - starts_with("write_")
+- title: "Stratigraphs"
+  desc: "Functions for graph-based analysis of stratigraphy."
+- contents:
+  - stratigraph
+  - harris
+  - is_valid_harris
+- title: "Radiocarbon dates"
+  desc: "Functions for working with radiocarbon data in a tidy framework."
+- contents:
+  - cal
+  - sum_radiocarbon
+- title: "CQL"
+  desc: "An R interface to the Chronological Query Language (CQL)."
+- contents:
+  - starts_with("cql")
+- title: "Datasets"
+  desc: "Example data included with the package."
+- contents:
+  - shub1
+  - shub1_radiocarbon

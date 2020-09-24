@@ -23,8 +23,7 @@ Join stratigraphic units using the Harris matrix method (Harris 1979).
 }
 \examples{
 data(harris12)
-matrix <- harris(harris12, "context", "above")
-plot(matrix)
+harris(harris12, "context", "above")
 }
 \references{
 \itemize{

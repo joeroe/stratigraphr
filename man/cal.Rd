@@ -27,10 +27,7 @@ dates (i.e. \code{calMatrix} is always set to \code{FALSE}) and the metadata usu
 returned by \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} is discarded.
 }
 \examples{
-library("tidyverse")
-library("rcarbon")
-data("emedyd")
-emedyd \%>\%
-  mutate(CalDate = cal(CRA, Error, normalise = FALSE)) ->
-  emedyd
+data("shub1_radiocarbon")
+shub1_radiocarbon \%>\%
+  dplyr::mutate(CalDate = cal(cra, error, normalise = FALSE, verbose = FALSE))
 }

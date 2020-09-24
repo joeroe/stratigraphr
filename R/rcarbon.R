@@ -19,12 +19,9 @@
 #' returned by [rcarbon::calibrate()] is discarded.
 #'
 #' @examples
-#' library("tidyverse")
-#' library("rcarbon")
-#' data("emedyd")
-#' emedyd %>%
-#'   mutate(CalDate = cal(CRA, Error, normalise = FALSE)) ->
-#'   emedyd
+#' data("shub1_radiocarbon")
+#' shub1_radiocarbon %>%
+#'   dplyr::mutate(CalDate = cal(cra, error, normalise = FALSE, verbose = FALSE))
 cal <- function(cra, error, ...) {
   CalDates <- rcarbon::calibrate(cra, error, calMatrix = FALSE, ...)
   return(CalDates$grids)
@@ -50,16 +47,12 @@ cal <- function(cra, error, ...) {
 #' if it isn't specified. It's probably a good idea to specify it.
 #'
 #' @examples
-#' library("tidyverse")
-#' library("rcarbon")
-#' data("emedyd")
-#' emedyd %>%
-#'   mutate(CalDate = cal(CRA, Error, normalise = FALSE)) ->
-#'   emedyd
-#' emedyd %>%
-#'   group_by(SiteName) %>%
-#'   summarise(SPD = sum_radiocarbon(CalDate, spdnormalised = TRUE)) ->
-#'   emedyd_summed
+#' data("shub1_radiocarbon")
+#' shub1_radiocarbon %>%
+#'   dplyr::mutate(cal_date = cal(cra, error, normalise = FALSE, verbose = FALSE)) %>%
+#'   dplyr::group_by(phase) %>%
+#'   dplyr::summarise(SPD = sum_radiocarbon(cal_date, spdnormalised = TRUE, verbose = FALSE),
+#'                    .groups = "drop_last")
 sum_radiocarbon <- function(cal_dates, time_range = NULL, ...) {
   metadata <- purrr::map_df(cal_dates, ~list(StartBP = max(.$calBP),
                                              EndBP = min(.$calBP)))

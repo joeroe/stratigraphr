@@ -65,8 +65,7 @@ stratigraph <- function(data, context, relation, type = "harris") {
 #'
 #' @examples
 #' data(harris12)
-#' matrix <- harris(harris12, "context", "above")
-#' plot(matrix)
+#' harris(harris12, "context", "above")
 harris <- function(data, context, relation) {
   to <- rep(data[[context]], times = purrr::map_int(data[[relation]], length))
   from <- unlist(data[[relation]])
