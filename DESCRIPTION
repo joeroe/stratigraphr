@@ -18,7 +18,8 @@ LazyData: true
 Suggests: 
     knitr,
     rmarkdown,
-    readxl
+    readxl,
+    oxcAAR
 VignetteBuilder: knitr
 Imports: 
     dplyr,
@@ -26,7 +27,13 @@ Imports:
     magrittr,
     rcarbon,
     purrr,
-    Rdpack
+    Rdpack,
+    checkmate,
+    utils,
+    ggraph,
+    tidygraph,
+    readr,
+    fs
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 RdMacros: Rdpack

@@ -18,10 +18,9 @@ knitr::opts_chunk$set(
 
 
 ```{r}
-library("tidyverse")
+library("stratigraphr")
 library("tidygraph")
 library("ggraph")
-library("stratigraphr")
 
 # Example data after Harris 1979, Fig. 12
 data("harris12")
