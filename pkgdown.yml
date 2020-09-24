@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  cql: cql.html
+  harris: harris.html
+last_built: 2020-09-24T15:58Z
+
