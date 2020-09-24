@@ -1,4 +1,9 @@
-# stratigraphr
+# stratigraphr <img src="man/figures/stratigraphr_logo.svg" align="right" height="150" />
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/stratigraphr)](https://CRAN.R-project.org/package=stratigraphr)
+<!-- badges: end -->
 
 stratigraphr is a tidy framework for working with archaeological stratigraphy and chronology in R.
 It includes tools for reading, analysing, and visualising stratigraphies ("Harris matrices") and sequences as directed graphs;
