@@ -17,3 +17,14 @@ Returns \code{cql} invisibly.
 \description{
 Writes CQL code from \code{\link[=cql]{cql()}} to an .oxcal file, for input to OxCal.
 }
+\seealso{
+Other CQL functions: 
+\code{\link{cql_boundary}()},
+\code{\link{cql_options}()},
+\code{\link{cql_other}},
+\code{\link{cql_phase}()},
+\code{\link{cql_r_date}()},
+\code{\link{cql_sequence}()},
+\code{\link{cql}()}
+}
+\concept{CQL functions}
