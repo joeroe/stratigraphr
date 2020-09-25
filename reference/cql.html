@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Chronological Query Language (CQL) — cql" />
-<meta property="og:description" content="Provides an R API for the Chronological Query Language (CQL), primarily used
-to input commands and describe models to OxCal." />
+<meta property="og:description" content="Provides an R interface for the Chronological Query Language (CQL), primarily
+used to input commands and describe models to OxCal." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -141,18 +141,30 @@ to input commands and describe models to OxCal." />
     </div>
 
     <div class="ref-description">
-    <p>Provides an R API for the Chronological Query Language (CQL), primarily used
-to input commands and describe models to OxCal.</p>
+    <p>Provides an R interface for the Chronological Query Language (CQL), primarily
+used to input commands and describe models to OxCal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cql</span>(<span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>cql</span>(<span class='kw'>...</span>)
+
+<span class='fu'>as_cql</span>(<span class='kw'>x</span>)
+
+<span class='co'># S3 method for list</span>
+<span class='fu'>as_cql</span>(<span class='kw'>x</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>as_cql</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p><code>cql</code> objects.</p></td>
+      <td><p><code>cql</code> objects to be assembled into a script.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>Object to be coerced to a <code>cql</code> object.</p></td>
     </tr>
     </table>
 
@@ -161,8 +173,12 @@ to input commands and describe models to OxCal.</p>
     <p>A CQL script.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>See <code><a href='../articles/cql.html'>vignette("cql")</a></code> for further details.</p>
-<p>List arguments to <code>cql()</code> are collapsed to produce a single script.</p>
+    <p>CQL scripts are represented by the S3 class <code>cql</code>. <code>cql()</code> takes the output
+of individual <code>cql_</code> functions and assembles them into a single script. See
+<code><a href='../articles/cql.html'>vignette("cql")</a></code> for a tutorial.</p>
+<p>List arguments to <code>cql()</code> are collapsed to produce a single script. If you
+want to coerce an object to <code>cql</code> and preserve its structure, use <code>as_cql()</code>
+instead.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a></p>
