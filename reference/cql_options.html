@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write CQL to a file — write_oxcal • stratigraphr</title>
+<title>Set OxCal options in CQL — cql_options • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Write CQL to a file — write_oxcal" />
-<meta property="og:description" content="Writes CQL code from cql() to an .oxcal file, for input to OxCal." />
+<meta property="og:title" content="Set OxCal options in CQL — cql_options" />
+<meta property="og:description" content="This function generates a CQL command that sets OxCal's global options." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -134,43 +134,146 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write CQL to a file</h1>
+    <h1>Set OxCal options in CQL</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cql.R'><code>R/cql.R</code></a></small>
-    <div class="hidden name"><code>write_oxcal.Rd</code></div>
+    <div class="hidden name"><code>cql_options.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Writes CQL code from <code><a href='cql.html'>cql()</a></code> to an .oxcal file, for input to OxCal.</p>
+    <p>This function generates a CQL command that sets OxCal's global options.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_oxcal</span>(<span class='kw'>cql</span>, <span class='kw'>file</span>)</pre>
+    <pre class="usage"><span class='fu'>cql_options</span>(
+  bcad = <span class='fl'>TRUE</span>,
+  convergence_data = <span class='fl'>FALSE</span>,
+  curve = <span class='st'>"intcal20.14c"</span>,
+  cubic = <span class='fl'>TRUE</span>,
+  ensembles = <span class='fl'>30</span>,
+  floruit = <span class='fl'>FALSE</span>,
+  intercept = <span class='fl'>FALSE</span>,
+  k_iterations = <span class='fl'>30</span>,
+  plus_minus = <span class='fl'>FALSE</span>,
+  raw_data = <span class='fl'>FALSE</span>,
+  resolution = <span class='fl'>5</span>,
+  round = <span class='fl'>FALSE</span>,
+  round_by = <span class='fl'>0</span>,
+  sd1 = <span class='fl'>TRUE</span>,
+  sd2 = <span class='fl'>TRUE</span>,
+  sd3 = <span class='fl'>FALSE</span>,
+  uniform_span_prior = <span class='fl'>TRUE</span>,
+  use_f14c = <span class='fl'>TRUE</span>,
+  year = <span class='fl'>1950.5</span>,
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cql</th>
-      <td><p>A <code>cql</code> object. See <code><a href='cql.html'>cql()</a></code>.</p></td>
+      <th>bcad</th>
+      <td><p>Logical. Whether BC/AD are used in the log file output.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>Path to a file.</p></td>
+      <th>convergence_data</th>
+      <td><p>Logical. Whether sample convergence data is included in the output data file.</p></td>
+    </tr>
+    <tr>
+      <th>curve</th>
+      <td><p>Character. The default calibration curve.</p></td>
+    </tr>
+    <tr>
+      <th>cubic</th>
+      <td><p>Logical. Whether cubic (as opposed to linear) interpolation is used for calibration curves.</p></td>
+    </tr>
+    <tr>
+      <th>ensembles</th>
+      <td><p>Integer. The number of age-depth ensembles stored during the analysis.</p></td>
+    </tr>
+    <tr>
+      <th>floruit</th>
+      <td><p>Logical. Whether quantile ranges are calculated instead of the default highest posterior density (hpd).</p></td>
+    </tr>
+    <tr>
+      <th>intercept</th>
+      <td><p>Logical. Whether the intercept method is used for radiocarbon calibration ranges.</p></td>
+    </tr>
+    <tr>
+      <th>k_iterations</th>
+      <td><p>Integer. The default number of MCMC passes.</p></td>
+    </tr>
+    <tr>
+      <th>plus_minus</th>
+      <td><p>Logical. Whether + and - are used in place of BC and AD in log files.</p></td>
+    </tr>
+    <tr>
+      <th>raw_data</th>
+      <td><p>Logical. Whether raw calibration curve data is included in the output data file.</p></td>
+    </tr>
+    <tr>
+      <th>resolution</th>
+      <td><p>Integer. The default bin size for probability distributions of Date and Interval type.</p></td>
+    </tr>
+    <tr>
+      <th>round</th>
+      <td><p>Logical. Whether ranges are rounded off.</p></td>
+    </tr>
+    <tr>
+      <th>round_by</th>
+      <td><p>Integer. Resolution of rounding (0 for automatic).</p></td>
+    </tr>
+    <tr>
+      <th>sd1</th>
+      <td><p>Logical. Whether 68.2% (1 σ) ranges are given in the log and tab delimited files.</p></td>
+    </tr>
+    <tr>
+      <th>sd2</th>
+      <td><p>Logical. Whether 95.4% (2 σ) ranges are given in the log and tab delimited files.</p></td>
+    </tr>
+    <tr>
+      <th>sd3</th>
+      <td><p>Logical. Whether 99.7% (3 σ) ranges are given in the log and tab delimited files.</p></td>
+    </tr>
+    <tr>
+      <th>uniform_span_prior</th>
+      <td><p>Logical. Whether the two extra prior factors suggested by Nicholls and Jones 2001 are used.</p></td>
+    </tr>
+    <tr>
+      <th>use_f14c</th>
+      <td><p>Logical. Whether all calibrations take place in F14C space (rather than BP space).</p></td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td><p>Numeric. The datum point for ages - the default is mid AD 1950.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional named arguments converted to OxCal options. See details.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns <code>cql</code> invisibly.</p>
+    <p>A <code>cql</code> object.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Parameter descriptions and defaults are taken from the OxCal v4.4
+documentation (see references).</p>
+<p>Options not explicitly included here can be specified as additional named
+arguments to this function. The name must exactly match the name of the
+option expected by OxCal; unknown or misspelled options are silently ignored.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_detail.html#opt'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_detail.html#opt</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other CQL functions: 
 <code><a href='cql_boundary.html'>cql_boundary</a>()</code>,
-<code><a href='cql_options.html'>cql_options</a>()</code>,
 <code><a href='cql_other.html'>cql_other</a></code>,
 <code><a href='cql_phase.html'>cql_phase</a>()</code>,
 <code><a href='cql_r_date.html'>cql_r_date</a>()</code>,
 <code><a href='cql_sequence.html'>cql_sequence</a>()</code>,
-<code><a href='cql.html'>cql</a>()</code></p></div>
+<code><a href='cql.html'>cql</a>()</code>,
+<code><a href='write_oxcal.html'>write_oxcal</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

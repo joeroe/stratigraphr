@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write CQL to a file — write_oxcal • stratigraphr</title>
+<title>Describe dates in CQL — cql_r_date • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,12 @@
 
 
 
-<meta property="og:title" content="Write CQL to a file — write_oxcal" />
-<meta property="og:description" content="Writes CQL code from cql() to an .oxcal file, for input to OxCal." />
+<meta property="og:title" content="Describe dates in CQL — cql_r_date" />
+<meta property="og:description" content="The CQL commands R_Date, F14C_Date, C_Date and Date are used to
+describe individual dated events in a model. R_Date and F14C_Date
+represent radiocarbon dates expressed in radiocarbon years (the conventional
+radiocarbon age, CRA) or fraction modern (F14C) respectively.
+C_Date represents a calendar date. Date is not yet implemented." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -134,33 +138,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write CQL to a file</h1>
+    <h1>Describe dates in CQL</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cql.R'><code>R/cql.R</code></a></small>
-    <div class="hidden name"><code>write_oxcal.Rd</code></div>
+    <div class="hidden name"><code>cql_r_date.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Writes CQL code from <code><a href='cql.html'>cql()</a></code> to an .oxcal file, for input to OxCal.</p>
+    <p>The CQL commands <code>R_Date</code>, <code>F14C_Date</code>, <code>C_Date</code> and <code>Date</code> are used to
+describe individual dated events in a model. <code>R_Date</code> and <code>F14C_Date</code>
+represent radiocarbon dates expressed in radiocarbon years (the conventional
+radiocarbon age, CRA) or <em>fraction modern</em> (F14C) respectively.
+<code>C_Date</code> represents a calendar date. <code>Date</code> is not yet implemented.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_oxcal</span>(<span class='kw'>cql</span>, <span class='kw'>file</span>)</pre>
+    <pre class="usage"><span class='fu'>cql_r_date</span>(<span class='kw'>name</span>, <span class='kw'>date</span>, <span class='kw'>error</span>)
+
+<span class='fu'>cql_c_date</span>(<span class='kw'>name</span>, <span class='kw'>date</span>, <span class='kw'>error</span>)
+
+<span class='fu'>cql_r_f14c</span>(<span class='kw'>name</span>, <span class='kw'>date</span>, <span class='kw'>error</span>)
+
+<span class='fu'>cql_date</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cql</th>
-      <td><p>A <code>cql</code> object. See <code><a href='cql.html'>cql()</a></code>.</p></td>
+      <th>name</th>
+      <td><p>Character. Date label(s), usually a lab code.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>Path to a file.</p></td>
+      <th>date</th>
+      <td><p>Integer. Date or dates expressed in radiocarbon years (<code>cql_r_date</code>),
+F14C (<code>cql_f14c_date</code>) or calendar years (<code>cql_c_date</code>). See details.</p></td>
+    </tr>
+    <tr>
+      <th>error</th>
+      <td><p>Integer. Uncertainty associated with the date(s).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns <code>cql</code> invisibly.</p>
+    <p>A <code>cql</code> object, or a list of <code>cql</code> objects if the arguments are vectors.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The era expected for calendar dates (BP or BC/AD) depends on a global option
+in OxCal, which defaults to BC/AD. BC dates are specified as negative values.</p>
+<p>F14C measurements are recommended for modern, "post-bomb" radiocarbon dates
+(Reimer et al. 2004)
+.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a></p>
+<p>Reimer PJ, Brown TA, Reimer RW (2004).
+&#8220;Discussion: Reporting and Calibration of Post-Bomb 14C Data.&#8221;
+<em>Radiocarbon</em>, <b>46</b>(3), 1299--1304.
+ISSN 0033-8222, 1945-5755, doi: <a href='https://doi.org/10.1017/S0033822200033154'>10.1017/S0033822200033154</a>
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other CQL functions: 
@@ -168,9 +202,9 @@
 <code><a href='cql_options.html'>cql_options</a>()</code>,
 <code><a href='cql_other.html'>cql_other</a></code>,
 <code><a href='cql_phase.html'>cql_phase</a>()</code>,
-<code><a href='cql_r_date.html'>cql_r_date</a>()</code>,
 <code><a href='cql_sequence.html'>cql_sequence</a>()</code>,
-<code><a href='cql.html'>cql</a>()</code></p></div>
+<code><a href='cql.html'>cql</a>()</code>,
+<code><a href='write_oxcal.html'>write_oxcal</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

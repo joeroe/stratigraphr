@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write CQL to a file — write_oxcal • stratigraphr</title>
+<title>Other CQL functions (unimplemented) — cql_other • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,11 @@
 
 
 
-<meta property="og:title" content="Write CQL to a file — write_oxcal" />
-<meta property="og:description" content="Writes CQL code from cql() to an .oxcal file, for input to OxCal." />
+<meta property="og:title" content="Other CQL functions (unimplemented) — cql_other" />
+<meta property="og:description" content="These CQL commands are not yet implemented in stratigraphr and only included
+here for reference. Unimplemented commands can be included manually using
+cql() (see examples), but if you need one for an analysis please file a bug
+report!" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -134,44 +137,146 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write CQL to a file</h1>
+    <h1>Other CQL functions (unimplemented)</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cql.R'><code>R/cql.R</code></a></small>
-    <div class="hidden name"><code>write_oxcal.Rd</code></div>
+    <div class="hidden name"><code>cql_other.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Writes CQL code from <code><a href='cql.html'>cql()</a></code> to an .oxcal file, for input to OxCal.</p>
+    <p>These CQL commands are not yet implemented in stratigraphr and only included
+here for reference. Unimplemented commands can be included manually using
+<code><a href='cql.html'>cql()</a></code> (see examples), but if you need one for an analysis please file a bug
+report!</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_oxcal</span>(<span class='kw'>cql</span>, <span class='kw'>file</span>)</pre>
+    <pre class="usage"><span class='fu'>cql_age</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_axis</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_c_combine</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_c_simulate</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_correl_matrix</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_correlation</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_covar_matrix</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_curve</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_delta_r</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_difference</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_end</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_exp</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_gap</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_interval</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_kde_model</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_kde_plot</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_label</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_line</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_lnn</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_mcmc_sample</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_mix_curves</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_n</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_number</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_offset</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_outlier</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_outlier_model</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_p</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_pois</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_prior</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_probability</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_r_combine</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_r_simulate</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_reservoir</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_sample</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_sapwood</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_sapwood_model</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_shift</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_start</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_t</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_top_hat</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_transition</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_u</span>(<span class='kw'>...</span>)
+
+<span class='fu'>cql_after</span>()
+
+<span class='fu'>cql_before</span>()
+
+<span class='fu'>cql_combine</span>()
+
+<span class='fu'>cql_first</span>()
+
+<span class='fu'>cql_last</span>()
+
+<span class='fu'>cql_order</span>()
+
+<span class='fu'>cql_span</span>()
+
+<span class='fu'>cql_sum</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cql</th>
-      <td><p>A <code>cql</code> object. See <code><a href='cql.html'>cql()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>file</th>
-      <td><p>Path to a file.</p></td>
+      <th>...</th>
+      <td><p>Ignored.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns <code>cql</code> invisibly.</p>
+    <p>A warning not to use these functions!</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other CQL functions: 
 <code><a href='cql_boundary.html'>cql_boundary</a>()</code>,
 <code><a href='cql_options.html'>cql_options</a>()</code>,
-<code><a href='cql_other.html'>cql_other</a></code>,
 <code><a href='cql_phase.html'>cql_phase</a>()</code>,
 <code><a href='cql_r_date.html'>cql_r_date</a>()</code>,
 <code><a href='cql_sequence.html'>cql_sequence</a>()</code>,
-<code><a href='cql.html'>cql</a>()</code></p></div>
+<code><a href='cql.html'>cql</a>()</code>,
+<code><a href='write_oxcal.html'>write_oxcal</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Use cql() to manually write commands that are not yet implemented, e.g.:</span>
+<span class='fu'><a href='cql.html'>cql</a></span>(<span class='st'>"After(\"A\");"</span>)
+</div><div class='output co'>#&gt; // CQL2 generated by stratigraphr v0.2.0
+#&gt; After("A");</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

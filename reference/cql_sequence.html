@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Write CQL to a file — write_oxcal • stratigraphr</title>
+<title>Describe an ordered group in CQL — cql_sequence • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,10 @@
 
 
 
-<meta property="og:title" content="Write CQL to a file — write_oxcal" />
-<meta property="og:description" content="Writes CQL code from cql() to an .oxcal file, for input to OxCal." />
+<meta property="og:title" content="Describe an ordered group in CQL — cql_sequence" />
+<meta property="og:description" content="The CQL command Sequence is used to describe an ordered group of events
+in a model. Specific types of sequence, i.e. D_Sequence, P_Sequence,
+U_Sequence, and V_Sequence, are not yet implemented in stratigraphr." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -134,33 +136,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Write CQL to a file</h1>
+    <h1>Describe an ordered group in CQL</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cql.R'><code>R/cql.R</code></a></small>
-    <div class="hidden name"><code>write_oxcal.Rd</code></div>
+    <div class="hidden name"><code>cql_sequence.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Writes CQL code from <code><a href='cql.html'>cql()</a></code> to an .oxcal file, for input to OxCal.</p>
+    <p>The CQL command <code>Sequence</code> is used to describe an <em>ordered</em> group of events
+in a model. Specific types of sequence, i.e. <code>D_Sequence</code>, <code>P_Sequence</code>,
+<code>U_Sequence</code>, and <code>V_Sequence</code>, are not yet implemented in stratigraphr.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_oxcal</span>(<span class='kw'>cql</span>, <span class='kw'>file</span>)</pre>
+    <pre class="usage"><span class='fu'>cql_sequence</span>(<span class='kw'>name</span>, <span class='kw'>...</span>, add_boundaries = <span class='fl'>FALSE</span>)
+
+<span class='fu'>cql_d_sequence</span>()
+
+<span class='fu'>cql_p_sequence</span>()
+
+<span class='fu'>cql_u_sequence</span>()
+
+<span class='fu'>cql_v_sequence</span>()</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cql</th>
-      <td><p>A <code>cql</code> object. See <code><a href='cql.html'>cql()</a></code>.</p></td>
+      <th>name</th>
+      <td><p>Character. Label for the sequence.</p></td>
     </tr>
     <tr>
-      <th>file</th>
-      <td><p>Path to a file.</p></td>
+      <th>...</th>
+      <td><p><code>cql</code> objects contained in the sequence.</p></td>
+    </tr>
+    <tr>
+      <th>add_boundaries</th>
+      <td><p>Logical. If TRUE, will automatically add <code><a href='cql_boundary.html'>cql_boundary()</a></code>
+commands at the start and end of the sequence.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns <code>cql</code> invisibly.</p>
+    <p>A <code>cql</code> object.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>OxCal expects events within sequences to be in chronological order (oldest to
+youngest) not stratigraphic order (youngest to oldest).</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other CQL functions: 
@@ -169,9 +193,24 @@
 <code><a href='cql_other.html'>cql_other</a></code>,
 <code><a href='cql_phase.html'>cql_phase</a>()</code>,
 <code><a href='cql_r_date.html'>cql_r_date</a>()</code>,
-<code><a href='cql_sequence.html'>cql_sequence</a>()</code>,
-<code><a href='cql.html'>cql</a>()</code></p></div>
+<code><a href='cql.html'>cql</a>()</code>,
+<code><a href='write_oxcal.html'>write_oxcal</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='cql.html'>cql</a></span>(
+  <span class='fu'>cql_sequence</span>(<span class='st'>"Sequence A"</span>,
+    <span class='fu'><a href='cql_r_date.html'>cql_r_date</a></span>(<span class='st'>"ABC-001"</span>, <span class='fl'>10100</span>, <span class='fl'>50</span>),
+    <span class='fu'><a href='cql_r_date.html'>cql_r_date</a></span>(<span class='st'>"ABC-002"</span>, <span class='fl'>10200</span>, <span class='fl'>50</span>),
+    <span class='fu'><a href='cql_r_date.html'>cql_r_date</a></span>(<span class='st'>"ABC-003"</span>, <span class='fl'>10300</span>, <span class='fl'>50</span>)
+  )
+)
+</div><div class='output co'>#&gt; // CQL2 generated by stratigraphr v0.2.0
+#&gt; Sequence("Sequence A")
+#&gt; {
+#&gt; R_Date("ABC-001", 10100, 50);
+#&gt; R_Date("ABC-002", 10200, 50);
+#&gt; R_Date("ABC-003", 10300, 50);
+#&gt; };</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
