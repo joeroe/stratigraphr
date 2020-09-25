@@ -32,7 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_github(c("yihui/tinytex", "yihui/knitr", "r-lib/withr"))
           remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown")
         shell: Rscript {0}
