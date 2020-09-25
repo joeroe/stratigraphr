@@ -2,24 +2,39 @@
 % Please edit documentation in R/cql.R
 \name{cql}
 \alias{cql}
+\alias{as_cql}
+\alias{as_cql.list}
+\alias{as_cql.default}
 \title{Chronological Query Language (CQL)}
 \usage{
 cql(...)
+
+as_cql(x)
+
+\method{as_cql}{list}(x)
+
+\method{as_cql}{default}(x)
 }
 \arguments{
-\item{...}{\code{cql} objects.}
+\item{...}{\code{cql} objects to be assembled into a script.}
+
+\item{x}{Object to be coerced to a \code{cql} object.}
 }
 \value{
 A CQL script.
 }
 \description{
-Provides an R API for the Chronological Query Language (CQL), primarily used
-to input commands and describe models to OxCal.
+Provides an R interface for the Chronological Query Language (CQL), primarily
+used to input commands and describe models to OxCal.
 }
 \details{
-See \code{vignette("cql")} for further details.
+CQL scripts are represented by the S3 class \code{cql}. \code{cql()} takes the output
+of individual \code{cql_} functions and assembles them into a single script. See
+\code{vignette("cql")} for a tutorial.
 
-List arguments to \code{cql()} are collapsed to produce a single script.
+List arguments to \code{cql()} are collapsed to produce a single script. If you
+want to coerce an object to \code{cql} and preserve its structure, use \code{as_cql()}
+instead.
 }
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html}
