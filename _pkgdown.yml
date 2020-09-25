@@ -10,7 +10,7 @@ template:
 
 reference:
 - title: "Reading and writing data"
-  desc: "Functions for reading and writing stratigraphic data."
+  desc: "Functions for reading/writing stratigraphic and chronological data."
 - contents:
   - starts_with("read_")
   - starts_with("write_")

@@ -25,3 +25,4 @@ ArchEd) into a data frame.
 \references{
 \url{http://archaeologic.al/wiki/Harris_Matrix#LST}
 }
+\concept{read functions}

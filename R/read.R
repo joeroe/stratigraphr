@@ -1,4 +1,4 @@
-# Functions for reading stratigraphic data
+# Functions for reading stratigraphic and chronological data
 
 # LST files (BASP Harris, Stratify, ArchEd) -------------------------------
 # Reference: http://archaeologic.al/wiki/Harris_Matrix#LST
@@ -20,6 +20,8 @@
 #'
 #' @references
 #' <http://archaeologic.al/wiki/Harris_Matrix#LST>
+#'
+#' @family read functions
 #'
 #' @export
 #'

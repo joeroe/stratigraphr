@@ -104,34 +104,6 @@ assert_cql_name <- function(name, function_name = "CQL function") {
   return(as.character(name))
 }
 
-# Read/write functions ----------------------------------------------------
-
-#' Write CQL to a file
-#'
-#' Writes CQL code from [cql()] to an .oxcal file, for input to OxCal.
-#'
-#' @param cql   A `cql` object. See [cql()].
-#' @param file  Path to a file.
-#'
-#' @return Returns `cql` invisibly.
-#'
-#' @family CQL functions
-#'
-#' @export
-write_oxcal <- function(cql, file) {
-  checkmate::assert_class(cql, "cql")
-
-  if(!stringr::str_ends(file, ".oxcal")) {
-    file <- paste0(file, ".oxcal")
-    message("Writing to ", file)
-  }
-
-  out <- utils::capture.output(print(cql))
-  readr::write_lines(out, file, sep = "\r\n")
-
-  invisible(cql)
-}
-
 
 # CQL options -------------------------------------------------------------
 # https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_detail.html#opt
