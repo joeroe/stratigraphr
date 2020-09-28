@@ -179,6 +179,7 @@ cql_options <- function(bcad = TRUE,
 }
 
 # CQL date functions ------------------------------------------------------
+# (Vectorised)
 
 #' Describe dates in CQL
 #'
@@ -286,6 +287,7 @@ cql_date <- function(name, cql) {
 
 
 # CQL phase functions -----------------------------------------------------
+# (Summary)
 
 #' Describe an unordered group in CQL
 #'
@@ -293,7 +295,7 @@ cql_date <- function(name, cql) {
 #' a model.
 #'
 #' @param name  Character. Label for the phase.
-#' @param ...   `cql` objects contained in the phase.
+#' @param cql   List of `cql` objects contained in the phase.
 #'
 #' @return
 #' A `cql` object.
@@ -307,19 +309,25 @@ cql_date <- function(name, cql) {
 #'
 #' @examples
 #' cql(
-#'   cql_phase("Phase A",
+#'   cql_phase("Phase A", list(
 #'     cql_r_date("ABC-001", 10100, 50),
 #'     cql_r_date("ABC-002", 10200, 50),
 #'     cql_r_date("ABC-003", 10300, 50)
-#'   )
+#'   ))
 #' )
-cql_phase <- function(name, ...) {
+cql_phase <- function(name, cql) {
   name <- assert_cql_name(name, "cql_phase")
-  assert_cql_dots(...)
+
+  if(length(name) > 1) {
+    if(length(unique(name)) != 1) {
+      warning("Vector arguments to name after the first are ignored.")
+    }
+    name <- name[[1]]
+  }
 
   cql <- paste0("Phase(\"", name, "\")\n",
                 "{\n",
-                paste(..., sep = "\n"),
+                paste(cql, collapse = "\n"),
                 "\n};")
 
   cql <- as_cql(cql)
@@ -328,6 +336,7 @@ cql_phase <- function(name, ...) {
 
 
 # CQL sequence functions --------------------------------------------------
+# (Summary)
 
 #' Describe an ordered group in CQL
 #'
@@ -336,7 +345,7 @@ cql_phase <- function(name, ...) {
 #' `U_Sequence`, and `V_Sequence`, are not yet implemented in stratigraphr.
 #'
 #' @param name           Character. Label for the sequence.
-#' @param ...            `cql` objects contained in the sequence.
+#' @param cql            List of `cql` objects contained in the sequence.
 #' @param add_boundaries Logical. If TRUE, will automatically add [cql_boundary()]
 #'                       commands at the start and end of the sequence.
 #'
@@ -356,18 +365,24 @@ cql_phase <- function(name, ...) {
 #'
 #' @examples
 #' cql(
-#'   cql_sequence("Sequence A",
+#'   cql_sequence("Sequence A", list(
 #'     cql_r_date("ABC-001", 10100, 50),
 #'     cql_r_date("ABC-002", 10200, 50),
 #'     cql_r_date("ABC-003", 10300, 50)
-#'   )
+#'   ))
 #' )
-cql_sequence <- function(name, ..., add_boundaries = FALSE) {
+cql_sequence <- function(name, cql, add_boundaries = FALSE) {
   name <- assert_cql_name(name, "cql_sequence")
   checkmate::assert_logical(add_boundaries)
-  assert_cql_dots(...)
 
-  cql <- paste(..., sep = "\n")
+  if(length(name) > 1) {
+    if(length(unique(name)) != 1) {
+      warning("Vector arguments to name after the first are ignored.")
+    }
+    name <- name[[1]]
+  }
+
+  cql <- paste0(cql, collapse = "\n")
 
   if(add_boundaries) {
     cql <- paste(cql_boundary(paste(name, "start")),
@@ -437,11 +452,11 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #' # Uniform model with unknown boundaries
 #' cql(
 #'   cql_boundary("P1 start"),
-#'   cql_phase("P1",
+#'   cql_phase("P1", list(
 #'     cql_r_date("A", 5050, 30),
 #'     cql_r_date("B", 5000, 30),
 #'     cql_r_date("C", 4950, 30)
-#'   ),
+#'   )),
 #'   cql_boundary("P1 end")
 #' )
 #'
@@ -449,11 +464,11 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #' cql(
 #'   cql_boundary("P1 start",
 #'                prior = cql_date("P1S-Prior", cql_u("", 5200, 5100))),
-#'   cql_phase("P1",
+#'   cql_phase("P1", list(
 #'     cql_r_date("A", 5050, 30),
 #'     cql_r_date("B", 5000, 30),
 #'     cql_r_date("C", 4950, 30)
-#'   ),
+#'   )),
 #'   cql_boundary("P1 end",
 #'                prior = cql_date("P1E-Prior", cql_u("", 4800, 4900)))
 #' )
@@ -463,11 +478,11 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #'   cql_boundary("P1 start",
 #'     cql_transition("")
 #'   ),
-#'   cql_phase("P1",
+#'   cql_phase("P1", list(
 #'     cql_r_date("A", 5050, 30),
 #'     cql_r_date("B", 5000, 30),
 #'     cql_r_date("C", 4950, 30)
-#'   ),
+#'   )),
 #'   cql_boundary("P1 end",
 #'     cql_transition("")
 #'   )

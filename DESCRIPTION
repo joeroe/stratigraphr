@@ -33,7 +33,8 @@ Imports:
     ggraph,
     tidygraph,
     readr,
-    fs
+    fs,
+    glue
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 RdMacros: Rdpack

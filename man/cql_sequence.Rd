@@ -8,7 +8,7 @@
 \alias{cql_v_sequence}
 \title{Describe an ordered group in CQL}
 \usage{
-cql_sequence(name, ..., add_boundaries = FALSE)
+cql_sequence(name, cql, add_boundaries = FALSE)
 
 cql_d_sequence()
 
@@ -21,7 +21,7 @@ cql_v_sequence()
 \arguments{
 \item{name}{Character. Label for the sequence.}
 
-\item{...}{\code{cql} objects contained in the sequence.}
+\item{cql}{List of \code{cql} objects contained in the sequence.}
 
 \item{add_boundaries}{Logical. If TRUE, will automatically add \code{\link[=cql_boundary]{cql_boundary()}}
 commands at the start and end of the sequence.}
@@ -40,11 +40,11 @@ youngest) not stratigraphic order (youngest to oldest).
 }
 \examples{
 cql(
-  cql_sequence("Sequence A",
+  cql_sequence("Sequence A", list(
     cql_r_date("ABC-001", 10100, 50),
     cql_r_date("ABC-002", 10200, 50),
     cql_r_date("ABC-003", 10300, 50)
-  )
+  ))
 )
 }
 \references{

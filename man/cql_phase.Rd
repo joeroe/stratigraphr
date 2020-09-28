@@ -4,12 +4,12 @@
 \alias{cql_phase}
 \title{Describe an unordered group in CQL}
 \usage{
-cql_phase(name, ...)
+cql_phase(name, cql)
 }
 \arguments{
 \item{name}{Character. Label for the phase.}
 
-\item{...}{\code{cql} objects contained in the phase.}
+\item{cql}{List of \code{cql} objects contained in the phase.}
 }
 \value{
 A \code{cql} object.
@@ -20,11 +20,11 @@ a model.
 }
 \examples{
 cql(
-  cql_phase("Phase A",
+  cql_phase("Phase A", list(
     cql_r_date("ABC-001", 10100, 50),
     cql_r_date("ABC-002", 10200, 50),
     cql_r_date("ABC-003", 10300, 50)
-  )
+  ))
 )
 }
 \references{

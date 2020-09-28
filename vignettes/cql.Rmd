@@ -94,15 +94,29 @@ data("shub1_radiocarbon")
 
 ### Tabular data
 
-Use `dplyr` to quickly generate a CQL script to calibrate a long list of radiocarbon dates from a table.
+With radiocarbon and stratigraphic data in a tabular format, you can take advantage of `dplyr`'s powerful tools for data manipulation to build CQL models programmatically.
 
-```{r shub-r-date, message=FALSE}
+For example, use `dplyr::mutate()` to concisely express a table of dates as CQL `R_Date` commands:
+
+```{r shub-r-date}
 library("purrr")
 library("dplyr")
 
 shub1_radiocarbon %>% 
   mutate(r_date = cql_r_date(lab_id, cra, error)) %>% 
   pluck("r_date") %>% 
+  cql()
+```
+
+Or you can use `dplyr::summarise()` to build classic phase models and sequence models:
+
+```{r shub-phase}
+shub1_radiocarbon %>% 
+  filter(!outlier) %>% 
+  group_by(phase) %>% 
+  summarise(phase_cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) %>% 
+  summarise(sequence_cql = cql_sequence("Shubayqa 1", phase_cql)) %>% 
+  pluck("sequence_cql") %>% 
   cql()
 ```
 

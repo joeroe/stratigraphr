@@ -43,11 +43,11 @@ a non-instantaneous transition or 'trapezium' prior.
 # Uniform model with unknown boundaries
 cql(
   cql_boundary("P1 start"),
-  cql_phase("P1",
+  cql_phase("P1", list(
     cql_r_date("A", 5050, 30),
     cql_r_date("B", 5000, 30),
     cql_r_date("C", 4950, 30)
-  ),
+  )),
   cql_boundary("P1 end")
 )
 
@@ -55,11 +55,11 @@ cql(
 cql(
   cql_boundary("P1 start",
                prior = cql_date("P1S-Prior", cql_u("", 5200, 5100))),
-  cql_phase("P1",
+  cql_phase("P1", list(
     cql_r_date("A", 5050, 30),
     cql_r_date("B", 5000, 30),
     cql_r_date("C", 4950, 30)
-  ),
+  )),
   cql_boundary("P1 end",
                prior = cql_date("P1E-Prior", cql_u("", 4800, 4900)))
 )
@@ -69,11 +69,11 @@ cql(
   cql_boundary("P1 start",
     cql_transition("")
   ),
-  cql_phase("P1",
+  cql_phase("P1", list(
     cql_r_date("A", 5050, 30),
     cql_r_date("B", 5000, 30),
     cql_r_date("C", 4950, 30)
-  ),
+  )),
   cql_boundary("P1 end",
     cql_transition("")
   )
