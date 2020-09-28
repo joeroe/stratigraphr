@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Describe a boundary constraint in CQL — cql_boundary • stratigraphr</title>
+<title>Describe distributions in CQL — cql_n • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,13 @@
 
 
 
-<meta property="og:title" content="Describe a boundary constraint in CQL — cql_boundary" />
-<meta property="og:description" content="The CQL command Boundary describes constraints within an ordered sequence
-(see cql_sequence()). Groups of events between two boundaries are assumed
-to be sampled from the same prior distribution. Boundary alone models a
-uniform prior. Other types of boundary, i.e. Sigma_Boundary, Tau_Boundary,
-and Zero_Boundary are not yet implemented in stratigraphr." />
+<meta property="og:title" content="Describe distributions in CQL — cql_n" />
+<meta property="og:description" content="The CQL commands N, LnN, T, U and Top_Hat describe various types
+of probability distribution functions. cql_n() defines a normal distribution
+by its mean and standard deviation; cql_lnn() a log–normal distribution by
+its mean and standard deviation; cql_t() a Student's t distribution by
+degrees of freedom; cql_u() a uniform distribution by its start and end;
+cql_top_hat() a uniform distribution by its central point and width." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -138,37 +139,72 @@ and Zero_Boundary are not yet implemented in stratigraphr." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Describe a boundary constraint in CQL</h1>
+    <h1>Describe distributions in CQL</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cql.R'><code>R/cql.R</code></a></small>
-    <div class="hidden name"><code>cql_boundary.Rd</code></div>
+    <div class="hidden name"><code>cql_n.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The CQL command <code>Boundary</code> describes constraints within an ordered sequence
-(see <code><a href='cql_sequence.html'>cql_sequence()</a></code>). Groups of events between two boundaries are assumed
-to be sampled from the same prior distribution. <code>Boundary</code> alone models a
-uniform prior. Other types of boundary, i.e. <code>Sigma_Boundary</code>, <code>Tau_Boundary</code>,
-and <code>Zero_Boundary</code> are not yet implemented in stratigraphr.</p>
+    <p>The CQL commands <code>N</code>, <code>LnN</code>, <code>T</code>, <code>U</code> and <code>Top_Hat</code> describe various types
+of probability distribution functions. <code>cql_n()</code> defines a normal distribution
+by its mean and standard deviation; <code>cql_lnn()</code> a log–normal distribution by
+its mean and standard deviation; <code>cql_t()</code> a Student's t distribution by
+degrees of freedom; <code>cql_u()</code> a uniform distribution by its start and end;
+<code>cql_top_hat()</code> a uniform distribution by its central point and width.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cql_boundary</span>(<span class='kw'>name</span>, likelihood = <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>cql_n</span>(<span class='kw'>name</span>, <span class='kw'>mu</span>, <span class='kw'>sigma</span>, resolution = <span class='kw'>NULL</span>)
 
-<span class='fu'>cql_sigma_boundary</span>()
+<span class='fu'>cql_lnn</span>(<span class='kw'>name</span>, <span class='kw'>mu</span>, <span class='kw'>sigma</span>, resolution = <span class='kw'>NULL</span>)
 
-<span class='fu'>cql_tau_boundary</span>()
+<span class='fu'>cql_t</span>(<span class='kw'>name</span>, <span class='kw'>freedom</span>, scale = <span class='fl'>1</span>, resolution = <span class='kw'>NULL</span>)
 
-<span class='fu'>cql_zero_boundary</span>()</pre>
+<span class='fu'>cql_top_hat</span>(<span class='kw'>name</span>, <span class='kw'>mid</span>, <span class='kw'>half_width</span>)
+
+<span class='fu'>cql_u</span>(<span class='kw'>name</span>, <span class='kw'>from</span>, <span class='kw'>to</span>, resolution = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Character. Label for the boundary.</p></td>
+      <td><p>Character. Label for the distribution.</p></td>
     </tr>
     <tr>
-      <th>likelihood</th>
-      <td><p>Expression defining the likelihood of the boundary.</p></td>
+      <th>mu</th>
+      <td><p>Integer. Mean of a normal or log–normal distribution.</p></td>
+    </tr>
+    <tr>
+      <th>sigma</th>
+      <td><p>Integer. Standard deviation of a normal or log–normal distribution.</p></td>
+    </tr>
+    <tr>
+      <th>resolution</th>
+      <td><p>Integer. Resolution of the PDF. Leave <code>NULL</code> (the default) to use the OxCal default.</p></td>
+    </tr>
+    <tr>
+      <th>freedom</th>
+      <td><p>Integer. Degrees of freedom of a Student's t distribution.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>Numeric. Optional scaling parameter for a Student's t distribution.</p></td>
+    </tr>
+    <tr>
+      <th>mid</th>
+      <td><p>Integer. Centre point of a uniform distribution.</p></td>
+    </tr>
+    <tr>
+      <th>half_width</th>
+      <td><p>Integer. Half-width of a uniform distribution.</p></td>
+    </tr>
+    <tr>
+      <th>from</th>
+      <td><p>Integer. Start point of a uniform distribution.</p></td>
+    </tr>
+    <tr>
+      <th>to</th>
+      <td><p>Integer. End point of a uniform distribution.</p></td>
     </tr>
     </table>
 
@@ -177,11 +213,12 @@ and <code>Zero_Boundary</code> are not yet implemented in stratigraphr.</p>
     <p>A <code>cql</code> object.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a></p>
+    <p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#param'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#param</a></p>
+<p><a href='https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html'>https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other CQL functions: 
-<code><a href='cql_n.html'>cql_n</a>()</code>,
+<code><a href='cql_boundary.html'>cql_boundary</a>()</code>,
 <code><a href='cql_options.html'>cql_options</a>()</code>,
 <code><a href='cql_other.html'>cql_other</a></code>,
 <code><a href='cql_phase.html'>cql_phase</a>()</code>,
@@ -191,8 +228,10 @@ and <code>Zero_Boundary</code> are not yet implemented in stratigraphr.</p>
 <code><a href='write_oxcal.html'>write_oxcal</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Describe a date as a uniform distribution</span>
+<span class='fu'><a href='cql_r_date.html'>cql_date</a></span>(<span class='st'>"U-Date"</span>, <span class='fu'>cql_u</span>(<span class='st'>"U"</span>, <span class='op'>-</span><span class='fl'>5000</span>, <span class='op'>-</span><span class='fl'>4000</span>))
+</div><div class='output co'>#&gt; // CQL2 generated by stratigraphr v0.2.0
+#&gt; Date("U-Date", U("U", -5000, -4000));</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
