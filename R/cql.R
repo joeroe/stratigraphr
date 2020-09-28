@@ -259,7 +259,7 @@ cql_r_date <- function(name, date, error) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
-  cql <- paste0("R_Date(\"", name, "\", ", date, ", ", error, ");")
+  cql <- glue::glue('R_date("{name}", {date}, {error});')
 
   cql <- as_cql(cql)
   return(cql)
@@ -278,15 +278,9 @@ cql_c_date <- function(name, date, error) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
-  cql <- paste0("C_Date(\"", name, "\", ", date, ", ", error, ");")
+  cql <- glue::glue('C_date("{name}", {date}, {error});')
 
-  if (length(cql) > 1) {
-    cql <- purrr::map(cql, stratigraphr::cql)
-  }
-  else {
-    cql <- cql(cql)
-  }
-
+  cql <- as_cql(cql)
   return(cql)
 }
 
@@ -303,14 +297,9 @@ cql_r_f14c <- function(name, date, error) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
-  cql <- paste0("F14C_Date(\"", name, "\", ", date, ", ", error, ");")
+  cql <- glue::glue('F14C_date("{name}", {date}, {error});')
 
-  if (length(cql) > 1) {
-    cql <- purrr::map(cql, stratigraphr::cql)
-  }
-  else {
-    cql <- cql(cql)
-  }
+  cql <- as_cql(cql)
   return(cql)
 }
 
@@ -321,7 +310,7 @@ cql_date <- function(name, cql) {
   checkmate::assert_class(cql, "cql")
 
   cql <- stringr::str_remove(cql, stringr::coll(";"))
-  cql <- paste0("Date(\"", name, "\", ", cql, ");")
+  cql <- glue::glue('Date("{name}", {cql});')
 
   cql <- as_cql(cql)
   return(cql)
@@ -449,19 +438,27 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 
 #' Describe a boundary constraint in CQL
 #'
+#' @description
 #' The CQL command `Boundary` describes constraints within an ordered sequence
 #' (see [cql_sequence()]). Groups of events between two boundaries are assumed
 #' to be sampled from the same prior distribution. `Boundary` alone models a
 #' uniform prior. Other types of boundary, i.e. `Sigma_Boundary`, `Tau_Boundary`,
 #' and `Zero_Boundary` are not yet implemented in stratigraphr.
 #'
-#' @param name        Character. Label for the boundary.
-#' @param likelihood  Expression defining the likelihood of the boundary.
+#' Boundaries can contain a `Transition` command, in which case they describe
+#' a non-instantaneous transition or 'trapezium' prior.
+#'
+#' @param name        Character. Label for a boundary or transition.
+#' @param ...         `cql` objects contained within a boundary.
+#' @param prior       `cql` object. Expression describing the prior likelihood of
+#'                    a boundary or transition.
 #'
 #' @return
 #' A `cql` object.
 #'
 #' @references
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_oper.html#group>
+#'
 #' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html>
 #'
 #' @family CQL functions
@@ -469,19 +466,70 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #' @export
 #'
 #' @examples
+#' # Uniform model with unknown boundaries
+#' cql(
+#'   cql_boundary("P1 start"),
+#'   cql_phase("P1",
+#'     cql_r_date("A", 5050, 30),
+#'     cql_r_date("B", 5000, 30),
+#'     cql_r_date("C", 4950, 30)
+#'   ),
+#'   cql_boundary("P1 end")
+#' )
 #'
-# TODO:
-# * Transition / trapezium priors
-# * Smarter handling of likelihood
-cql_boundary <- function(name, likelihood = NULL) {
+#' # Uniform model with boundaries with a prior likelihood
+#' cql(
+#'   cql_boundary("P1 start",
+#'                prior = cql_date("P1S-Prior", cql_u("", 5200, 5100))),
+#'   cql_phase("P1",
+#'     cql_r_date("A", 5050, 30),
+#'     cql_r_date("B", 5000, 30),
+#'     cql_r_date("C", 4950, 30)
+#'   ),
+#'   cql_boundary("P1 end",
+#'                prior = cql_date("P1E-Prior", cql_u("", 4800, 4900)))
+#' )
+#'
+#' # 'Trapezium' model
+#' cql(
+#'   cql_boundary("P1 start",
+#'     cql_transition("")
+#'   ),
+#'   cql_phase("P1",
+#'     cql_r_date("A", 5050, 30),
+#'     cql_r_date("B", 5000, 30),
+#'     cql_r_date("C", 4950, 30)
+#'   ),
+#'   cql_boundary("P1 end",
+#'     cql_transition("")
+#'   )
+#' )
+cql_boundary <- function(name, ..., prior = NULL) {
   name <- assert_cql_name(name, "cql_boundary")
+  checkmate::assert_class(prior, "cql", null.ok = TRUE)
+  assert_cql_dots(...)
 
-  if(!is.null(likelihood)) {
-    cql <- paste0("Boundary(\"", name, "\", ", likelihood, ");")
+  if(is.null(prior)) {
+    cql <- glue::glue('Boundary("{name}")')
   }
   else {
-    cql <- paste0("Boundary(\"", name, "\");")
+    prior <- stringr::str_remove(prior, stringr::coll(";"))
+    cql <- glue::glue('Boundary("{name}", {prior})')
   }
+
+  if(!missing(...)) {
+    innercql <- paste(..., sep = "\n")
+    cql <- paste0(
+      cql, "\n",
+      "{\n",
+      innercql, "\n",
+      "};"
+    )
+  }
+  else {
+    cql <- paste0(cql, ";")
+  }
+
   cql <- as_cql(cql)
   return(cql)
 }
@@ -498,6 +546,23 @@ cql_tau_boundary <- function() { warning("CQL command Tau_Boundary is not yet im
 #' @export
 cql_zero_boundary <- function() { warning("CQL command Zero_Boundary is not yet implemented in stratigraphr") }
 
+#' @rdname cql_boundary
+#' @export
+cql_transition <- function(name, prior = NULL) {
+  name <- as.character(name)
+  checkmate::assert_class(prior, "cql", null.ok = TRUE)
+
+  if(is.null(prior)) {
+    cql <- glue::glue('Transition("{name}");')
+  }
+  else {
+    prior <- stringr::str_remove(prior, stringr::coll(";"))
+    cql <- glue::glue('Transition("{name}", {prior});')
+  }
+
+  cql <- as_cql(cql)
+  return(cql)
+}
 
 
 # CQL distribution functions ----------------------------------------------
@@ -791,13 +856,6 @@ cql_shift <- function(...) { warning("CQL command Shift is not yet implemented i
 #' @rdname cql_other
 #' @export
 cql_start <- function(...) { warning("CQL command Start is not yet implemented in stratigraphr") }
-
-
-
-#' @rdname cql_other
-#' @export
-cql_transition <- function(...) { warning("CQL command Transition is not yet implemented in stratigraphr") }
-
 
 
 # CQL group functions -----------------------------------------------------

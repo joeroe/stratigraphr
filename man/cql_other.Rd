@@ -38,7 +38,6 @@
 \alias{cql_sapwood_model}
 \alias{cql_shift}
 \alias{cql_start}
-\alias{cql_transition}
 \alias{cql_after}
 \alias{cql_before}
 \alias{cql_combine}
@@ -120,8 +119,6 @@ cql_sapwood_model(...)
 cql_shift(...)
 
 cql_start(...)
-
-cql_transition(...)
 
 cql_after()
 
