@@ -12,6 +12,9 @@ shub1_radiocarbon <- dplyr::select(shub1_radiocarbon,
   age = `C-14 Age ±1σ year BP`
 )
 
+# Fill missing phases
+shub1_radiocarbon <- tidyr::fill(shub1_radiocarbon, phase)
+
 # Discard non-data rows
 shub1_radiocarbon <- tidyr::drop_na(shub1_radiocarbon, lab_id)
 
@@ -23,9 +26,6 @@ shub1_radiocarbon <- dplyr::mutate(shub1_radiocarbon,
 shub1_radiocarbon <- dplyr::mutate(shub1_radiocarbon,
                                    outlier = stringr::str_detect(lab_id, stringr::coll("*")),
                                    lab_id = stringr::str_remove(lab_id, stringr::coll("*")))
-
-# Fill missing phases
-shub1_radiocarbon <- tidyr::fill(shub1_radiocarbon, phase)
 
 # Separate CRA and error in radiocarbon age
 shub1_radiocarbon <- tidyr::separate(shub1_radiocarbon, age, c("cra", "error"), " ±")
