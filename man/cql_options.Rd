@@ -88,6 +88,7 @@ option expected by OxCal; unknown or misspelled options are silently ignored.
 \seealso{
 Other CQL functions: 
 \code{\link{cql_boundary}()},
+\code{\link{cql_n}()},
 \code{\link{cql_other}},
 \code{\link{cql_phase}()},
 \code{\link{cql_r_date}()},

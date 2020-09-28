@@ -42,6 +42,7 @@ instead.
 \seealso{
 Other CQL functions: 
 \code{\link{cql_boundary}()},
+\code{\link{cql_n}()},
 \code{\link{cql_options}()},
 \code{\link{cql_other}},
 \code{\link{cql_phase}()},

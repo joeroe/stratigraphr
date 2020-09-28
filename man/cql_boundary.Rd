@@ -38,6 +38,7 @@ and \code{Zero_Boundary} are not yet implemented in stratigraphr.
 }
 \seealso{
 Other CQL functions: 
+\code{\link{cql_n}()},
 \code{\link{cql_options}()},
 \code{\link{cql_other}},
 \code{\link{cql_phase}()},

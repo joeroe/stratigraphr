@@ -20,10 +20,8 @@
 \alias{cql_kde_plot}
 \alias{cql_label}
 \alias{cql_line}
-\alias{cql_lnn}
 \alias{cql_mcmc_sample}
 \alias{cql_mix_curves}
-\alias{cql_n}
 \alias{cql_number}
 \alias{cql_offset}
 \alias{cql_outlier}
@@ -40,10 +38,7 @@
 \alias{cql_sapwood_model}
 \alias{cql_shift}
 \alias{cql_start}
-\alias{cql_t}
-\alias{cql_top_hat}
 \alias{cql_transition}
-\alias{cql_u}
 \alias{cql_after}
 \alias{cql_before}
 \alias{cql_combine}
@@ -90,13 +85,9 @@ cql_label(...)
 
 cql_line(...)
 
-cql_lnn(...)
-
 cql_mcmc_sample(...)
 
 cql_mix_curves(...)
-
-cql_n(...)
 
 cql_number(...)
 
@@ -130,13 +121,7 @@ cql_shift(...)
 
 cql_start(...)
 
-cql_t(...)
-
-cql_top_hat(...)
-
 cql_transition(...)
-
-cql_u(...)
 
 cql_after()
 
@@ -173,6 +158,7 @@ cql("After(\"A\");")
 \seealso{
 Other CQL functions: 
 \code{\link{cql_boundary}()},
+\code{\link{cql_n}()},
 \code{\link{cql_options}()},
 \code{\link{cql_phase}()},
 \code{\link{cql_r_date}()},

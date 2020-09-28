@@ -218,12 +218,15 @@ cql_options <- function(bcad = TRUE,
 #' describe individual dated events in a model. `R_Date` and `F14C_Date`
 #' represent radiocarbon dates expressed in radiocarbon years (the conventional
 #' radiocarbon age, CRA) or *fraction modern* (F14C) respectively.
-#' `C_Date` represents a calendar date. `Date` is not yet implemented.
+#' `C_Date` represents a calendar date. `Date` is a type conversion function
+#' which coerces other CQL expressions (e.g. describing a probability
+#' distribution) to a date.
 #'
 #' @param name  Character. Date label(s), usually a lab code.
 #' @param date  Integer. Date or dates expressed in radiocarbon years (`cql_r_date`),
 #'              F14C (`cql_f14c_date`) or calendar years (`cql_c_date`). See details.
 #' @param error Integer. Uncertainty associated with the date(s).
+#' @param cql   `cql` object. Expression to be converted to a Date.
 #'
 #' @details
 #' The era expected for calendar dates (BP or BC/AD) depends on a global option
@@ -236,6 +239,8 @@ cql_options <- function(bcad = TRUE,
 #' A `cql` object, or a list of `cql` objects if the arguments are vectors.
 #'
 #' @references
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#date>
+#'
 #' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html>
 #'
 #' \insertAllCited{}
@@ -256,13 +261,7 @@ cql_r_date <- function(name, date, error) {
 
   cql <- paste0("R_Date(\"", name, "\", ", date, ", ", error, ");")
 
-  if (length(cql) > 1) {
-    cql <- purrr::map(cql, stratigraphr::cql)
-  }
-  else {
-    cql <- cql(cql)
-  }
-
+  cql <- as_cql(cql)
   return(cql)
 }
 
@@ -317,7 +316,16 @@ cql_r_f14c <- function(name, date, error) {
 
 #' @rdname cql_r_date
 #' @export
-cql_date <- function() { warning("CQL command Date is not yet implemented in stratigraphr") }
+cql_date <- function(name, cql) {
+  name <- as.character(name)
+  checkmate::assert_class(cql, "cql")
+
+  cql <- stringr::str_remove(cql, stringr::coll(";"))
+  cql <- paste0("Date(\"", name, "\", ", cql, ");")
+
+  cql <- as_cql(cql)
+  return(cql)
+}
 
 
 # CQL phase functions -----------------------------------------------------
@@ -491,6 +499,131 @@ cql_tau_boundary <- function() { warning("CQL command Tau_Boundary is not yet im
 cql_zero_boundary <- function() { warning("CQL command Zero_Boundary is not yet implemented in stratigraphr") }
 
 
+
+# CQL distribution functions ----------------------------------------------
+
+#' Describe distributions in CQL
+#'
+#' The CQL commands `N`, `LnN`, `T`, `U` and `Top_Hat` describe various types
+#' of probability distribution functions. `cql_n()` defines a normal distribution
+#' by its mean and standard deviation; `cql_lnn()` a log–normal distribution by
+#' its mean and standard deviation; `cql_t()` a Student's t distribution by
+#' degrees of freedom; `cql_u()` a uniform distribution by its start and end;
+#' `cql_top_hat()` a uniform distribution by its central point and width.
+#'
+#' @param name        Character. Label for the distribution.
+#' @param mu          Integer. Mean of a normal or log–normal distribution.
+#' @param sigma       Integer. Standard deviation of a normal or log–normal distribution.
+#' @param freedom     Integer. Degrees of freedom of a Student's t distribution.
+#' @param scale       Numeric. Optional scaling parameter for a Student's t distribution.
+#' @param mid         Integer. Centre point of a uniform distribution.
+#' @param half_width  Integer. Half-width of a uniform distribution.
+#' @param from        Integer. Start point of a uniform distribution.
+#' @param to          Integer. End point of a uniform distribution.
+#' @param resolution  Integer. Resolution of the PDF. Leave `NULL` (the default) to use the OxCal default.
+#'
+#' @return
+#' A `cql` object.
+#'
+#' @references
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#param>
+#'
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html>
+#'
+#' @family CQL functions
+#'
+#' @export
+#'
+#' @examples
+#' # Describe a date as a uniform distribution
+#' cql_date("U-Date", cql_u("U", -5000, -4000))
+cql_n <- function(name, mu, sigma, resolution = NULL) {
+  name <- as.character(name)
+  checkmate::assert_integerish(mu)
+  checkmate::assert_integerish(sigma)
+  checkmate::assert_integerish(resolution, null.ok = TRUE)
+
+  if(is.null(resolution)) {
+    cql <- glue::glue('N("{name}", {mu}, {sigma});')
+  }
+  else {
+    cql <- glue::glue('N("{name}", {mu}, {sigma}, {resolution});')
+  }
+
+  cql <- as_cql(cql)
+  return(cql)
+}
+
+#' @rdname cql_n
+#' @export
+cql_lnn <- function(name, mu, sigma, resolution = NULL) {
+  name <- as.character(name)
+  checkmate::assert_integerish(mu)
+  checkmate::assert_integerish(sigma)
+  checkmate::assert_integerish(resolution, null.ok = TRUE)
+
+  if(is.null(resolution)) {
+    cql <- glue::glue('LnN("{name}", {mu}, {sigma});')
+  }
+  else {
+    cql <- glue::glue('LnN("{name}", {mu}, {sigma}, {resolution});')
+  }
+
+  cql <- as_cql(cql)
+  return(cql)
+}
+
+#' @rdname cql_n
+#' @export
+cql_t <- function(name, freedom, scale = 1, resolution = NULL) {
+  name <- as.character(name)
+  checkmate::assert_integerish(freedom)
+  checkmate::assert_integerish(scale)
+  checkmate::assert_integerish(resolution, null.ok = TRUE)
+
+  if(is.null(resolution)) {
+    cql <- glue::glue('T("{name}", {freedom}, {scale});')
+  }
+  else {
+    cql <- glue::glue('T("{name}", {freedom}, {scale}, {resolution});')
+  }
+
+  cql <- as_cql(cql)
+  return(cql)
+}
+
+#' @rdname cql_n
+#' @export
+cql_top_hat <- function(name, mid, half_width) {
+  name <- as.character(name)
+  checkmate::assert_integerish(mid)
+  checkmate::assert_integerish(half_width)
+
+  cql <- glue::glue('Top_Hat("{name}", {mid}, {half_width});')
+
+  cql <- as_cql(cql)
+  return(cql)
+}
+
+#' @rdname cql_n
+#' @export
+cql_u <- function(name, from, to, resolution = NULL) {
+  name <- as.character(name)
+  checkmate::assert_integerish(from)
+  checkmate::assert_integerish(to)
+  checkmate::assert_integerish(resolution, null.ok = TRUE)
+
+  if(is.null(resolution)) {
+    cql <- glue::glue('U("{name}", {from}, {to});')
+  }
+  else {
+    cql <- glue::glue('U("{name}", {from}, {to}, {resolution});')
+  }
+
+  cql <- as_cql(cql)
+  return(cql)
+}
+
 # Other CQL functions ------------------------------------------------------------
 
 #' Other CQL functions (unimplemented)
@@ -586,9 +719,6 @@ cql_label <- function(...) { warning("CQL command Label is not yet implemented i
 #' @export
 cql_line <- function(...) { warning("CQL command Line is not yet implemented in stratigraphr") }
 
-#' @rdname cql_other
-#' @export
-cql_lnn <- function(...) { warning("CQL command LnN is not yet implemented in stratigraphr") }
 
 #' @rdname cql_other
 #' @export
@@ -597,10 +727,6 @@ cql_mcmc_sample <- function(...) { warning("CQL command MCMC_Sample is not yet i
 #' @rdname cql_other
 #' @export
 cql_mix_curves <- function(...) { warning("CQL command Mix_Curves is not yet implemented in stratigraphr") }
-
-#' @rdname cql_other
-#' @export
-cql_n <- function(...) { warning("CQL command N is not yet implemented in stratigraphr") }
 
 #' @rdname cql_other
 #' @export
@@ -666,21 +792,12 @@ cql_shift <- function(...) { warning("CQL command Shift is not yet implemented i
 #' @export
 cql_start <- function(...) { warning("CQL command Start is not yet implemented in stratigraphr") }
 
-#' @rdname cql_other
-#' @export
-cql_t <- function(...) { warning("CQL command T is not yet implemented in stratigraphr") }
 
-#' @rdname cql_other
-#' @export
-cql_top_hat <- function(...) { warning("CQL command Top_Hat is not yet implemented in stratigraphr") }
 
 #' @rdname cql_other
 #' @export
 cql_transition <- function(...) { warning("CQL command Transition is not yet implemented in stratigraphr") }
 
-#' @rdname cql_other
-#' @export
-cql_u <- function(...) { warning("CQL command U is not yet implemented in stratigraphr") }
 
 
 # CQL group functions -----------------------------------------------------
