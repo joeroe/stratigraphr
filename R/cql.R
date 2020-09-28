@@ -67,41 +67,9 @@ print.cql <- function(x, ...) {
                 utils::packageVersion("stratigraphr"),
                 "\n",
                 x)
+  cql <- cql_in(cql)
   writeLines(cql)
   invisible(x)
-}
-
-assert_cql_dots <- function(...) {
-  purrr::map(list(...),
-             checkmate::assert_class,
-             classes= "cql",
-             .var.name = "...")
-}
-
-# The Name parameter of most OxCal commands is optional, but since we rely on
-# R's dots syntax for nested commands, there's no robust way to determine
-# whether the user intentionally omitted it. This function is used
-# in CQL functions that expect Name as a first argument to do some soft checks.
-# If it's passed a cql object, we assume the user omitted Name and throw an
-# error. If it's passed something other than a character, we warn that the user
-# might have omitted it but try to continue, e.g. if the name was specified as
-# an integer representing just the numeric part of a lab code.
-#
-# Exceptions are the date functions (e.g. R_Date()), which currently insist on
-# all three arguments.
-assert_cql_name <- function(name, function_name = "CQL function") {
-  # TODO: Could be simplified if not is added to checkmate:
-  # https://github.com/mllg/checkmate/issues/193
-  if(checkmate::test_class(name, "cql")) {
-    stop("First argument to ", function_name, " is a cql object. ",
-         "Did you forget to include a name?")
-  }
-  else if (!checkmate::test_character(name)) {
-    warning("First argument to ", function_name, " is not a string. ",
-            "Did you forget to include a name?")
-  }
-
-  return(as.character(name))
 }
 
 
@@ -259,7 +227,7 @@ cql_r_date <- function(name, date, error) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
-  cql <- glue::glue('R_date("{name}", {date}, {error});')
+  cql <- glue::glue('R_Date("{name}", {date}, {error});')
 
   cql <- as_cql(cql)
   return(cql)
@@ -893,3 +861,60 @@ cql_span <- function() { warning("CQL command Span is not yet implemented in str
 cql_sum <- function() { warning("CQL command Sum is not yet implemented in stratigraphr") }
 
 
+# CQL utility functions (not exported) ----------------------------------------
+
+cql_in <- function(x) {
+  x <- stringr::str_split(x, stringr::coll("\n"))
+  x <- purrr::map(x, function(x) {
+    idd <- 1
+    for(i in 1:length(x)) {
+      if(stringr::str_starts(stringr::str_trim(x[i]), stringr::coll("}"))) idd <- idd - 1
+      indent <- paste0(rep(" ", idd), collapse = "")
+      x[i] <- paste0(indent, x[i])
+      if(stringr::str_starts(stringr::str_trim(x[i]), stringr::coll("{"))) idd <- idd + 1
+    }
+
+    x <- paste0(x, collapse = "\n")
+    return(x)
+  })
+
+  if(length(x) == 1) {
+    x <- unlist(x)
+  }
+
+  x <- as_cql(x)
+  return(x)
+}
+
+assert_cql_dots <- function(...) {
+  purrr::map(list(...),
+             checkmate::assert_class,
+             classes= "cql",
+             .var.name = "...")
+}
+
+# The Name parameter of most OxCal commands is optional, but since we rely on
+# R's dots syntax for nested commands, there's no robust way to determine
+# whether the user intentionally omitted it. This function is used
+# in CQL functions that expect Name as a first argument to do some soft checks.
+# If it's passed a cql object, we assume the user omitted Name and throw an
+# error. If it's passed something other than a character, we warn that the user
+# might have omitted it but try to continue, e.g. if the name was specified as
+# an integer representing just the numeric part of a lab code.
+#
+# Exceptions are the date functions (e.g. R_Date()), which currently insist on
+# all three arguments.
+assert_cql_name <- function(name, function_name = "CQL function") {
+  # TODO: Could be simplified if not is added to checkmate:
+  # https://github.com/mllg/checkmate/issues/193
+  if(checkmate::test_class(name, "cql")) {
+    stop("First argument to ", function_name, " is a cql object. ",
+         "Did you forget to include a name?")
+  }
+  else if (!checkmate::test_character(name)) {
+    warning("First argument to ", function_name, " is not a string. ",
+            "Did you forget to include a name?")
+  }
+
+  return(as.character(name))
+}
