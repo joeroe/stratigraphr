@@ -68,6 +68,7 @@ print.cql <- function(x, ...) {
                 "\n",
                 x)
   cql <- cql_in(cql)
+  cql <- as.character(cql)
   writeLines(cql)
   invisible(x)
 }
