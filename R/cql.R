@@ -296,7 +296,7 @@ cql_date <- function(name, cql) {
 #' a model.
 #'
 #' @param name  Character. Label for the phase.
-#' @param cql   List of `cql` objects contained in the phase.
+#' @param cql   Vector of `cql` objects contained in the phase.
 #'
 #' @return
 #' A `cql` object.
@@ -310,7 +310,7 @@ cql_date <- function(name, cql) {
 #'
 #' @examples
 #' cql(
-#'   cql_phase("Phase A", list(
+#'   cql_phase("Phase A", c(
 #'     cql_r_date("ABC-001", 10100, 50),
 #'     cql_r_date("ABC-002", 10200, 50),
 #'     cql_r_date("ABC-003", 10300, 50)
@@ -346,9 +346,9 @@ cql_phase <- function(name, cql) {
 #' `U_Sequence`, and `V_Sequence`, are not yet implemented in stratigraphr.
 #'
 #' @param name           Character. Label for the sequence.
-#' @param cql            List of `cql` objects contained in the sequence.
-#' @param add_boundaries Logical. If TRUE, will automatically add [cql_boundary()]
-#'                       commands at the start and end of the sequence.
+#' @param cql            Vector of `cql` objects contained in the sequence.
+#' @param boundaries     Logical. If `TRUE`, adds `Boundary` constraints between
+#'                       each item in the sequence.
 #'
 #' @details
 #' OxCal expects events within sequences to be in chronological order (oldest to
@@ -366,15 +366,15 @@ cql_phase <- function(name, cql) {
 #'
 #' @examples
 #' cql(
-#'   cql_sequence("Sequence A", list(
+#'   cql_sequence("Sequence A", c(
 #'     cql_r_date("ABC-001", 10100, 50),
 #'     cql_r_date("ABC-002", 10200, 50),
 #'     cql_r_date("ABC-003", 10300, 50)
 #'   ))
 #' )
-cql_sequence <- function(name, cql, add_boundaries = FALSE) {
+cql_sequence <- function(name, cql, boundaries = FALSE) {
   name <- assert_cql_name(name, "cql_sequence")
-  checkmate::assert_logical(add_boundaries)
+  checkmate::assert_logical(boundaries)
 
   if(length(name) > 1) {
     if(length(unique(name)) != 1) {
@@ -383,14 +383,14 @@ cql_sequence <- function(name, cql, add_boundaries = FALSE) {
     name <- name[[1]]
   }
 
-  cql <- paste0(cql, collapse = "\n")
 
-  if(add_boundaries) {
-    cql <- paste(cql_boundary(paste(name, "start")),
-                 cql,
-                 cql_boundary(paste(name, "end")),
-                 sep = "\n")
+  # TODO: Different types of boundaries, parameters, etc.
+  if(boundaries) {
+    cql <- as.vector(rbind(cql, rep(cql_boundary(""), length(cql))))
+    cql <- c(cql_boundary(""), cql)
   }
+
+  cql <- paste0(cql, collapse = "\n")
 
   cql <- paste(paste0("Sequence(\"", name, "\")"),
                "{",

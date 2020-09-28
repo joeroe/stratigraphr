@@ -108,15 +108,21 @@ shub1_radiocarbon %>%
   cql()
 ```
 
-Or you can use `dplyr::summarise()` to build classic phase models and sequence models:
+Or use `dplyr::group_by()` and `dplyr::summarise()` to build phase models.
+This is a three stage process, illustrated below with the phase model from Shubayqa 1:
+
+1. Preprocess the dates, e.g. to remove outliers and order phases.
+2. Group dates by phase and summarise them with `cql_phase()`.
+3. Group phases into a sequence, using `boundaries` to automatically add boundary constraints between them. If we had multiple independent sequences, we could include an additional grouping variable here, before concatenating them with `cql()`.
 
 ```{r shub-phase}
 shub1_radiocarbon %>% 
   filter(!outlier) %>% 
   group_by(phase) %>% 
-  summarise(phase_cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) %>% 
-  summarise(sequence_cql = cql_sequence("Shubayqa 1", phase_cql)) %>% 
-  pluck("sequence_cql") %>% 
+  summarise(cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) %>% 
+  arrange(desc(phase)) %>% 
+  summarise(cql = cql_sequence("Shubayqa 1", cql, boundaries = TRUE)) %>%
+  pluck("cql") %>%
   cql()
 ```
 
