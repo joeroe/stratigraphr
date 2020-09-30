@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calibrated radiocarbon dates — cal • stratigraphr</title>
+<title>Convert an object to a cal object — as_cal • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,15 @@
 
 
 
-<meta property="og:title" content="Calibrated radiocarbon dates — cal" />
-<meta property="og:description" content="cal() constructs a generic representation of a calibrated radiocarbon date
-or other calendar-based probability distribution." />
+<meta property="og:title" content="Convert an object to a cal object — as_cal" />
+<meta property="og:description" content="as_cal() converts objects from other packages that represent calibrated
+radiocarbon dates to cal objects.
+Methods are currently implemented for:
+CalDates: from rcarbon::calibrate()
+
+
+These functions are intended for complex S3 objects from other packages.
+See cal() for a more generic constructor, e.g. using a data frame." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -135,79 +141,33 @@ or other calendar-based probability distribution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calibrated radiocarbon dates</h1>
+    <h1>Convert an object to a cal object</h1>
     <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cal.R'><code>R/cal.R</code></a></small>
-    <div class="hidden name"><code>cal.Rd</code></div>
+    <div class="hidden name"><code>as_cal.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>cal()</code> constructs a generic representation of a calibrated radiocarbon date
-or other calendar-based probability distribution.</p>
+    <p><code>as_cal()</code> converts objects from other packages that represent calibrated
+radiocarbon dates to <code>cal</code> objects.
+Methods are currently implemented for:</p><ul>
+<li><p><code>CalDates</code>: from <code><a href='https://rdrr.io/pkg/rcarbon/man/calibrate.html'>rcarbon::calibrate()</a></code></p></li>
+</ul>
+
+<p>These functions are intended for complex S3 objects from other packages.
+See <code><a href='cal.html'>cal()</a></code> for a more generic constructor, e.g. using a data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cal</span>(
-  <span class='kw'>x</span>,
-  era = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"cal BP"</span>),
-  lab_id = <span class='fl'>NA</span>,
-  cra = <span class='fl'>NA</span>,
-  error = <span class='fl'>NA</span>,
-  curve = <span class='fl'>NA</span>,
-  reservoir_offset = <span class='fl'>NA</span>,
-  reservoir_offset_error = <span class='fl'>NA</span>,
-  F14C = <span class='fl'>NA</span>,
-  normalised = <span class='fl'>NA</span>,
-  p_cutoff = <span class='fl'>NA</span>
-)
+    <pre class="usage"><span class='fu'>as_cal</span>(<span class='kw'>x</span>)
 
-<span class='co'># S3 method for cal</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='co'># S3 method for CalDates</span>
+<span class='fu'>as_cal</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A <code>data.frame</code> with two columns, with calendar years and associated probabilities.</p></td>
-    </tr>
-    <tr>
-      <th>era</th>
-      <td><p>(Optional) <code>character</code>. Calendar system used. Default: <code>cal BP</code>.</p></td>
-    </tr>
-    <tr>
-      <th>lab_id</th>
-      <td><p>(Optional) <code>character</code>. Lab code or other label for the calibrated sample.</p></td>
-    </tr>
-    <tr>
-      <th>cra</th>
-      <td><p>(Optional) <code>integer</code>. Uncalibrated conventional radiocarbon age (CRA) of the sample.</p></td>
-    </tr>
-    <tr>
-      <th>error</th>
-      <td><p>(Optional) <code>integer</code>. Error associated with the uncalibrated sample.</p></td>
-    </tr>
-    <tr>
-      <th>curve</th>
-      <td><p>(Optional) <code>character</code>. Atmospheric curve used for calibration, e.g. "intcal20".</p></td>
-    </tr>
-    <tr>
-      <th>reservoir_offset</th>
-      <td><p>(Optional) <code>integer</code>. Marine reservoir offset used in the calibration, if any.</p></td>
-    </tr>
-    <tr>
-      <th>reservoir_offset_error</th>
-      <td><p>(Optional) <code>integer</code>. Error associated with the marine reservoir offset.</p></td>
-    </tr>
-    <tr>
-      <th>F14C</th>
-      <td><p>(Optional) <code>logical</code>. Whether the calibration was calculated using F14C values instead of the CRA.</p></td>
-    </tr>
-    <tr>
-      <th>normalised</th>
-      <td><p>(Optional) <code>logical</code>. Whether the calibrated probability densities were normalised.</p></td>
-    </tr>
-    <tr>
-      <th>p_cutoff</th>
-      <td><p>(Optional) <code>numeric</code>. Lower threshold beyond which probability densities were considered zero.</p></td>
+      <td><p>object to be converted to a <code>cal</code> object.</p></td>
     </tr>
     </table>
 
@@ -219,9 +179,9 @@ attributes.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other radiocarbon functions: 
-<code><a href='as_cal.html'>as_cal</a>()</code>,
 <code><a href='c14_calibrate.html'>c14_calibrate</a>()</code>,
-<code><a href='c14_sum.html'>c14_sum</a>()</code></p></div>
+<code><a href='c14_sum.html'>c14_sum</a>()</code>,
+<code><a href='cal.html'>cal</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
