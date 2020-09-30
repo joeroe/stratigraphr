@@ -20,11 +20,12 @@ reference:
   - stratigraph
   - harris
   - is_valid_harris
-- title: "Radiocarbon"
+- title: "Tidy radiocarbon"
   desc: "Functions for working with radiocarbon data in a tidy framework."
 - contents:
   - cal
-  - sum_radiocarbon
+  - as_cal
+  - starts_with("c14_")
 - title: "CQL"
   desc: "An R interface to the Chronological Query Language (CQL)."
 - contents:

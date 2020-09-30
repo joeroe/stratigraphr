@@ -18,11 +18,13 @@
 #' dates (i.e. `calMatrix` is always set to `FALSE`) and the metadata usually
 #' returned by [rcarbon::calibrate()] is discarded.
 #'
+#' @family radiocarbon functions
+#'
 #' @examples
 #' data("shub1_radiocarbon")
 #' shub1_radiocarbon %>%
-#'   dplyr::mutate(CalDate = cal(cra, error, normalise = FALSE, verbose = FALSE))
-cal <- function(cra, error, ...) {
+#'   dplyr::mutate(CalDate = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
+c14_calibrate <- function(cra, error, ...) {
   CalDates <- rcarbon::calibrate(cra, error, calMatrix = FALSE, ...)
   return(CalDates$grids)
 }
@@ -46,14 +48,16 @@ cal <- function(cra, error, ...) {
 #' Unlike [rcarbon::spd()], this function will attempt to guess the time range
 #' if it isn't specified. It's probably a good idea to specify it.
 #'
+#' @family radiocarbon functions
+#'
 #' @examples
 #' data("shub1_radiocarbon")
 #' shub1_radiocarbon %>%
-#'   dplyr::mutate(cal_date = cal(cra, error, normalise = FALSE, verbose = FALSE)) %>%
+#'   dplyr::mutate(cal_date = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE)) %>%
 #'   dplyr::group_by(phase) %>%
-#'   dplyr::summarise(SPD = sum_radiocarbon(cal_date, spdnormalised = TRUE, verbose = FALSE),
+#'   dplyr::summarise(SPD = c14_sum(cal_date, spdnormalised = TRUE, verbose = FALSE),
 #'                    .groups = "drop_last")
-sum_radiocarbon <- function(cal_dates, time_range = NULL, ...) {
+c14_sum <- function(cal_dates, time_range = NULL, ...) {
   metadata <- purrr::map_df(cal_dates, ~list(StartBP = max(.$calBP),
                                              EndBP = min(.$calBP)))
 

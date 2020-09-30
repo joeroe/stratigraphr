@@ -1,6 +1,6 @@
 # Functions for reading stratigraphic and chronological data
 
-# LST files (BASP Harris, Stratify, ArchEd) -------------------------------
+# LST files (BASP Harris, Stratify, ArchED) -------------------------------
 # Reference: http://archaeologic.al/wiki/Harris_Matrix#LST
 
 #' Read an LST file
@@ -122,3 +122,5 @@ lst_extract_attribute <- function(attr) {
   names(attr) <- name
   return(attr)
 }
+
+# OxCal -------------------------------------------------------------------
