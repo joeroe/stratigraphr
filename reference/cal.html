@@ -154,6 +154,7 @@ or other calendar-based probability distribution.</p>
   curve = <span class='fl'>NA</span>,
   reservoir_offset = <span class='fl'>NA</span>,
   reservoir_offset_error = <span class='fl'>NA</span>,
+  calibration_range = <span class='fl'>NA</span>,
   F14C = <span class='fl'>NA</span>,
   normalised = <span class='fl'>NA</span>,
   p_cutoff = <span class='fl'>NA</span>
@@ -198,6 +199,10 @@ or other calendar-based probability distribution.</p>
       <td><p>(Optional) <code>integer</code>. Error associated with the marine reservoir offset.</p></td>
     </tr>
     <tr>
+      <th>calibration_range</th>
+      <td><p>(Optional) <code>integer</code> vector of length 2. The range of years over which the calibration was performed, i.e. <code><a href='https://rdrr.io/r/base/c.html'>c(start, end)</a></code>.</p></td>
+    </tr>
+    <tr>
       <th>F14C</th>
       <td><p>(Optional) <code>logical</code>. Whether the calibration was calculated using F14C values instead of the CRA.</p></td>
     </tr>
@@ -215,13 +220,16 @@ or other calendar-based probability distribution.</p>
 
     <p><code>cal</code> object: a data frame with two columns, <code>year</code> and <code>p</code>, representing
 the calibrated probability distribution. All other values are stored as
-attributes.</p>
+attributes and can be accessed with <code><a href='cal_metadata.html'>cal_metadata()</a></code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other radiocarbon functions: 
-<code><a href='as_cal.html'>as_cal</a>()</code>,
+    <div class='dont-index'><p>Other tidy radiocarbon functions: 
 <code><a href='c14_calibrate.html'>c14_calibrate</a>()</code>,
-<code><a href='c14_sum.html'>c14_sum</a>()</code></p></div>
+<code><a href='c14_sum.html'>c14_sum</a>()</code></p>
+<p>Other functions for working with <code>cal</code> objects: 
+<code><a href='as.CalDates.cal.html'>as.CalDates.cal</a>()</code>,
+<code><a href='as_cal.html'>as_cal</a>()</code>,
+<code><a href='cal_metadata.html'>cal_metadata</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

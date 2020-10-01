@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sum radiocarbon dates with tidy syntax — c14_sum • stratigraphr</title>
+<title>Convert cal objects to a rcarbon CalDates object — as.CalDates.cal • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,8 @@
 
 
 
-<meta property="og:title" content="Sum radiocarbon dates with tidy syntax — c14_sum" />
-<meta property="og:description" content="A wrapper for rcarbon::spd() that takes a list of calibrated dates rather
-than a CalDates object. This allows you to use the output of c14_calibrate() and
-take advantage of tidy summary syntax (dplyr::group_by, etc.)" />
+<meta property="og:title" content="Convert cal objects to a rcarbon CalDates object — as.CalDates.cal" />
+<meta property="og:description" content="Convert cal objects to a rcarbon CalDates object" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -136,69 +134,36 @@ take advantage of tidy summary syntax (dplyr::group_by, etc.)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sum radiocarbon dates with tidy syntax</h1>
-    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/rcarbon.R'><code>R/rcarbon.R</code></a></small>
-    <div class="hidden name"><code>c14_sum.Rd</code></div>
+    <h1>Convert cal objects to a rcarbon CalDates object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cal.R'><code>R/cal.R</code></a></small>
+    <div class="hidden name"><code>as.CalDates.cal.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A wrapper for <code><a href='https://rdrr.io/pkg/rcarbon/man/spd.html'>rcarbon::spd()</a></code> that takes a list of calibrated dates rather
-than a <code>CalDates</code> object. This allows you to use the output of <code><a href='c14_calibrate.html'>c14_calibrate()</a></code> and
-take advantage of tidy summary syntax (<a href='dplyr::group_by'>dplyr::group_by</a>, etc.)</p>
+    <p>Convert cal objects to a rcarbon CalDates object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>c14_sum</span>(<span class='kw'>cal</span>, time_range = <span class='fl'>NA</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>as.CalDates.cal</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cal</th>
+      <th>x</th>
       <td><p>A list of <code>cal</code> objects.</p></td>
-    </tr>
-    <tr>
-      <th>time_range</th>
-      <td><p>Vector of length 2 indicating the range of calendar dates
-over which to sum. If left <code>NA</code>, the maximum range of the
-<code>cal</code> will be used. See details.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Optional arguments to be passed to <code><a href='https://rdrr.io/pkg/rcarbon/man/spd.html'>rcarbon::spd()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>calGrid</code> object containing the summed probability distribution.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Unlike <code><a href='https://rdrr.io/pkg/rcarbon/man/spd.html'>rcarbon::spd()</a></code>, this function will attempt to guess an appropriate
-time range if it isn't explicitly specified with <code>time_range</code>. It's probably
-a good idea to specify it.</p>
+    <p>A <code>CalDates</code> object. See <code><a href='https://rdrr.io/pkg/rcarbon/man/calibrate.html'>rcarbon::calibrate()</a></code> for details.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other tidy radiocarbon functions: 
-<code><a href='c14_calibrate.html'>c14_calibrate</a>()</code>,
+    <div class='dont-index'><p>Other functions for working with <code>cal</code> objects: 
+<code><a href='as_cal.html'>as_cal</a>()</code>,
+<code><a href='cal_metadata.html'>cal_metadata</a>()</code>,
 <code><a href='cal.html'>cal</a>()</code></p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"shub1_radiocarbon"</span>)
-<span class='kw'>shub1_radiocarbon</span> <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(cal = <span class='fu'><a href='c14_calibrate.html'>c14_calibrate</a></span>(<span class='kw'>cra</span>, <span class='kw'>error</span>, normalise = <span class='fl'>FALSE</span>, verbose = <span class='fl'>FALSE</span>)) <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>phase</span>) <span class='op'>%&gt;%</span>
-  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span>(SPD = <span class='fu'>c14_sum</span>(<span class='kw'>cal</span>, spdnormalised = <span class='fl'>TRUE</span>, verbose = <span class='fl'>FALSE</span>),
-                   .groups = <span class='st'>"drop_last"</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 2</span><span>
-#&gt;   phase   SPD                       
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>                    
-#&gt; </span><span style='color: #555555;'>1</span><span> Phase 1 </span><span style='color: #555555;'>&lt;CalGrid[,2] [11,659 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> Phase 2 </span><span style='color: #555555;'>&lt;CalGrid[,2] [560 × 2]&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>3</span><span> Phase 3 </span><span style='color: #555555;'>&lt;CalGrid[,2] [473 × 2]&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>4</span><span> Phase 4 </span><span style='color: #555555;'>&lt;CalGrid[,2] [1,273 × 2]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>5</span><span> Phase 5 </span><span style='color: #555555;'>&lt;CalGrid[,2] [1,377 × 2]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>6</span><span> Phase 6 </span><span style='color: #555555;'>&lt;CalGrid[,2] [1,155 × 2]&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>7</span><span> Phase 7 </span><span style='color: #555555;'>&lt;CalGrid[,2] [1,327 × 2]&gt;</span><span> </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
