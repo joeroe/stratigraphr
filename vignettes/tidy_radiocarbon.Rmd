@@ -1,0 +1,154 @@
+---
+title: "Tidy radiocarbon analysis"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: references.bib
+vignette: >
+  %\VignetteIndexEntry{Tidy radiocarbon analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(stratigraphr)
+```
+
+stratigraphr includes a framework for working with radiocarbon dates in a tidy data analysis.
+
+There are many existing packages that deal with radiocarbon data in R:
+
+* **Data retrieval and cleaning**: [c14bazAAR](https://docs.ropensci.org/c14bazAAR/)
+* **Calibration and modelling**: [rcarbon](https://github.com/ahb108/rcarbon), [oxcAAR](https://github.com/ISAAKiel/oxcAAR), [RChronoModel](https://cran.r-project.org/web/packages/RChronoModel/index.html), [BChron](https://andrewcparnell.github.io/Bchron/), [bacon](http://chrono.qub.ac.uk/blaauw/bacon.html)
+* **Analysis:** rcarbon (summed probability distributions, spatial analysis), [ArchaeoPhases](https://www.math.sciences.univ-nantes.fr/~philippe/ArchaeoPhases.html) (post-processing of Bayesian models)
+
+The idea is not to duplicate these packages, but to provide tools that make it easier to use them together and with other packages in the extended [tidyverse](https://www.tidyverse.org/).
+
+This vignette introduces some general principles for keeping radiocarbon data and models tidy, and describes how to carry out some common analysis tasks in that framework.
+
+## Overview
+
+* Keep uncalibrated dates in a tidy, tabular format (e.g. a `tibble` or `data.frame`) together with contextual data associated with the sample.
+* `cal` objects are a generic representation of calibrated probability distributions that can be nested within tables to maintain their association with contextual data. Functions are provided to convert objects from a variety of other packages to and from the `cal` format.
+* `c14_*` functions provide a consistent set of verbs for transforming radiocarbon data that work well with `dplyr`-style data manipulation and within functional analysis pipelines.
+
+## Tidy radiocarbon data
+
+"Tidy data" [@Wickham2014-ud] is a set of principles for organising datasets in a way that makes it easy to perform data analysis without tedious "data munging" between each step.
+In brief, tidy datasets are "rectangular" tables where:
+
+1. Every column is variable.
+2. Every row is an observation.
+3. Every cell is a single value.
+
+Conventionally-reported uncalibrated radiocarbon dates [@Millard2014-tr] are readily adapted into this format.
+Each row should represent a single sample, with the most important variables being the laboratory code, conventional radiocarbon age (CRA), and standard error.
+Further information about each sample, from the laboratory or about its context, should be stored in additional commons.
+The `shub1-radiocarbon` dataset [@Richter2017-xy], including with this package, is an example of tidy radiocarbon data in a `tibble`:
+
+```{r shub1-radiocarbon-data}
+data("shub1_radiocarbon")
+head(shub1_radiocarbon)
+```
+
+Radiocarbon data from other sources might require some cleaning to get it into this format.
+[tidyr](https://tidyr.tidyverse.org/) is a useful package for this (see [shub1_radiocarbon.R](https://github.com/joeroe/stratigraphr/blob/master/data-raw/shub1_radiocarbon.R] for an example of how tidyr was used to clean the Shubayqa 1 dataset).
+Or if you are working with dates aggregated from multiple sources, [c14bazAAR](https://docs.ropensci.org/c14bazAAR/) package provides many useful tools for automatically querying published databases and cleaning the results.
+
+For this vignette, we will stick with the shub1 dataset.
+
+## Calibration
+
+The first step in any analysis of radiocarbon data is likely to be calibration.
+In `dplyr`'s grammar, calibration is a *mutation* of the original (uncalibrated) data;
+it creates a new variable (the calibrated probability distribution) for each observation based on a transformation based on some of the original variables (`cra`, `error`) and a number of other, fixed parameters (e.g. the calibration curve).
+Performing calibration with `dplyr::mutate()` is useful because it allows us to keep the result of this transformation together with the input data and associated contextual information.
+
+`c14_calibrate()` is a wrapper for `rcarbon::calibrate()` that can be used within `dplyr` statements:
+
+```{r c14_calibrate, message=FALSE}
+library("dplyr")
+
+shub1_radiocarbon %>% 
+  mutate(cal = c14_calibrate(cra, error, lab_id, verbose = FALSE)) ->
+  shub1_radiocarbon
+
+head(shub1_radiocarbon)
+```
+
+The calibrated dates are stored as a [nested column](https://tidyr.tidyverse.org/articles/nest.html) of `cal` objects (see below).
+To work with the probability distributions directly (e.g. to plot them with `ggplot2`) we will eventually need to expand this column into a "long" format, where each year from each sample is its own row, using `[tidyr::unnest()]`.
+But for now the nested table is helpful for keeping our master dataset readable.
+
+### The `cal` class
+
+stratigraphr uses the `cal` S3 class as a generic representation of calibrated radiocarbon dates.
+This is a data.frame with two columns containing the range of calendar years (`year`) and associated probability densities (`p`).
+Metadata associated with the calibration, such as the era system and atmospheric curve used, are stored as attributes that can be accessed with `cal_metadata()`.
+
+Most other radiocarbon packages have similar structures for storing calibrated dates,
+differing primarily in how metadata is handled.
+The `c14_*` functions described here are designed to seamlessly convert between these object types when functions from other packages are invoked.
+However, if you need to, you can directly construct a `cal` object from a vector of probabilities with `cal()`, or from various other types of object with `as_cal()`.
+
+The `cal` class also has methods for pretty-printing calibrated dates:
+
+```{r print-cal}
+shub1_radiocarbon$cal[[1]]
+```
+
+And calculating meaningful summary statistics, such as the minimum and maximum of the calibrated range:
+
+```{r summary-cal}
+# See https://github.com/joeroe/stratigraphr/issues/7
+# min(shub1_radiocarbon$cal)
+# max(shub1_radiocarbon$cal)
+```
+
+## Visualising radiocarbon data with `ggplot2`
+
+```{r plot-cal, fig.asp=2.5}
+library("ggplot2")
+library("tidyr")
+shub1_radiocarbon %>% 
+  filter(!outlier) %>% 
+  unnest(c(cal)) %>% 
+  ggplot(aes(x = year, y = p)) +
+  facet_wrap(vars(lab_id), ncol = 1, scales = "free_y", strip.position = "left") +
+  geom_area() +
+  labs(x = "cal BP", y = NULL) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        strip.text.y.left = element_text(angle = 0))
+```
+
+## Modelling radiocarbon data
+
+### Summed probability distributions
+
+In `dplyr`'s grammar, summing radiocarbon dates is a *summary* of the original data, because it reduces the number of observations.
+`c14_sum` is a wrapper for `rcarbon::spd()` that can be used in a `dplyr` statement.
+
+```{r c14_sum}
+shub1_radiocarbon %>% 
+  group_by(phase) %>% 
+  summarise(spd = c14_sum(cal, verbose = FALSE), .groups = "drop_last") ->
+  shub1_spd
+
+head(shub1_spd)
+```
+
+### Bayesian calibration
+
+See `vignette("cql")`.
+
+## References

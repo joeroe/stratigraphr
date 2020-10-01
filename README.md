@@ -25,5 +25,5 @@ It is functional, but many features are missing and future versions are likely t
 ## Usage
 
 * Graph-bases stratigraphic analysis: see `vignette("harris")`.
-* Tidy analysis of radiocarbon dates: see [examples](https://twitter.com/joeroe90/status/1102887126004310017).
+* Tidy analysis of radiocarbon dates: see `vignette("tidy_radiocarbon")`.
 * Chronological query language: see `vignette("cql")`.
