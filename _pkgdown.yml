@@ -23,8 +23,9 @@ reference:
 - title: "Tidy radiocarbon"
   desc: "Functions for working with radiocarbon data in a tidy framework."
 - contents:
-  - cal
+  - starts_with("cal")
   - as_cal
+  - starts_with("as.CalDates")
   - starts_with("c14_")
 - title: "CQL"
   desc: "An R interface to the Chronological Query Language (CQL)."

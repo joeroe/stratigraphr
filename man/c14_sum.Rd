@@ -4,14 +4,14 @@
 \alias{c14_sum}
 \title{Sum radiocarbon dates with tidy syntax}
 \usage{
-c14_sum(cal_dates, time_range = NULL, ...)
+c14_sum(cal, time_range = NA, ...)
 }
 \arguments{
-\item{cal_dates}{A list of \code{calGrid} objects.}
+\item{cal}{A list of \code{cal} objects.}
 
 \item{time_range}{Vector of length 2 indicating the range of calendar dates
-over which to sum. If \code{NULL}, the maximum range of the
-\code{cal_dates} will be used.}
+over which to sum. If left \code{NA}, the maximum range of the
+\code{cal} will be used. See details.}
 
 \item{...}{Optional arguments to be passed to \code{\link[rcarbon:spd]{rcarbon::spd()}}}
 }
@@ -20,25 +20,25 @@ A \code{calGrid} object containing the summed probability distribution.
 }
 \description{
 A wrapper for \code{\link[rcarbon:spd]{rcarbon::spd()}} that takes a list of calibrated dates rather
-than a \code{CalDates} object. This allows you to use the output of \code{\link[=cal]{cal()}} and
+than a \code{CalDates} object. This allows you to use the output of \code{\link[=c14_calibrate]{c14_calibrate()}} and
 take advantage of tidy summary syntax (\url{dplyr::group_by}, etc.)
 }
-\note{
-Unlike \code{\link[rcarbon:spd]{rcarbon::spd()}}, this function will attempt to guess the time range
-if it isn't specified. It's probably a good idea to specify it.
+\details{
+Unlike \code{\link[rcarbon:spd]{rcarbon::spd()}}, this function will attempt to guess an appropriate
+time range if it isn't explicitly specified with \code{time_range}. It's probably
+a good idea to specify it.
 }
 \examples{
 data("shub1_radiocarbon")
 shub1_radiocarbon \%>\%
-  dplyr::mutate(cal_date = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE)) \%>\%
+  dplyr::mutate(cal = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE)) \%>\%
   dplyr::group_by(phase) \%>\%
-  dplyr::summarise(SPD = c14_sum(cal_date, spdnormalised = TRUE, verbose = FALSE),
+  dplyr::summarise(SPD = c14_sum(cal, spdnormalised = TRUE, verbose = FALSE),
                    .groups = "drop_last")
 }
 \seealso{
-Other radiocarbon functions: 
-\code{\link{as_cal}()},
+Other tidy radiocarbon functions: 
 \code{\link{c14_calibrate}()},
 \code{\link{cal}()}
 }
-\concept{radiocarbon functions}
+\concept{tidy radiocarbon functions}

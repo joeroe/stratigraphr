@@ -14,14 +14,16 @@ c14_calibrate(cra, error, ...)
 \item{...}{Optional arguments passed to \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}}}
 }
 \value{
-A list of \code{calGrid} objects. See \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} for details.
+A list of \code{cal} objects.
 }
 \description{
 A thin wrapper of \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} that returns calibrated dates as a
 single list rather than a `CalDates`` object. Useful, for example, if you want
 to add a column of calibrated dates to an existing table with \code{\link[dplyr:mutate]{dplyr::mutate()}}
 }
-\note{
+\details{
+See \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} for details of the calibration options.
+
 This function only supports the 'grid' method of representing calibrated
 dates (i.e. \code{calMatrix} is always set to \code{FALSE}) and the metadata usually
 returned by \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} is discarded.
@@ -29,12 +31,11 @@ returned by \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}} is discarded.
 \examples{
 data("shub1_radiocarbon")
 shub1_radiocarbon \%>\%
-  dplyr::mutate(CalDate = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
+  dplyr::mutate(cal = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
 }
 \seealso{
-Other radiocarbon functions: 
-\code{\link{as_cal}()},
+Other tidy radiocarbon functions: 
 \code{\link{c14_sum}()},
 \code{\link{cal}()}
 }
-\concept{radiocarbon functions}
+\concept{tidy radiocarbon functions}

@@ -10,66 +10,66 @@
 #' @param error   A vector of standard errors associated with `cra`
 #' @param ...     Optional arguments passed to [rcarbon::calibrate()]
 #'
-#' @return A list of `calGrid` objects. See [rcarbon::calibrate()] for details.
+#' @return A list of `cal` objects.
 #' @export
 #'
-#' @note
+#' @details
+#' See [rcarbon::calibrate()] for details of the calibration options.
+#'
 #' This function only supports the 'grid' method of representing calibrated
 #' dates (i.e. `calMatrix` is always set to `FALSE`) and the metadata usually
 #' returned by [rcarbon::calibrate()] is discarded.
 #'
-#' @family radiocarbon functions
+#' @family tidy radiocarbon functions
 #'
 #' @examples
 #' data("shub1_radiocarbon")
 #' shub1_radiocarbon %>%
-#'   dplyr::mutate(CalDate = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
+#'   dplyr::mutate(cal = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
 c14_calibrate <- function(cra, error, ...) {
   CalDates <- rcarbon::calibrate(cra, error, calMatrix = FALSE, ...)
-  return(CalDates$grids)
+  cals <- as_cal(CalDates)
+  return(cals)
 }
 
 #' Sum radiocarbon dates with tidy syntax
 #'
 #' A wrapper for [rcarbon::spd()] that takes a list of calibrated dates rather
-#' than a `CalDates` object. This allows you to use the output of [cal()] and
+#' than a `CalDates` object. This allows you to use the output of [c14_calibrate()] and
 #' take advantage of tidy summary syntax ([dplyr::group_by](), etc.)
 #'
-#' @param cal_dates  A list of `calGrid` objects.
+#' @param cal        A list of `cal` objects.
 #' @param time_range Vector of length 2 indicating the range of calendar dates
-#'                   over which to sum. If `NULL`, the maximum range of the
-#'                   `cal_dates` will be used.
+#'                   over which to sum. If left `NA`, the maximum range of the
+#'                   `cal` will be used. See details.
 #' @param ...        Optional arguments to be passed to [rcarbon::spd()]
 #'
-#' @return A `calGrid` object containing the summed probability distribution.
+#' @return
+#' A `calGrid` object containing the summed probability distribution.
+#'
 #' @export
 #'
-#' @note
-#' Unlike [rcarbon::spd()], this function will attempt to guess the time range
-#' if it isn't specified. It's probably a good idea to specify it.
+#' @details
+#' Unlike [rcarbon::spd()], this function will attempt to guess an appropriate
+#' time range if it isn't explicitly specified with `time_range`. It's probably
+#' a good idea to specify it.
 #'
-#' @family radiocarbon functions
+#' @family tidy radiocarbon functions
 #'
 #' @examples
 #' data("shub1_radiocarbon")
 #' shub1_radiocarbon %>%
-#'   dplyr::mutate(cal_date = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE)) %>%
+#'   dplyr::mutate(cal = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE)) %>%
 #'   dplyr::group_by(phase) %>%
-#'   dplyr::summarise(SPD = c14_sum(cal_date, spdnormalised = TRUE, verbose = FALSE),
+#'   dplyr::summarise(SPD = c14_sum(cal, spdnormalised = TRUE, verbose = FALSE),
 #'                    .groups = "drop_last")
-c14_sum <- function(cal_dates, time_range = NULL, ...) {
-  metadata <- purrr::map_df(cal_dates, ~list(StartBP = max(.$calBP),
-                                             EndBP = min(.$calBP)))
+c14_sum <- function(cal, time_range = NA, ...) {
+  cal_dates <- as.CalDates.cal(cal)
 
-  if(is.null(time_range)) {
-    time_range <- c(max(metadata$StartBP), min(metadata$EndBP))
+  if(is.na(time_range)) {
+    time_range <- c(min.cal(cal), max.cal(cal))
   }
 
-  CalDates <- list(metadata = metadata,
-                   grids = cal_dates,
-                   calMatrix = NA)
-  class(CalDates) <- c("CalDates", "list")
-
-  summed <- rcarbon::spd(CalDates, timeRange = time_range, ...)
+  summed <- rcarbon::spd(cal_dates, timeRange = time_range, ...)
   return(list(summed$grid))
 }

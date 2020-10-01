@@ -14,6 +14,7 @@ cal(
   curve = NA,
   reservoir_offset = NA,
   reservoir_offset_error = NA,
+  calibration_range = NA,
   F14C = NA,
   normalised = NA,
   p_cutoff = NA
@@ -38,6 +39,8 @@ cal(
 
 \item{reservoir_offset_error}{(Optional) \code{integer}. Error associated with the marine reservoir offset.}
 
+\item{calibration_range}{(Optional) \code{integer} vector of length 2. The range of years over which the calibration was performed, i.e. \code{c(start, end)}.}
+
 \item{F14C}{(Optional) \code{logical}. Whether the calibration was calculated using F14C values instead of the CRA.}
 
 \item{normalised}{(Optional) \code{logical}. Whether the calibrated probability densities were normalised.}
@@ -47,16 +50,21 @@ cal(
 \value{
 \code{cal} object: a data frame with two columns, \code{year} and \code{p}, representing
 the calibrated probability distribution. All other values are stored as
-attributes.
+attributes and can be accessed with \code{\link[=cal_metadata]{cal_metadata()}}.
 }
 \description{
 \code{cal()} constructs a generic representation of a calibrated radiocarbon date
 or other calendar-based probability distribution.
 }
 \seealso{
-Other radiocarbon functions: 
-\code{\link{as_cal}()},
+Other tidy radiocarbon functions: 
 \code{\link{c14_calibrate}()},
 \code{\link{c14_sum}()}
+
+Other functions for working with \code{cal} objects: 
+\code{\link{as.CalDates.cal}()},
+\code{\link{as_cal}()},
+\code{\link{cal_metadata}()}
 }
-\concept{radiocarbon functions}
+\concept{functions for working with \code{cal} objects}
+\concept{tidy radiocarbon functions}

@@ -15,7 +15,7 @@ as_cal(x)
 \value{
 \code{cal} object: a data frame with two columns, \code{year} and \code{p}, representing
 the calibrated probability distribution. All other values are stored as
-attributes.
+attributes and can be accessed with \code{\link[=cal_metadata]{cal_metadata()}}.
 }
 \description{
 \code{as_cal()} converts objects from other packages that represent calibrated
@@ -29,9 +29,9 @@ These functions are intended for complex S3 objects from other packages.
 See \code{\link[=cal]{cal()}} for a more generic constructor, e.g. using a data frame.
 }
 \seealso{
-Other radiocarbon functions: 
-\code{\link{c14_calibrate}()},
-\code{\link{c14_sum}()},
+Other functions for working with \code{cal} objects: 
+\code{\link{as.CalDates.cal}()},
+\code{\link{cal_metadata}()},
 \code{\link{cal}()}
 }
-\concept{radiocarbon functions}
+\concept{functions for working with \code{cal} objects}
