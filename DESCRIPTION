@@ -1,8 +1,8 @@
 Package: stratigraphr
 Type: Package
 Title: Archaeological Stratigraphy and Chronological Sequences
-Version: 0.2.0
-Date: 2018-12-19
+Version: 0.3.0
+Date: 2020-10-01
 Authors@R: person("Joe", "Roe", email = "joe@joeroe.io",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1011-1244"))
 Description: A tidy framework for working with archaeological stratigraphy and
