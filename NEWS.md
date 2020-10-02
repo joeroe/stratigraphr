@@ -4,7 +4,7 @@
   * New S3 object `cal`, a generic representation of calibrated probability distributions
   * Methods for printing and summarising `cal` objects
   * Type conversion functions for `cal` objects
-  * Add `vignette("tidy_radiocarbon")`
+  * New `vignette("tidy_radiocarbon")`
 * **Breaking change**: `cal()` and `sum()` renamed `c14_calibrate` and `c14_sum` and now return `cal` objects.
 * Added a `NEWS.md` file to track changes to the package.
 
