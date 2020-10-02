@@ -19,6 +19,7 @@
 #' @param F14C                    (Optional) `logical`. Whether the calibration was calculated using F14C values instead of the CRA.
 #' @param normalised              (Optional) `logical`. Whether the calibrated probability densities were normalised.
 #' @param p_cutoff                (Optional) `numeric`. Lower threshold beyond which probability densities were considered zero.
+#' @param ...                     (Optional) Arguments based to other functions.
 #'
 #' @return
 #' `cal` object: a data frame with two columns, `year` and `p`, representing
@@ -94,13 +95,13 @@ print.cal <- function(x, ...) {
     metadata$lab_id <- NULL
   }
   if(!is.null(metadata$cra)) {
-    cli::cli_dl(list(`Uncalibrated` = glue::glue("{metadata$cra}±{metadata$error} uncal BP")))
+    cli::cli_dl(list(`Uncalibrated` = glue::glue("{metadata$cra}\u00B1{metadata$error} uncal BP")))
     metadata$cra <- NULL
     metadata$error <- NULL
   }
   if(!is.null(metadata$calibration_range) &&
      !all(is.na(metadata$calibration_range))) {
-    metadata$calibration_range <- glue::glue("{metadata$calibration_range[1]}–{metadata$calibration_range[2]} BP")
+    metadata$calibration_range <- glue::glue("{metadata$calibration_range[1]}\u2013{metadata$calibration_range[2]} BP")
   }
   cli::cli_dl(metadata)
 

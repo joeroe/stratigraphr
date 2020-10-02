@@ -46,6 +46,8 @@ cal(
 \item{normalised}{(Optional) \code{logical}. Whether the calibrated probability densities were normalised.}
 
 \item{p_cutoff}{(Optional) \code{numeric}. Lower threshold beyond which probability densities were considered zero.}
+
+\item{...}{(Optional) Arguments based to other functions.}
 }
 \value{
 \code{cal} object: a data frame with two columns, \code{year} and \code{p}, representing

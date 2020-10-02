@@ -26,6 +26,12 @@
 #' @export
 #'
 #' @examples
+#' # Download an example LST file
+#' lsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"
+#' lstfile <- fs::file_temp(ext = "lst")
+#' if(download.file(lsturl, lstfile) == 0) {
+#'   read_lst(lstfile)
+#' }
 read_lst <- function(file, locale = readr::default_locale()) {
   # TODO: Add type checking
   lst <- readr::read_lines(file, locale = locale)
