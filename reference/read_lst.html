@@ -177,6 +177,33 @@ the stratum and the attributes associated with it (typically "above",
 
     <p><a href='http://archaeologic.al/wiki/Harris_Matrix#LST'>http://archaeologic.al/wiki/Harris_Matrix#LST</a></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Download an example LST file</span>
+<span class='kw'>lsturl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"</span>
+<span class='kw'>lstfile</span> <span class='op'>&lt;-</span> <span class='kw'>fs</span>::<span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span>(ext = <span class='st'>"lst"</span>)
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='kw'>lsturl</span>, <span class='kw'>lstfile</span>) <span class='op'>==</span> <span class='fl'>0</span>) {
+  <span class='fu'>read_lst</span>(<span class='kw'>lstfile</span>)
+}
+</div><div class='output co'>#&gt;    name         above contemporary_with equal_to       below
+#&gt; 1     +          &lt;NA&gt;                NA       NA  27,1,54,53
+#&gt; 2     - 43,41,4,70,35                NA       NA        &lt;NA&gt;
+#&gt; 3     1             +                NA       NA           2
+#&gt; 4     2             1                NA       NA        41,3
+#&gt; 5    27             +                NA       NA       28,29
+#&gt; 6    28            27                NA       NA          30
+#&gt; 7    29            27                NA       NA          30
+#&gt; 8     3             2                NA       NA           4
+#&gt; 9    30         28,29                NA       NA          70
+#&gt; 10   35         44,54                NA       NA           -
+#&gt; 11    4             3                NA       NA           -
+#&gt; 12   41          52,2                NA       NA           -
+#&gt; 13   42            52                NA       NA          70
+#&gt; 14   43            52                NA       NA           -
+#&gt; 15   44            52                NA       NA          35
+#&gt; 16   52            53                NA       NA 44,43,41,42
+#&gt; 17   53             +                NA       NA          52
+#&gt; 18   54             +                NA       NA          35
+#&gt; 19   70         42,30                NA       NA           -</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

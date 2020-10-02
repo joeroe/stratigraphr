@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calibrated radiocarbon dates — cal • stratigraphr</title>
+<title>Stratigraphy from Harris Figure 12 — harris12 • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,11 @@
 
 
 
-<meta property="og:title" content="Calibrated radiocarbon dates — cal" />
-<meta property="og:description" content="cal() constructs a generic representation of a calibrated radiocarbon date
-or other calendar-based probability distribution." />
+<meta property="og:title" content="Stratigraphy from Harris Figure 12 — harris12" />
+<meta property="og:description" content="A model stratigraphic sequence used by Edward
+Harris (1979)
+ to illustrate the
+construction of a Harris matrix." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -141,105 +143,41 @@ or other calendar-based probability distribution." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calibrated radiocarbon dates</h1>
-    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cal.R'><code>R/cal.R</code></a></small>
-    <div class="hidden name"><code>cal.Rd</code></div>
+    <h1>Stratigraphy from Harris Figure 12</h1>
+    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>harris12.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>cal()</code> constructs a generic representation of a calibrated radiocarbon date
-or other calendar-based probability distribution.</p>
+    <p>A model stratigraphic sequence used by Edward
+Harris (1979)
+ to illustrate the
+construction of a Harris matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cal</span>(
-  <span class='kw'>x</span>,
-  era = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"cal BP"</span>),
-  lab_id = <span class='fl'>NA</span>,
-  cra = <span class='fl'>NA</span>,
-  error = <span class='fl'>NA</span>,
-  curve = <span class='fl'>NA</span>,
-  reservoir_offset = <span class='fl'>NA</span>,
-  reservoir_offset_error = <span class='fl'>NA</span>,
-  calibration_range = <span class='fl'>NA</span>,
-  F14C = <span class='fl'>NA</span>,
-  normalised = <span class='fl'>NA</span>,
-  p_cutoff = <span class='fl'>NA</span>
-)
+    <pre class="usage"><span class='kw'>harris12</span></pre>
 
-<span class='co'># S3 method for cal</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A <code>data.frame</code> with two columns, with calendar years and associated probabilities.</p></td>
-    </tr>
-    <tr>
-      <th>era</th>
-      <td><p>(Optional) <code>character</code>. Calendar system used. Default: <code>cal BP</code>.</p></td>
-    </tr>
-    <tr>
-      <th>lab_id</th>
-      <td><p>(Optional) <code>character</code>. Lab code or other label for the calibrated sample.</p></td>
-    </tr>
-    <tr>
-      <th>cra</th>
-      <td><p>(Optional) <code>integer</code>. Uncalibrated conventional radiocarbon age (CRA) of the sample.</p></td>
-    </tr>
-    <tr>
-      <th>error</th>
-      <td><p>(Optional) <code>integer</code>. Error associated with the uncalibrated sample.</p></td>
-    </tr>
-    <tr>
-      <th>curve</th>
-      <td><p>(Optional) <code>character</code>. Atmospheric curve used for calibration, e.g. "intcal20".</p></td>
-    </tr>
-    <tr>
-      <th>reservoir_offset</th>
-      <td><p>(Optional) <code>integer</code>. Marine reservoir offset used in the calibration, if any.</p></td>
-    </tr>
-    <tr>
-      <th>reservoir_offset_error</th>
-      <td><p>(Optional) <code>integer</code>. Error associated with the marine reservoir offset.</p></td>
-    </tr>
-    <tr>
-      <th>calibration_range</th>
-      <td><p>(Optional) <code>integer</code> vector of length 2. The range of years over which the calibration was performed, i.e. <code><a href='https://rdrr.io/r/base/c.html'>c(start, end)</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>F14C</th>
-      <td><p>(Optional) <code>logical</code>. Whether the calibration was calculated using F14C values instead of the CRA.</p></td>
-    </tr>
-    <tr>
-      <th>normalised</th>
-      <td><p>(Optional) <code>logical</code>. Whether the calibrated probability densities were normalised.</p></td>
-    </tr>
-    <tr>
-      <th>p_cutoff</th>
-      <td><p>(Optional) <code>numeric</code>. Lower threshold beyond which probability densities were considered zero.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>(Optional) Arguments based to other functions.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <p>A data frame with 10 rows and 4 variables:</p><dl>
+<dt>context</dt><dd><p>Label of the stratigraphic unit.</p></dd>
+<dt>above</dt><dd><p>Unit stratigraphically above.</p></dd>
+<dt>below</dt><dd><p>Unit stratigraphically below.</p></dd>
+<dt>equal</dt><dd><p>Unit stratigraphically equal.</p></dd>
 
-    <p><code>cal</code> object: a data frame with two columns, <code>year</code> and <code>p</code>, representing
-the calibrated probability distribution. All other values are stored as
-attributes and can be accessed with <code><a href='cal_metadata.html'>cal_metadata()</a></code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+</dl>
 
-    <div class='dont-index'><p>Other tidy radiocarbon functions: 
-<code><a href='c14_calibrate.html'>c14_calibrate</a>()</code>,
-<code><a href='c14_sum.html'>c14_sum</a>()</code></p>
-<p>Other functions for working with <code>cal</code> objects: 
-<code><a href='as.CalDates.cal.html'>as.CalDates.cal</a>()</code>,
-<code><a href='as_cal.html'>as_cal</a>()</code>,
-<code><a href='cal_metadata.html'>cal_metadata</a>()</code></p></div>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Harris (1979)
+, p. 39.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Harris EC (1979).
+<em>Principles of archaeological stratigraphy</em>.
+Academic Press, London.
+ISBN 9780123266514.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
