@@ -1,8 +1,9 @@
 # stratigraphr <img src="man/figures/logo.svg" align="right" height="180" />
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build status](https://travis-ci.com/joeroe/stratigraphr.svg?branch=master)](https://travis-ci.com/joeroe/stratigraphr)
 [![CRAN status](https://www.r-pkg.org/badges/version/stratigraphr)](https://CRAN.R-project.org/package=stratigraphr)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 stratigraphr is a tidy framework for working with archaeological stratigraphy and chronology in R.
