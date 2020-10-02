@@ -11,8 +11,6 @@
 #'
 #' @return  A `stratigraph` object.
 #' @export
-#'
-#' @examples
 stratigraph <- function(data, context, relation, type = "harris") {
   # Join nodes
   if (type == "harris") {
@@ -83,10 +81,8 @@ harris <- function(data, context, relation) {
 #'
 #' @return `TRUE` or `FALSE`
 #' @export
-#'
-#' @examples
 is_valid_harris <- function(stratigraph, warn = TRUE) {
-  if (!igraph::is.dag(stratigraph)) {
+  if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
     if(warn) warning("Invalid Harris matrix: graph contains cycles")
     return(FALSE)
   }
