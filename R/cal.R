@@ -99,7 +99,7 @@ print.cal <- function(x, ...) {
     metadata$error <- NULL
   }
   if(!is.null(metadata$calibration_range) &&
-     !is.na(metadata$calibration_range)) {
+     !all(is.na(metadata$calibration_range))) {
     metadata$calibration_range <- glue::glue("{metadata$calibration_range[1]}–{metadata$calibration_range[2]} BP")
   }
   cli::cli_dl(metadata)
