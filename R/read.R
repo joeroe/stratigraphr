@@ -45,6 +45,8 @@ read_lst <- function(file, locale = readr::default_locale()) {
 #' Extract header from an LST file
 #'
 #' @param lst Character vector of lines from an LST file (e.g. from [readr::read_lines()])
+#'
+#' @noRd
 lst_extract_header <- function(lst) {
   # TODO: Add type checking
   header <- lst[1:3]
@@ -73,6 +75,8 @@ lst_extract_header <- function(lst) {
 #' @return
 #' Data frame with one row and columns representing the name and attributes of
 #'   a stratum.
+#'
+#' @noRd
 lst_extract_stratum <- function(stratum) {
   # TODO: Add type checking
   # TODO: Extract name, label and site code separately – need some test data
@@ -92,6 +96,8 @@ lst_extract_stratum <- function(stratum) {
 #'
 #' @return
 #' A named list containing the attribute name and value.
+#'
+#' @noRd
 lst_extract_attribute <- function(attr) {
   checkmate::assert_character(attr, pattern = ".*:.*", len = 1)
 
