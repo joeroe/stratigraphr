@@ -34,5 +34,6 @@ reference:
 - title: "Datasets"
   desc: "Example data included with the package."
 - contents:
+  - harris12
   - shub1
   - shub1_radiocarbon

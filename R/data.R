@@ -2,7 +2,8 @@
 #' @importFrom Rdpack reprompt
 NULL
 
-#-------------------------------------------------------------------------
+
+# shub1 -------------------------------------------------------------------
 #' Schematic stratigraphy of Shubayqa 1
 #'
 #' A simplified version of the stratigraphy of Shubayqa 1, an Epipalaeolithic
@@ -35,7 +36,8 @@ NULL
 #' \insertAllCited{}
 "shub1"
 
-#-------------------------------------------------------------------------
+
+# shub1_radiocarbon -------------------------------------------------------
 #' Radiocarbon dates from Shubayqa 1
 #'
 #' Radiocarbon dates from Shubayqa 1, an Epipalaeolithic site in eastern Jordan,
@@ -65,3 +67,25 @@ NULL
 #' @references
 #' \insertAllCited{}
 "shub1_radiocarbon"
+
+
+# harris12 ----------------------------------------------------------------
+#' Stratigraphy from Harris Figure 12
+#'
+#' A model stratigraphic sequence used by Edward
+#'   \insertCite{Harris1979-qs;textual}{stratigraphr} to illustrate the
+#'   construction of a Harris matrix.
+#'
+#' @format A data frame with 10 rows and 4 variables:
+#' \describe{
+#'   \item{context}{Label of the stratigraphic unit.}
+#'   \item{above}{Unit stratigraphically above.}
+#'   \item{below}{Unit stratigraphically below.}
+#'   \item{equal}{Unit stratigraphically equal.}
+#' }
+#'
+#' @source \insertCite{Harris1979-qs;textual}{stratigraphr}, p. 39.
+#'
+#' @references
+#' \insertAllCited{}
+"harris12"
