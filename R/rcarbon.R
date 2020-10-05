@@ -36,7 +36,7 @@ c14_calibrate <- function(cra, error, ...) {
 #'
 #' A wrapper for [rcarbon::spd()] that takes a list of calibrated dates rather
 #' than a `CalDates` object. This allows you to use the output of [c14_calibrate()] and
-#' take advantage of tidy summary syntax ([dplyr::group_by](), etc.)
+#' take advantage of tidy summary syntax ([dplyr::group_by()], etc.)
 #'
 #' @param cal        A list of `cal` objects.
 #' @param time_range Vector of length 2 indicating the range of calendar dates
