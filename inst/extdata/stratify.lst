@@ -1,0 +1,62 @@
+            Stratigraphic Dataset strattest
+
+Name
+TST::1
+            below: TST::2
+            Unit class: context
+TST::2
+            below: TST::3, TST::41
+            above: TST::1
+            Unit class: context
+TST::27
+            below: TST::28, TST::29
+            Unit class: context
+TST::28
+            below: TST::30
+            above: TST::27
+            Unit class: context
+TST::29
+            below: TST::30
+            above: TST::27
+            Unit class: context
+TST::3
+            below: TST::4
+            above: TST::2
+            Unit class: context
+TST::30
+            below: TST::70
+            above: TST::28, TST::29
+            Unit class: context
+TST::35
+            above: TST::44, TST::54
+            Unit class: context
+TST::4
+            above: TST::3
+            Unit class: context
+TST::41
+            above: TST::2, TST::52
+            Unit class: context
+TST::42
+            below: TST::70
+            above: TST::52
+            Unit class: context
+TST::43
+            above: TST::52
+            Unit class: context
+TST::44
+            below: TST::35
+            above: TST::52
+            Unit class: context
+TST::52
+            below: TST::41, TST::42, TST::43, TST::44
+            above: TST::53
+            Unit class: context
+TST::53
+            below: TST::52
+            Unit class: context
+TST::54
+            below: TST::35
+            Unit class: context
+TST::70
+            above: TST::30, TST::42
+            Unit class: context

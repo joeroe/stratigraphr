@@ -41,7 +41,8 @@ Suggests:
     knitr,
     rmarkdown,
     readxl,
-    oxcAAR
+    oxcAAR,
+    testthat
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

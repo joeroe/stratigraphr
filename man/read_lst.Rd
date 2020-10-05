@@ -27,19 +27,14 @@ This function supports both the original LST format used by BASP Harris and
 the "extended" format used by ArchEd and Stratify.
 }
 \examples{
-# Read a BASP Harris LST file
-lsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"
-lstfile <- fs::file_temp(ext = "lst")
-if(download.file(lsturl, lstfile) == 0) {
-  read_lst(lstfile)
-}
+# Example data from https://github.com/lparchaeology/harris2graph
+# Simple LST (BASP Harris)
+basp_lst <- system.file("extdata", "bonn.lst", package = "stratigraphr")
+read_lst(basp_lst)
 
-# Read a Stratify 'extended' LST file
-elsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/stratify.lst"
-elstfile <- fs::file_temp(ext = "lst")
-if(download.file(elsturl, elstfile) == 0) {
-  read_lst(elstfile)
-}
+# Extended LST (Stratify, ArchEd)
+stratify_lst <- system.file("extdata", "stratify.lst", package = "stratigraphr")
+read_lst(stratify_lst)
 }
 \references{
 \url{http://archaeologic.al/wiki/Harris_Matrix#LST}
