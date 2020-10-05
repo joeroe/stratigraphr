@@ -182,12 +182,10 @@ the "extended" format used by ArchEd and Stratify.</p>
     <p><a href='http://archaeologic.al/wiki/Harris_Matrix#LST'>http://archaeologic.al/wiki/Harris_Matrix#LST</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Read a BASP Harris LST file</span>
-<span class='kw'>lsturl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"</span>
-<span class='kw'>lstfile</span> <span class='op'>&lt;-</span> <span class='kw'>fs</span>::<span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span>(ext = <span class='st'>"lst"</span>)
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='kw'>lsturl</span>, <span class='kw'>lstfile</span>) <span class='op'>==</span> <span class='fl'>0</span>) {
-  <span class='fu'>read_lst</span>(<span class='kw'>lstfile</span>)
-}
+    <pre class="examples"><div class='input'><span class='co'># Example data from https://github.com/lparchaeology/harris2graph</span>
+<span class='co'># Simple LST (BASP Harris)</span>
+<span class='kw'>basp_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"bonn.lst"</span>, package = <span class='st'>"stratigraphr"</span>)
+<span class='fu'>read_lst</span>(<span class='kw'>basp_lst</span>)
 </div><div class='output co'>#&gt;    name         above contemporary_with equal_to       below
 #&gt; 1     +          &lt;NA&gt;                NA       NA  27,1,54,53
 #&gt; 2     - 43,41,4,70,35                NA       NA        &lt;NA&gt;
@@ -208,12 +206,9 @@ the "extended" format used by ArchEd and Stratify.</p>
 #&gt; 17   53             +                NA       NA          52
 #&gt; 18   54             +                NA       NA          35
 #&gt; 19   70         42,30                NA       NA           -</div><div class='input'>
-<span class='co'># Read a Stratify 'extended' LST file</span>
-<span class='kw'>elsturl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/lparchaeology/harris2graph/master/stratify.lst"</span>
-<span class='kw'>elstfile</span> <span class='op'>&lt;-</span> <span class='kw'>fs</span>::<span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span>(ext = <span class='st'>"lst"</span>)
-<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='kw'>elsturl</span>, <span class='kw'>elstfile</span>) <span class='op'>==</span> <span class='fl'>0</span>) {
-  <span class='fu'>read_lst</span>(<span class='kw'>elstfile</span>)
-}
+<span class='co'># Extended LST (Stratify, ArchEd)</span>
+<span class='kw'>stratify_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"stratify.lst"</span>, package = <span class='st'>"stratigraphr"</span>)
+<span class='fu'>read_lst</span>(<span class='kw'>stratify_lst</span>)
 </div><div class='output co'>#&gt;       name                           below unit_class           above
 #&gt; 1   TST::1                          TST::2    context            &lt;NA&gt;
 #&gt; 2   TST::2                  TST::3,TST::41    context          TST::1
