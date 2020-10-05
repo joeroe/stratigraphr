@@ -173,12 +173,16 @@ other region-specific settings used in the file. Defaults to
     <p>A data frame. Each row represents one stratum. Columns contain the name of
 the stratum and the attributes associated with it (typically "above",
 "contemporary_with", "equal_to" and "below").</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function supports both the original LST format used by BASP Harris and
+the "extended" format used by ArchEd and Stratify.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='http://archaeologic.al/wiki/Harris_Matrix#LST'>http://archaeologic.al/wiki/Harris_Matrix#LST</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Download an example LST file</span>
+    <pre class="examples"><div class='input'><span class='co'># Read a BASP Harris LST file</span>
 <span class='kw'>lsturl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"</span>
 <span class='kw'>lstfile</span> <span class='op'>&lt;-</span> <span class='kw'>fs</span>::<span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span>(ext = <span class='st'>"lst"</span>)
 <span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='kw'>lsturl</span>, <span class='kw'>lstfile</span>) <span class='op'>==</span> <span class='fl'>0</span>) {
@@ -203,7 +207,31 @@ the stratum and the attributes associated with it (typically "above",
 #&gt; 16   52            53                NA       NA 44,43,41,42
 #&gt; 17   53             +                NA       NA          52
 #&gt; 18   54             +                NA       NA          35
-#&gt; 19   70         42,30                NA       NA           -</div></pre>
+#&gt; 19   70         42,30                NA       NA           -</div><div class='input'>
+<span class='co'># Read a Stratify 'extended' LST file</span>
+<span class='kw'>elsturl</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/lparchaeology/harris2graph/master/stratify.lst"</span>
+<span class='kw'>elstfile</span> <span class='op'>&lt;-</span> <span class='kw'>fs</span>::<span class='fu'><a href='http://fs.r-lib.org/reference/file_temp.html'>file_temp</a></span>(ext = <span class='st'>"lst"</span>)
+<span class='co'>if</span>(<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='kw'>elsturl</span>, <span class='kw'>elstfile</span>) <span class='op'>==</span> <span class='fl'>0</span>) {
+  <span class='fu'>read_lst</span>(<span class='kw'>elstfile</span>)
+}
+</div><div class='output co'>#&gt;       name                           below unit_class           above
+#&gt; 1   TST::1                          TST::2    context            &lt;NA&gt;
+#&gt; 2   TST::2                  TST::3,TST::41    context          TST::1
+#&gt; 3  TST::27                 TST::28,TST::29    context            &lt;NA&gt;
+#&gt; 4  TST::28                         TST::30    context         TST::27
+#&gt; 5  TST::29                         TST::30    context         TST::27
+#&gt; 6   TST::3                          TST::4    context          TST::2
+#&gt; 7  TST::30                         TST::70    context TST::28,TST::29
+#&gt; 8  TST::35                            &lt;NA&gt;    context TST::44,TST::54
+#&gt; 9   TST::4                            &lt;NA&gt;    context          TST::3
+#&gt; 10 TST::41                            &lt;NA&gt;    context  TST::2,TST::52
+#&gt; 11 TST::42                         TST::70    context         TST::52
+#&gt; 12 TST::43                            &lt;NA&gt;    context         TST::52
+#&gt; 13 TST::44                         TST::35    context         TST::52
+#&gt; 14 TST::52 TST::41,TST::42,TST::43,TST::44    context         TST::53
+#&gt; 15 TST::53                         TST::52    context            &lt;NA&gt;
+#&gt; 16 TST::54                         TST::35    context            &lt;NA&gt;
+#&gt; 17 TST::70                            &lt;NA&gt;    context TST::30,TST::42</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
