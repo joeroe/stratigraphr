@@ -18,6 +18,10 @@
 #'   the stratum and the attributes associated with it (typically "above",
 #'   "contemporary_with", "equal_to" and "below").
 #'
+#' @details
+#' This function supports both the original LST format used by BASP Harris and
+#' the "extended" format used by ArchEd and Stratify.
+#'
 #' @references
 #' <http://archaeologic.al/wiki/Harris_Matrix#LST>
 #'
@@ -26,22 +30,32 @@
 #' @export
 #'
 #' @examples
-#' # Download an example LST file
+#' # Read a BASP Harris LST file
 #' lsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"
 #' lstfile <- fs::file_temp(ext = "lst")
 #' if(download.file(lsturl, lstfile) == 0) {
 #'   read_lst(lstfile)
 #' }
+#'
+#' # Read a Stratify 'extended' LST file
+#' elsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/stratify.lst"
+#' elstfile <- fs::file_temp(ext = "lst")
+#' if(download.file(elsturl, elstfile) == 0) {
+#'   read_lst(elstfile)
+#' }
 read_lst <- function(file, locale = readr::default_locale()) {
-  # TODO: Add type checking
+  # TODO: Add type checking/validation
   lst <- readr::read_lines(file, locale = locale)
 
+  # Extract header
   header <- lst_extract_header(lst)
 
-  # Split into chunks of 5 lines per stratum
-  # TODO: May be a bad assumption for "extended" LST files?
+  # Split by stratum. A line that starts with a non-whitespace character is the
+  # start of a new stratum.
   strata <- lst[4:length(lst)]
-  strata <- split(strata, ceiling(seq_along(strata) / 5))
+  strata <- split(strata, cumsum(stringr::str_detect(strata, "^\\s", negate = TRUE)))
+
+  # Extract strata as data frame and return
   strata <- purrr::map_dfr(strata, lst_extract_stratum)
 
   attr(strata, "dataset_name") <- header$dataset_name
@@ -87,7 +101,7 @@ lst_extract_stratum <- function(stratum) {
   # TODO: Add type checking
   # TODO: Extract name, label and site code separately – need some test data
   name <- stratum[1]
-  attrs <- purrr::map_dfc(stratum[2:5], lst_extract_attribute)
+  attrs <- purrr::map_dfc(stratum[2:length(stratum)], lst_extract_attribute)
 
   stratum <- cbind(
     name = name,
@@ -109,13 +123,14 @@ lst_extract_attribute <- function(attr) {
 
   # Extract attribute name and value
   attr <- stringr::str_trim(attr)
-  attr <- stringr::str_split(attr, stringr::coll(":"))
+  attr <- stringr::str_split(attr, stringr::coll(":"), n = 2)
   attr <- unlist(attr)
   name <- attr[1]
   value <- attr[2]
 
   # Normalise attribute names for R
   name <- stringr::str_replace_all(name, stringr::coll(" "), "_")
+  name <- stringr::str_to_lower(name)
 
   # Remove whitespace from values
   value <- stringr::str_remove_all(value, stringr::coll(" "))

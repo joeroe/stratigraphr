@@ -22,12 +22,23 @@ the stratum and the attributes associated with it (typically "above",
 Reads stratigraphic data in LST format (used by BASP Harris, Stratify, and
 ArchEd) into a data frame.
 }
+\details{
+This function supports both the original LST format used by BASP Harris and
+the "extended" format used by ArchEd and Stratify.
+}
 \examples{
-# Download an example LST file
+# Read a BASP Harris LST file
 lsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/bonn.lst"
 lstfile <- fs::file_temp(ext = "lst")
 if(download.file(lsturl, lstfile) == 0) {
   read_lst(lstfile)
+}
+
+# Read a Stratify 'extended' LST file
+elsturl <- "https://raw.githubusercontent.com/lparchaeology/harris2graph/master/stratify.lst"
+elstfile <- fs::file_temp(ext = "lst")
+if(download.file(elsturl, elstfile) == 0) {
+  read_lst(elstfile)
 }
 }
 \references{
