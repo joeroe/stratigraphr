@@ -6,6 +6,7 @@
   * Type conversion functions for `cal` objects
   * New `vignette("tidy_radiocarbon")`
 * **Breaking change**: `cal()` and `sum()` renamed `c14_calibrate` and `c14_sum` and now return `cal` objects.
+* Fixed read_lst() when reading Stratify 'extended' LST files
 * Added a `NEWS.md` file to track changes to the package.
 
 # stratigraphr 0.2.0
