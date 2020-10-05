@@ -21,7 +21,7 @@ A \code{calGrid} object containing the summed probability distribution.
 \description{
 A wrapper for \code{\link[rcarbon:spd]{rcarbon::spd()}} that takes a list of calibrated dates rather
 than a \code{CalDates} object. This allows you to use the output of \code{\link[=c14_calibrate]{c14_calibrate()}} and
-take advantage of tidy summary syntax (\url{dplyr::group_by}, etc.)
+take advantage of tidy summary syntax (\code{\link[dplyr:group_by]{dplyr::group_by()}}, etc.)
 }
 \details{
 Unlike \code{\link[rcarbon:spd]{rcarbon::spd()}}, this function will attempt to guess an appropriate
