@@ -94,3 +94,33 @@ strat_is_valid <- function(stratigraph, warn = TRUE) {
     return(TRUE)
   }
 }
+
+
+# Validation functions ----------------------------------------------------
+
+#' Are two relation vectors mirrored?
+#'
+#' Checks whether one vector of relations is the inverse of another. Typically
+#' used to confirm that "above" and "below" columns match and will result in
+#' the same stratigraphic graph.
+#'
+#' @param units      Vector of unit labels.
+#' @param relation1  First vector of relations.
+#' @param relation2  Second vector of relations.
+#'
+#' @return
+#' `TRUE` or `FALSE`
+#'
+#' @export
+#'
+#' @examples
+#' data("harris12")
+#' strat_is_mirror(harris12$context, harris12$above, harris12$below)
+#' @importFrom rlang .data
+strat_is_mirror <- function(units, relation1, relation2) {
+  edges1 <- strat_connect(units, relation1, "above")
+  edges2 <- strat_connect(units, relation2, "below")
+  edges1 <- dplyr::arrange(edges1, .data$to, .data$from)
+  edges2 <- dplyr::arrange(edges2, .data$to, .data$from)
+  return(all(edges1 == edges2))
+}

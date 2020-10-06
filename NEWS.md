@@ -11,6 +11,8 @@
   * Removed the notion of a "type" of `stratigraph()`.
   * `stratigraph()` will now return a graph even if it is not stratigraphically valid.
   * Renamed `vignette("harris")` → `vignette("stratigraph")`
+* Expanded the `stratigraph` interface, adding:
+  * Utility functions for validating stratigraphies: `strat_is_mirror()`
 * Fixed read_lst() when reading Stratify 'extended' LST files
 * Added a `NEWS.md` file to track changes to the package.
 
