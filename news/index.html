@@ -108,7 +108,7 @@
       <a href="../articles/cql.html">Chronological Query Language (CQL)</a>
     </li>
     <li>
-      <a href="../articles/harris.html">Harris Matrices</a>
+      <a href="../articles/stratigraph.html">Stratigraphic graphs</a>
     </li>
     <li>
       <a href="../articles/tidy_radiocarbon.html">Tidy radiocarbon analysis</a>
@@ -158,6 +158,19 @@
 </li>
 <li>
 <strong>Breaking change</strong>: <code><a href="../reference/cal.html">cal()</a></code> and <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
+<li>
+<strong>Breaking changes</strong> to <code>stratigraph</code> interface:
+<ul>
+<li>Renamed functions: <code>harris()</code> → <code><a href="../reference/strat_connect.html">strat_connect()</a></code>, <code>is_valid_harris()</code> → <code><a href="../reference/strat_is_valid.html">strat_is_valid()</a></code>
+</li>
+<li>Removed the notion of a “type” of <code><a href="../reference/stratigraph.html">stratigraph()</a></code>.</li>
+<li>
+<code><a href="../reference/stratigraph.html">stratigraph()</a></code> will now return a graph even if it is not stratigraphically valid.</li>
+<li>Renamed <code>vignette("harris")</code> → <code><a href="../articles/stratigraph.html">vignette("stratigraph")</a></code>
+</li>
+</ul>
+</li>
+<li>Fixed read_lst() when reading Stratify ‘extended’ LST files</li>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 </ul>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stratigraphic graphs — stratigraph • stratigraphr</title>
+<title>Construct a stratigraphic graph — stratigraph • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Stratigraphic graphs — stratigraph" />
-<meta property="og:description" content="Stratigraphic graphs" />
+<meta property="og:title" content="Construct a stratigraphic graph — stratigraph" />
+<meta property="og:description" content="Takes a data frame describing stratigraphic units and relations and turns
+it into a graph representation." />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -109,7 +110,7 @@
       <a href="../articles/cql.html">Chronological Query Language (CQL)</a>
     </li>
     <li>
-      <a href="../articles/harris.html">Harris Matrices</a>
+      <a href="../articles/stratigraph.html">Stratigraphic graphs</a>
     </li>
     <li>
       <a href="../articles/tidy_radiocarbon.html">Tidy radiocarbon analysis</a>
@@ -140,37 +141,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stratigraphic graphs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/graph.R'><code>R/graph.R</code></a></small>
+    <h1>Construct a stratigraphic graph</h1>
+    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/stratigraph.R'><code>R/stratigraph.R</code></a></small>
     <div class="hidden name"><code>stratigraph.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Stratigraphic graphs</p>
+    <p>Takes a data frame describing stratigraphic units and relations and turns
+it into a graph representation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stratigraph</span>(<span class='kw'>data</span>, <span class='kw'>context</span>, <span class='kw'>relation</span>, type = <span class='st'>"harris"</span>)</pre>
+    <pre class="usage"><span class='fu'>stratigraph</span>(<span class='kw'>data</span>, <span class='kw'>label</span>, <span class='kw'>relation</span>, direction = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"above"</span>, <span class='st'>"below"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p><code>tibble</code> or <code>data.frame</code> of contexts and the stratigraphic
-relationships between them.</p></td>
+      <td><p>Data frame of stratigraphic units, containing at least a unique
+label column and a column describing stratigraphic relations.</p></td>
     </tr>
     <tr>
-      <th>context</th>
-      <td><p><code>character</code>. Name of the column containing context labels (nodes)</p></td>
+      <th>label</th>
+      <td><p>Name of the column containing labels of the stratigraphic units.</p></td>
     </tr>
     <tr>
       <th>relation</th>
-      <td><p><code>character</code>. Name of the column describing relations (edges)
-between contexts</p></td>
+      <td><p>Name of the column describing the stratigraphic relations
+between units.</p></td>
     </tr>
     <tr>
-      <th>type</th>
-      <td><p>Type of graph. Currently only "harris" is supported.</p></td>
+      <th>direction</th>
+      <td><p>Direction described by <code>relation</code>, i.e. are the units in
+that column "above" or "below" the ones in units. Default: "above".</p></td>
     </tr>
     </table>
 

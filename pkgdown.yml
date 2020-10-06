@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   cql: cql.html
-  harris: harris.html
+  stratigraph: stratigraph.html
   tidy_radiocarbon: tidy_radiocarbon.html
-last_built: 2020-10-05T14:31Z
+last_built: 2020-10-06T07:19Z
 

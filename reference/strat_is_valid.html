@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert an object to a cal object — as_cal • stratigraphr</title>
+<title>Is an object a valid stratigraphic graph? — strat_is_valid • stratigraphr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,15 +46,8 @@
 
 
 
-<meta property="og:title" content="Convert an object to a cal object — as_cal" />
-<meta property="og:description" content="as_cal() converts objects from other packages that represent calibrated
-radiocarbon dates to cal objects.
-Methods are currently implemented for:
-CalDates: from rcarbon::calibrate()
-
-
-These functions are intended for complex S3 objects from other packages.
-See cal() for a more generic constructor, e.g. using a data frame." />
+<meta property="og:title" content="Is an object a valid stratigraphic graph? — strat_is_valid" />
+<meta property="og:description" content="Is an object a valid stratigraphic graph?" />
 <meta property="og:image" content="/logo.svg" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@joeroe90" />
@@ -147,47 +140,40 @@ See cal() for a more generic constructor, e.g. using a data frame." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert an object to a cal object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/cal.R'><code>R/cal.R</code></a></small>
-    <div class="hidden name"><code>as_cal.Rd</code></div>
+    <h1>Is an object a valid stratigraphic graph?</h1>
+    <small class="dont-index">Source: <a href='https://github.com/joeroe/stratigraphr/blob/master/R/stratigraph.R'><code>R/stratigraph.R</code></a></small>
+    <div class="hidden name"><code>strat_is_valid.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>as_cal()</code> converts objects from other packages that represent calibrated
-radiocarbon dates to <code>cal</code> objects.
-Methods are currently implemented for:</p><ul>
-<li><p><code>CalDates</code>: from <code><a href='https://rdrr.io/pkg/rcarbon/man/calibrate.html'>rcarbon::calibrate()</a></code></p></li>
-</ul>
-
-<p>These functions are intended for complex S3 objects from other packages.
-See <code><a href='cal.html'>cal()</a></code> for a more generic constructor, e.g. using a data frame.</p>
+    <p>Is an object a valid stratigraphic graph?</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_cal</span>(<span class='kw'>x</span>)
-
-<span class='co'># S3 method for CalDates</span>
-<span class='fu'>as_cal</span>(<span class='kw'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>strat_is_valid</span>(<span class='kw'>stratigraph</span>, warn = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>object to be converted to a <code>cal</code> object.</p></td>
+      <th>stratigraph</th>
+      <td><p>A <code>stratigraph</code> object (see <code><a href='stratigraph.html'>stratigraph()</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>warn</th>
+      <td><p>Display warnings for invalid graphs? Default: <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>cal</code> object: a data frame with two columns, <code>year</code> and <code>p</code>, representing
-the calibrated probability distribution. All other values are stored as
-attributes and can be accessed with <code><a href='cal_metadata.html'>cal_metadata()</a></code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p><code>TRUE</code> or <code>FALSE</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p>Other functions for working with <code>cal</code> objects: 
-<code><a href='as.CalDates.cal.html'>as.CalDates.cal</a>()</code>,
-<code><a href='cal_metadata.html'>cal_metadata</a>()</code>,
-<code><a href='cal.html'>cal</a>()</code></p></div>
+    <p>Checks whether a stratigraph object is a valid stratigraphic graph. Currently
+looks for:</p><ul>
+<li><p>Whether the graph contains cycles</p></li>
+</ul>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
