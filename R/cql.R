@@ -140,40 +140,46 @@ cql_options <- function(bcad = TRUE,
                         year = 1950.5,
                         ...) {
   options <- as.list(match.call())
-  options <- options[2:length(options)]
 
-  strings <- sapply(options, is.character)
-  options[strings] <- paste0("\"", options[strings], "\"")
+  if (length(options) > 1) {
+    options <- options[2:length(options)]
 
-  names(options) <- dplyr::recode(
-    names(options),
-    bcad = "BCAD",
-    convergence_data = "ConvergenceData",
-    curve = "Curve",
-    cubic = "Cubic",
-    ensembles = "Ensembles",
-    floruit = "Floruit",
-    intercept = "Intercept",
-    k_iterations = "kInterations",
-    plus_minus = "PlusMinus",
-    raw_data = "RawData",
-    resolution = "Resolution",
-    round = "Round",
-    round_by = "RoundBy",
-    sd1 = "SD1",
-    sd2 = "SD2",
-    sd3 = "SD3",
-    uniform_span_prior = "UniformSpanPrior",
-    use_f14c = "UseF14C",
-    year = "Year"
-  )
+    strings <- sapply(options, is.character)
+    options[strings] <- paste0("\"", options[strings], "\"")
 
-  cql <- paste(names(options), options, sep = " = ")
-  cql <- paste(cql, collapse = ";\n")
-  cql <- paste0("Options()\n",
-                "{\n",
-                cql, ";",
-                "\n};")
+    names(options) <- dplyr::recode(
+      names(options),
+      bcad = "BCAD",
+      convergence_data = "ConvergenceData",
+      curve = "Curve",
+      cubic = "Cubic",
+      ensembles = "Ensembles",
+      floruit = "Floruit",
+      intercept = "Intercept",
+      k_iterations = "kInterations",
+      plus_minus = "PlusMinus",
+      raw_data = "RawData",
+      resolution = "Resolution",
+      round = "Round",
+      round_by = "RoundBy",
+      sd1 = "SD1",
+      sd2 = "SD2",
+      sd3 = "SD3",
+      uniform_span_prior = "UniformSpanPrior",
+      use_f14c = "UseF14C",
+      year = "Year"
+    )
+
+    cql <- paste(names(options), options, sep = " = ")
+    cql <- paste(cql, collapse = ";\n")
+    cql <- paste0("Options()\n",
+                  "{\n",
+                  cql, ";",
+                  "\n};")
+  }
+  else {
+    cql <- "Options();"
+  }
 
   cql <- as_cql(cql)
   return(cql)
