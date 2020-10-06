@@ -1,3 +1,13 @@
+test_that("stratigraphs constructed from above and below are isomorphic", {
+  data("harris12")
+  h12_above <- stratigraph(harris12, "context", "above", "above")
+  h12_below <- stratigraph(harris12, "context", "below", "below")
+
+  expect_true(
+    tidygraph::with_graph(h12_above, tidygraph::graph_is_isomorphic_to(h12_below))
+  )
+})
+
 test_that("strat_is_valid() returns TRUE for the harris12 dataset", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
