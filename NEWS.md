@@ -6,6 +6,11 @@
   * Type conversion functions for `cal` objects
   * New `vignette("tidy_radiocarbon")`
 * **Breaking change**: `cal()` and `sum()` renamed `c14_calibrate` and `c14_sum` and now return `cal` objects.
+* **Breaking changes** to `stratigraph` interface:
+  * Renamed functions: `harris()` → `strat_connect()`, `is_valid_harris()` → `strat_is_valid()`
+  * Removed the notion of a "type" of `stratigraph()`.
+  * `stratigraph()` will now return a graph even if it is not stratigraphically valid.
+  * Renamed `vignette("harris")` → `vignette("stratigraph")`
 * Fixed read_lst() when reading Stratify 'extended' LST files
 * Added a `NEWS.md` file to track changes to the package.
 

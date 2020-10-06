@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 stratigraphr is a tidy framework for working with archaeological stratigraphy and chronology in R.
-It includes tools for reading, analysing, and visualising stratigraphies ("Harris matrices") and sequences as directed graphs;
+It includes tools for reading, analysing, and visualising stratigraphies (Harris matrices) and sequences as directed graphs;
 helper functions for using radiocarbon dates in a tidy data analysis; 
 and an R interface to OxCal's Chronological Query Language (CQL).
 
@@ -26,6 +26,6 @@ It is functional, but many features are missing and future versions are likely t
 
 ## Usage
 
-* Graph-bases stratigraphic analysis: see `vignette("harris")`.
+* Graph-bases stratigraphic analysis: see `vignette("stratigraph")`.
 * Tidy analysis of radiocarbon dates: see `vignette("tidy_radiocarbon")`.
 * Chronological query language: see `vignette("cql")`.

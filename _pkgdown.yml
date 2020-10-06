@@ -9,7 +9,7 @@ template:
       card: summary
 
 reference:
-- title: "Read/write"
+- title: "Read and write"
   desc: "Functions for reading and writing stratigraphic and chronological data."
 - contents:
   - starts_with("read_")
@@ -18,8 +18,7 @@ reference:
   desc: "Functions for graph-based analysis of stratigraphy."
 - contents:
   - stratigraph
-  - harris
-  - is_valid_harris
+  - starts_with("strat")
 - title: "Tidy radiocarbon"
   desc: "Functions for working with radiocarbon data in a tidy framework."
 - contents:
