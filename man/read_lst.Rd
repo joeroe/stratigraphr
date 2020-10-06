@@ -4,19 +4,38 @@
 \alias{read_lst}
 \title{Read an LST file}
 \usage{
-read_lst(file, locale = readr::default_locale())
+read_lst(file, split = TRUE, sep = ",", locale = readr::default_locale())
 }
 \arguments{
 \item{file}{Path to an LST file.}
 
+\item{split}{Controls how attributes that contain multiple values are
+handled. If \code{TRUE}, all attributes except \code{name} will be split if their
+values contain the character specified by \code{sep}. If \code{FALSE}, no
+splitting will be done. Alternatively, specify a vector of column names
+(corresponding to LST attribute names, see details) that should be split.}
+
+\item{sep}{Delimiter used to separate multiple values in attributes.
+multiple values. Ignored if \code{split = FALSE}. Default: ",".}
+
 \item{locale}{\code{\link[readr:locale]{readr::locale()}} object specifying the character encoding and
 other region-specific settings used in the file. Defaults to
-\code{\link[readr:locale]{readr::default_locale()}}, which should be fine in most cases.}
+\code{\link[readr:locale]{readr::default_locale()}}.}
 }
 \value{
 A data frame. Each row represents one stratum. Columns contain the name of
 the stratum and the attributes associated with it (typically "above",
 "contemporary_with", "equal_to" and "below").
+
+Attribute names are standardised when read into column names. Specifically,
+they are transformed to lower case and spaces are replaced with an underscore
+(_).
+
+Splitting multiple values into vectors is useful if the output is to be used
+to construct a stratigraphic graph with \code{\link[=stratigraph]{stratigraph()}}, but will convert
+affected columns from atomic vectors to lists, which can make them awkward
+to work with in other contexts. Set \code{split = FALSE} to avoid this. You can
+manually split them later with \code{\link[stringr:str_split]{stringr::str_split()}}.
 }
 \description{
 Reads stratigraphic data in LST format (used by BASP Harris, Stratify, and
