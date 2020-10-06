@@ -13,17 +13,16 @@ cql_c_date(name, date, error)
 
 cql_r_f14c(name, date, error)
 
-cql_date(name, cql)
+cql_date(name, date)
 }
 \arguments{
 \item{name}{Character. Date label(s), usually a lab code.}
 
-\item{date}{Integer. Date or dates expressed in radiocarbon years (\code{cql_r_date}),
-F14C (\code{cql_f14c_date}) or calendar years (\code{cql_c_date}). See details.}
+\item{date}{Numeric. Date or dates expressed in radiocarbon years (\code{cql_r_date()}),
+F14C (\code{cql_f14c_date()}), calendar years (\code{cql_c_date()}), or
+OxCal's internal format (\code{cql_date()}) See details.}
 
 \item{error}{Integer. Uncertainty associated with the date(s).}
-
-\item{cql}{\code{cql} object. Expression to be converted to a Date.}
 }
 \value{
 A \code{cql} object, or a list of \code{cql} objects if the arguments are vectors.
@@ -33,9 +32,8 @@ The CQL commands \code{R_Date}, \code{F14C_Date}, \code{C_Date} and \code{Date} 
 describe individual dated events in a model. \code{R_Date} and \code{F14C_Date}
 represent radiocarbon dates expressed in radiocarbon years (the conventional
 radiocarbon age, CRA) or \emph{fraction modern} (F14C) respectively.
-\code{C_Date} represents a calendar date. \code{Date} is a type conversion function
-which coerces other CQL expressions (e.g. describing a probability
-distribution) to a date.
+\code{C_Date} represents a calendar date. \code{Date} directly specifies a date in
+OxCal's internal format.
 }
 \details{
 The era expected for calendar dates (BP or BC/AD) depends on a global option
@@ -43,6 +41,9 @@ in OxCal, which defaults to BC/AD. BC dates are specified as negative values.
 
 F14C measurements are recommended for modern, "post-bomb" radiocarbon dates
 \insertCite{Reimer2004-yl}{stratigraphr}.
+
+OxCal's internal date format, used with \code{Date()}, is a decimal Gregorian
+year, for details see: \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html}
 }
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#date}

@@ -194,15 +194,14 @@ cql_options <- function(bcad = TRUE,
 #' describe individual dated events in a model. `R_Date` and `F14C_Date`
 #' represent radiocarbon dates expressed in radiocarbon years (the conventional
 #' radiocarbon age, CRA) or *fraction modern* (F14C) respectively.
-#' `C_Date` represents a calendar date. `Date` is a type conversion function
-#' which coerces other CQL expressions (e.g. describing a probability
-#' distribution) to a date.
+#' `C_Date` represents a calendar date. `Date` directly specifies a date in
+#' OxCal's internal format.
 #'
 #' @param name  Character. Date label(s), usually a lab code.
-#' @param date  Integer. Date or dates expressed in radiocarbon years (`cql_r_date`),
-#'              F14C (`cql_f14c_date`) or calendar years (`cql_c_date`). See details.
+#' @param date  Numeric. Date or dates expressed in radiocarbon years (`cql_r_date()`),
+#'              F14C (`cql_f14c_date()`), calendar years (`cql_c_date()`), or
+#'              OxCal's internal format (`cql_date()`) See details.
 #' @param error Integer. Uncertainty associated with the date(s).
-#' @param cql   `cql` object. Expression to be converted to a Date.
 #'
 #' @details
 #' The era expected for calendar dates (BP or BC/AD) depends on a global option
@@ -210,6 +209,9 @@ cql_options <- function(bcad = TRUE,
 #'
 #' F14C measurements are recommended for modern, "post-bomb" radiocarbon dates
 #' \insertCite{Reimer2004-yl}{stratigraphr}.
+#'
+#' OxCal's internal date format, used with `Date()`, is a decimal Gregorian
+#' year, for details see: <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html>
 #'
 #' @return
 #' A `cql` object, or a list of `cql` objects if the arguments are vectors.
@@ -281,12 +283,10 @@ cql_r_f14c <- function(name, date, error) {
 
 #' @rdname cql_r_date
 #' @export
-cql_date <- function(name, cql) {
+cql_date <- function(name, date) {
   name <- as.character(name)
-  checkmate::assert_class(cql, "cql")
 
-  cql <- stringr::str_remove(cql, stringr::coll(";"))
-  cql <- glue::glue('Date("{name}", {cql});')
+  cql <- glue::glue('Date("{name}", {date});')
 
   cql <- as_cql(cql)
   return(cql)
