@@ -134,6 +134,8 @@ max.cal <- function(...) {
 #' Methods are currently implemented for:
 #'
 #' * `CalDates`: from [rcarbon::calibrate()]
+#' * `oxcAARCalibratedDatesList`: from [oxcAAR::oxcalCalibrate()]
+#' * `BchronCalibratedDates`: from [Bchron::BchronCalibrate()]
 #'
 #' These functions are intended for complex S3 objects from other packages.
 #' See [cal()] for a more generic constructor, e.g. using a data frame.
@@ -210,7 +212,25 @@ as.CalDates.cal <- function(x) {
   return(CalDates)
 }
 
+#' @rdname as_cal
+#' @export
+as_cal.oxcAARCalibratedDatesList <- function(x) {
+  # TODO: Metadata?
+  x %>%
+    oxcAAR::get_tidy_oxcalresult() %>%
+    purrr::pluck("raw_probabilities") %>%
+    purrr::map(~dplyr::rename(.x, year = .data$dates, p = .data$probabilities)) %>%
+    purrr::map(new_cal)
+}
 
+#' @rdname as_cal
+#' @export
+as_cal.BchronCalibratedDates <- function(x) {
+  #TODO: Metadata?
+  x %>%
+    purrr::map(~data.frame(year = .x$ageGrid, p = .x$densities)) %>%
+    purrr::map(new_cal)
+}
 
 # Utility functions -------------------------------------------------------
 

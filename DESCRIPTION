@@ -43,7 +43,8 @@ Suggests:
     readxl,
     oxcAAR,
     testthat,
-    covr
+    covr,
+    Bchron
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

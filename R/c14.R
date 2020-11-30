@@ -1,6 +1,6 @@
-# Tidy wrappers for the rcarbon package
+# Functions for tidy radiocarbon data
 
-#' Calibrate radiocarbon dates with tidy syntax
+#' Calibrate radiocarbon dates
 #'
 #' A thin wrapper of [rcarbon::calibrate()] that returns calibrated dates as a
 #' single list rather than a `CalDates`` object. Useful, for example, if you want
@@ -8,27 +8,49 @@
 #'
 #' @param cra     A vector of uncalibrated radiocarbon ages.
 #' @param error   A vector of standard errors associated with `cra`
-#' @param ...     Optional arguments passed to [rcarbon::calibrate()]
+#' @param ...     Optional arguments passed to calibration function.
+#' @param engine  Package to use for calibration, i.e. [rcarbon::calibrate()]
+#'                (`"rcarbon"`), [oxcAAR::oxcalCalibrate()] (`"OxCal"`), or
+#'                [Bchron::BchronCalibrate()] (`"Bchron"`). Default: `"rcarbon"`.
 #'
 #' @return A list of `cal` objects.
 #' @export
-#'
-#' @details
-#' See [rcarbon::calibrate()] for details of the calibration options.
-#'
-#' This function only supports the 'grid' method of representing calibrated
-#' dates (i.e. `calMatrix` is always set to `FALSE`) and the metadata usually
-#' returned by [rcarbon::calibrate()] is discarded.
 #'
 #' @family tidy radiocarbon functions
 #'
 #' @examples
 #' data("shub1_radiocarbon")
 #' shub1_radiocarbon %>%
-#'   dplyr::mutate(cal = c14_calibrate(cra, error, normalise = FALSE, verbose = FALSE))
-c14_calibrate <- function(cra, error, ...) {
-  CalDates <- rcarbon::calibrate(cra, error, calMatrix = FALSE, ...)
-  cals <- as_cal(CalDates)
+#'   dplyr::mutate(cal = c14_calibrate(cra, error))
+c14_calibrate <- function(cra, error, ...,
+                          engine = c("rcarbon", "OxCal", "Bchron")) {
+  engine <- rlang::arg_match(engine)
+
+  if (engine == "rcarbon") {
+    cals <- rcarbon::calibrate(cra, error, calMatrix = FALSE, ...)
+  }
+
+  else if (engine == "OxCal") {
+    if(!requireNamespace("oxcAAR")) {
+      stop('`engine` = "OxCal" requires package oxcAAR')
+    }
+    oxcAAR::quickSetupOxcal()
+    cals <- oxcAAR::oxcalCalibrate(cra, error, ...)
+  }
+
+  else if (engine == "Bchron") {
+    if(!requireNamespace("Bchron")) {
+      stop('`engine` = "Bchron" requires package Bchron')
+    }
+
+    cals <- Bchron::BchronCalibrate(cra, error, ...)
+  }
+
+  else {
+    stop('`engine` must be one of "rcarbon", "OxCal" or "Bchron"')
+  }
+
+  cals <- as_cal(cals)
   return(cals)
 }
 
