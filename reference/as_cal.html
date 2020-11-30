@@ -51,7 +51,7 @@
 radiocarbon dates to cal objects.
 Methods are currently implemented for:
 CalDates: from rcarbon::calibrate()
-oxcAARCalibratedDatesList: from oxcAAR::oxcalCalibrate()
+oxcAARCalibratedDate and oxcAARCalibratedDatesList: from oxcAAR::oxcalCalibrate()
 BchronCalibratedDates: from Bchron::BchronCalibrate()
 
 
@@ -159,7 +159,7 @@ See cal() for a more generic constructor, e.g. using a data frame." />
 radiocarbon dates to <code>cal</code> objects.
 Methods are currently implemented for:</p><ul>
 <li><p><code>CalDates</code>: from <code><a href='https://rdrr.io/pkg/rcarbon/man/calibrate.html'>rcarbon::calibrate()</a></code></p></li>
-<li><p><code>oxcAARCalibratedDatesList</code>: from <code><a href='https://rdrr.io/pkg/oxcAAR/man/oxcalCalibrate.html'>oxcAAR::oxcalCalibrate()</a></code></p></li>
+<li><p><code>oxcAARCalibratedDate</code> and <code>oxcAARCalibratedDatesList</code>: from <code><a href='https://rdrr.io/pkg/oxcAAR/man/oxcalCalibrate.html'>oxcAAR::oxcalCalibrate()</a></code></p></li>
 <li><p><code>BchronCalibratedDates</code>: from <code><a href='http://andrewcparnell.github.io/Bchron/reference/BchronCalibrate.html'>Bchron::BchronCalibrate()</a></code></p></li>
 </ul>
 
@@ -173,6 +173,9 @@ See <code><a href='cal.html'>cal()</a></code> for a more generic constructor, e.
 <span class='fu'>as_cal</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S3 method for oxcAARCalibratedDatesList</span>
+<span class='fu'>as_cal</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+
+<span class='co'># S3 method for oxcAARCalibratedDate</span>
 <span class='fu'>as_cal</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 
 <span class='co'># S3 method for BchronCalibratedDates</span>
