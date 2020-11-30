@@ -32,7 +32,6 @@ Imports:
     fs,
     glue,
     cli,
-    txtplot,
     rlang,
     stringr,
     tidyr,
