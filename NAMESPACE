@@ -2,6 +2,7 @@
 
 S3method(as_cal,BchronCalibratedDates)
 S3method(as_cal,CalDates)
+S3method(as_cal,oxcAARCalibratedDate)
 S3method(as_cal,oxcAARCalibratedDatesList)
 S3method(as_cql,default)
 S3method(as_cql,list)

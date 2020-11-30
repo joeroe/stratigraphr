@@ -4,6 +4,7 @@
 \alias{as_cal}
 \alias{as_cal.CalDates}
 \alias{as_cal.oxcAARCalibratedDatesList}
+\alias{as_cal.oxcAARCalibratedDate}
 \alias{as_cal.BchronCalibratedDates}
 \title{Convert an object to a cal object}
 \usage{
@@ -12,6 +13,8 @@ as_cal(x)
 \method{as_cal}{CalDates}(x)
 
 \method{as_cal}{oxcAARCalibratedDatesList}(x)
+
+\method{as_cal}{oxcAARCalibratedDate}(x)
 
 \method{as_cal}{BchronCalibratedDates}(x)
 }
@@ -29,7 +32,7 @@ radiocarbon dates to \code{cal} objects.
 Methods are currently implemented for:
 \itemize{
 \item \code{CalDates}: from \code{\link[rcarbon:calibrate]{rcarbon::calibrate()}}
-\item \code{oxcAARCalibratedDatesList}: from \code{\link[oxcAAR:oxcalCalibrate]{oxcAAR::oxcalCalibrate()}}
+\item \code{oxcAARCalibratedDate} and \code{oxcAARCalibratedDatesList}: from \code{\link[oxcAAR:oxcalCalibrate]{oxcAAR::oxcalCalibrate()}}
 \item \code{BchronCalibratedDates}: from \code{\link[Bchron:BchronCalibrate]{Bchron::BchronCalibrate()}}
 }
 

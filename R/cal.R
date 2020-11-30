@@ -42,6 +42,8 @@ cal <- function(x,
                 F14C = NA,
                 normalised = NA,
                 p_cutoff = NA) {
+  checkmate::assert_data_frame(x, ncols = 2)
+
   new_cal(x,
           era = era,
           lab_id = lab_id,
@@ -57,9 +59,16 @@ cal <- function(x,
 }
 
 new_cal <- function(x = data.frame(year = integer(0), p = numeric(0)), ...) {
-  checkmate::assert_data_frame(x, ncols = 2)
+  if (ncol(x) == 2) {
+    colnames(x) <- c("year", "p")
+  }
+  else if (ncol(x) == 3) {
+    colnames(x) <- c("year", "p", "bayesian")
+  }
+  else {
+    stop("`x` must be a data frame with 2 or 3 columns.")
+  }
 
-  colnames(x) <- c("year", "p")
   attrs <- list(...)
 
   class(x) <- c("cal", "data.frame")
@@ -79,6 +88,11 @@ new_cal <- function(x = data.frame(year = integer(0), p = numeric(0)), ...) {
 #' @rdname cal
 #' @export
 print.cal <- function(x, ...) {
+  #TODO: Method for Bayesian calibrated dates
+  if ("bayesian" %in% names(x)) {
+    x <- x[x$bayesian == "prior",]
+  }
+
   start <- max(x$year)
   end <- min(x$year)
   era <- attr(x, "era")
@@ -134,7 +148,7 @@ max.cal <- function(...) {
 #' Methods are currently implemented for:
 #'
 #' * `CalDates`: from [rcarbon::calibrate()]
-#' * `oxcAARCalibratedDatesList`: from [oxcAAR::oxcalCalibrate()]
+#' * `oxcAARCalibratedDate` and `oxcAARCalibratedDatesList`: from [oxcAAR::oxcalCalibrate()]
 #' * `BchronCalibratedDates`: from [Bchron::BchronCalibrate()]
 #'
 #' These functions are intended for complex S3 objects from other packages.
@@ -215,12 +229,22 @@ as.CalDates.cal <- function(x) {
 #' @rdname as_cal
 #' @export
 as_cal.oxcAARCalibratedDatesList <- function(x) {
+  purrr::map(x, as_cal)
+}
+
+#' @rdname as_cal
+#' @export
+as_cal.oxcAARCalibratedDate <- function(x) {
   # TODO: Metadata?
-  x %>%
-    oxcAAR::get_tidy_oxcalresult() %>%
-    purrr::pluck("raw_probabilities") %>%
-    purrr::map(~dplyr::rename(.x, year = .data$dates, p = .data$probabilities)) %>%
-    purrr::map(new_cal)
+  y <- x$raw_probabilities
+
+  if (!all(is.na(x$posterior_probabilities))) {
+    y <- rbind(data.frame(y, bayesian = "prior"),
+               data.frame(x$posterior_probabilities,
+                          bayesian = "posterior"))
+  }
+
+  new_cal(y)
 }
 
 #' @rdname as_cal
