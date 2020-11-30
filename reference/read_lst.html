@@ -151,7 +151,7 @@ ArchEd) into a data frame." />
 ArchEd) into a data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_lst</span>(<span class='kw'>file</span>, split = <span class='fl'>TRUE</span>, sep = <span class='st'>","</span>, locale = <span class='kw'>readr</span>::<span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>default_locale</a></span>())</pre>
+    <pre class="usage"><span class='fu'>read_lst</span><span class='op'>(</span><span class='va'>file</span>, split <span class='op'>=</span> <span class='cn'>TRUE</span>, sep <span class='op'>=</span> <span class='st'>","</span>, locale <span class='op'>=</span> <span class='fu'>readr</span><span class='fu'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/locale.html'>default_locale</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,8 +205,8 @@ the "extended" format used by ArchEd and Stratify.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example data from https://github.com/lparchaeology/harris2graph</span>
 <span class='co'># Simple LST (BASP Harris)</span>
-<span class='kw'>basp_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"bonn.lst"</span>, package = <span class='st'>"stratigraphr"</span>)
-<span class='fu'>read_lst</span>(<span class='kw'>basp_lst</span>)
+<span class='va'>basp_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"bonn.lst"</span>, package <span class='op'>=</span> <span class='st'>"stratigraphr"</span><span class='op'>)</span>
+<span class='fu'>read_lst</span><span class='op'>(</span><span class='va'>basp_lst</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 19 x 5</span><span>
 #&gt;    name  above     contemporary_with equal_to below    
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
@@ -230,8 +230,8 @@ the "extended" format used by ArchEd and Stratify.</p>
 #&gt; </span><span style='color: #555555;'>18</span><span> 54    </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> </span><span style='color: #BB0000;'>NA</span><span>                </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>19</span><span> 70    </span><span style='color: #555555;'>&lt;chr [2]&gt;</span><span> </span><span style='color: #BB0000;'>NA</span><span>                </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span></div><div class='input'>
 <span class='co'># Extended LST (Stratify, ArchEd)</span>
-<span class='kw'>stratify_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"stratify.lst"</span>, package = <span class='st'>"stratigraphr"</span>)
-<span class='fu'>read_lst</span>(<span class='kw'>stratify_lst</span>)
+<span class='va'>stratify_lst</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"stratify.lst"</span>, package <span class='op'>=</span> <span class='st'>"stratigraphr"</span><span class='op'>)</span>
+<span class='fu'>read_lst</span><span class='op'>(</span><span class='va'>stratify_lst</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 17 x 4</span><span>
 #&gt;    name    below     unit_class above    
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   

@@ -95,13 +95,14 @@
 
       
 
-      </header><script src="stratigraph_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="stratigraph_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="stratigraph_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="stratigraph_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Stratigraphic graphs</h1>
                         <h4 class="author">Joe Roe</h4>
             
-            <h4 class="date">2020-10-06</h4>
+            <h4 class="date">2020-11-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/joeroe/stratigraphr/blob/master/vignettes/stratigraph.Rmd"><code>vignettes/stratigraph.Rmd</code></a></small>
       <div class="hidden name"><code>stratigraph.Rmd</code></div>
@@ -110,20 +111,19 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://stratigraphr.joeroe.io">"stratigraphr"</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ggraph.data-imaginist.com">"ggraph"</a></span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://stratigraphr.joeroe.io">"stratigraphr"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggraph.data-imaginist.com">"ggraph"</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 
 <span class="co"># Example data after Harris 1979, Fig. 12</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"harris12"</span>)
-<span class="kw">h12_graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stratigraph.html">stratigraph</a></span>(<span class="kw">harris12</span>, <span class="st">"context"</span>, <span class="st">"above"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"harris12"</span><span class="op">)</span>
+<span class="va">h12_graph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stratigraph.html">stratigraph</a></span><span class="op">(</span><span class="va">harris12</span>, <span class="st">"context"</span>, <span class="st">"above"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html">ggraph</a></span>(<span class="kw">h12_graph</span>, layout = <span class="st">"sugiyama"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_elbow.html">geom_edge_elbow</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_text.html">geom_node_label</a></span>(<span class="fu">aes</span>(label = <span class="kw">context</span>), label.r = <span class="fu">unit</span>(<span class="fl">0</span>, <span class="st">"mm"</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/theme_graph.html">theme_graph</a></span>()
-</pre></div>
+<span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html">ggraph</a></span><span class="op">(</span><span class="va">h12_graph</span>, layout <span class="op">=</span> <span class="st">"sugiyama"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_elbow.html">geom_edge_elbow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_text.html">geom_node_label</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">context</span><span class="op">)</span>, label.r <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fl">0</span>, <span class="st">"mm"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/theme_graph.html">theme_graph</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="stratigraph_files/figure-html/harris12-graph-1.png" width="700"></p>
   </div>
 

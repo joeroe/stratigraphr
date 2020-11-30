@@ -95,7 +95,8 @@
 
       
 
-      </header><script src="tidy_radiocarbon_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="tidy_radiocarbon_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="tidy_radiocarbon_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="tidy_radiocarbon_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tidy radiocarbon analysis</h1>
@@ -108,9 +109,8 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://stratigraphr.joeroe.io">stratigraphr</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stratigraphr.joeroe.io">stratigraphr</a></span><span class="op">)</span></code></pre></div>
 <p>stratigraphr includes a framework for working with radiocarbon dates in a tidy data analysis.</p>
 <p>There are many existing packages that deal with radiocarbon data in R:</p>
 <ul>
@@ -146,9 +146,9 @@
 <li>Every cell is a single value.</li>
 </ol>
 <p>Conventionally-reported uncalibrated radiocarbon dates <span class="citation">(Millard 2014)</span> are readily adapted into this format. Each row should represent a single sample, with the most important variables being the laboratory code, conventional radiocarbon age (CRA), and standard error. Further information about each sample, from the laboratory or about its context, should be stored in additional commons. The <code>shub1-radiocarbon</code> dataset <span class="citation">(Richter et al. 2017)</span>, including with this package, is an example of tidy radiocarbon data in a <code>tibble</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"shub1_radiocarbon"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">shub1_radiocarbon</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"shub1_radiocarbon"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shub1_radiocarbon</span><span class="op">)</span>
 <span class="co">#&gt;        lab_id context   phase                           sample</span>
 <span class="co">#&gt; 1    RTD-7951      23 Phase 7         Context 126, Sample #465</span>
 <span class="co">#&gt; 2 Beta-112146      24 Phase 7                        SHUB1/105</span>
@@ -162,8 +162,7 @@
 <span class="co">#&gt; 3 Bolboschoenus sp. (tuber) 12289    46   FALSE</span>
 <span class="co">#&gt; 4 Zilla sp. (wood charcoal) 12332    46   FALSE</span>
 <span class="co">#&gt; 5 Bolboschoenus sp. (tuber) 12478    38   FALSE</span>
-<span class="co">#&gt; 6 Bolboschoenus sp. (tuber) 12322    38   FALSE</span>
-</pre></div>
+<span class="co">#&gt; 6 Bolboschoenus sp. (tuber) 12322    38   FALSE</span></code></pre></div>
 <p>Radiocarbon data from other sources might require some cleaning to get it into this format. <a href="https://tidyr.tidyverse.org/">tidyr</a> is a useful package for this (see <a href="https://github.com/joeroe/stratigraphr/blob/master/data-raw/shub1_radiocarbon.R">shub1_radiocarbon.R</a> for an example of how tidyr was used to clean the Shubayqa 1 dataset). Or if you are working with dates aggregated from multiple sources, <a href="https://docs.ropensci.org/c14bazAAR/">c14bazAAR</a> package provides many useful tools for automatically querying published databases and cleaning the results.</p>
 <p>For this vignette, we will stick with the shub1 dataset.</p>
 </div>
@@ -172,14 +171,14 @@
 <a href="#calibration" class="anchor"></a>Calibration</h2>
 <p>The first step in any analysis of radiocarbon data is likely to be calibration. In <code>dplyr</code>’s grammar, calibration is a <em>mutation</em> of the original (uncalibrated) data; it creates a new variable (the calibrated probability distribution) for each observation based on a transformation based on some of the original variables (<code>cra</code>, <code>error</code>) and a number of other, fixed parameters (e.g. the calibration curve). Performing calibration with <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> is useful because it allows us to keep the result of this transformation together with the input data and associated contextual information.</p>
 <p><code><a href="../reference/c14_calibrate.html">c14_calibrate()</a></code> is a wrapper for <code><a href="https://rdrr.io/pkg/rcarbon/man/calibrate.html">rcarbon::calibrate()</a></code> that can be used within <code>dplyr</code> statements:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span>
 
-<span class="kw">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(cal = <span class="fu"><a href="../reference/c14_calibrate.html">c14_calibrate</a></span>(<span class="kw">cra</span>, <span class="kw">error</span>, <span class="kw">lab_id</span>, verbose = <span class="fl">FALSE</span>)) <span class="op">-&gt;</span>
-  <span class="kw">shub1_radiocarbon</span>
+<span class="va">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>cal <span class="op">=</span> <span class="fu"><a href="../reference/c14_calibrate.html">c14_calibrate</a></span><span class="op">(</span><span class="va">cra</span>, <span class="va">error</span>, <span class="va">lab_id</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span>
+  <span class="va">shub1_radiocarbon</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">shub1_radiocarbon</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shub1_radiocarbon</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 9</span>
 <span class="co">#&gt;   lab_id   context phase  sample       material       cra error outlier cal     </span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;        &lt;int&gt; &lt;int&gt; &lt;lgl&gt;   &lt;list&gt;  </span>
@@ -188,8 +187,7 @@
 <span class="co">#&gt; 3 RTD-7317      26 Phase… Context 83,… Bolboschoen… 12289    46 FALSE   &lt;cal[,2…</span>
 <span class="co">#&gt; 4 RTD-7318      27 Phase… Context 86,… Zilla sp. (… 12332    46 FALSE   &lt;cal[,2…</span>
 <span class="co">#&gt; 5 RTD-7948      24 Phase… Context 120… Bolboschoen… 12478    38 FALSE   &lt;cal[,2…</span>
-<span class="co">#&gt; 6 RTD-7947      22 Phase… Context 166… Bolboschoen… 12322    38 FALSE   &lt;cal[,2…</span>
-</pre></div>
+<span class="co">#&gt; 6 RTD-7947      22 Phase… Context 166… Bolboschoen… 12322    38 FALSE   &lt;cal[,2…</span></code></pre></div>
 <p>The calibrated dates are stored as a <a href="https://tidyr.tidyverse.org/articles/nest.html">nested column</a> of <code>cal</code> objects (see below). To work with the probability distributions directly (e.g. to plot them with <code>ggplot2</code>) we will eventually need to expand this column into a “long” format, where each year from each sample is its own row, using <code>[tidyr::unnest()]</code>. But for now the nested table is helpful for keeping our master dataset readable.</p>
 <div id="the-cal-class" class="section level3">
 <h3 class="hasAnchor">
@@ -197,8 +195,8 @@
 <p>stratigraphr uses the <code>cal</code> S3 class as a generic representation of calibrated radiocarbon dates. This is a data.frame with two columns containing the range of calendar years (<code>year</code>) and associated probability densities (<code>p</code>). Metadata associated with the calibration, such as the era system and atmospheric curve used, are stored as attributes that can be accessed with <code><a href="../reference/cal_metadata.html">cal_metadata()</a></code>.</p>
 <p>Most other radiocarbon packages have similar structures for storing calibrated dates, differing primarily in how metadata is handled. The <code>c14_*</code> functions described here are designed to seamlessly convert between these object types when functions from other packages are invoked. However, if you need to, you can directly construct a <code>cal</code> object from a vector of probabilities with <code><a href="../reference/cal.html">cal()</a></code>, or from various other types of object with <code><a href="../reference/as_cal.html">as_cal()</a></code>.</p>
 <p>The <code>cal</code> class also has methods for pretty-printing calibrated dates:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">shub1_radiocarbon</span><span class="op">$</span><span class="kw">cal</span>[[<span class="fl">1</span>]]
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">shub1_radiocarbon</span><span class="op">$</span><span class="va">cal</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt; # Calibrated probability distribution from 14805 to 13796 cal BP</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;       +--+---------+--*-----+---------+---------+---------+----+</span>
@@ -220,36 +218,33 @@
 <span class="co">#&gt; calibration_range: 55000–0 BP</span>
 <span class="co">#&gt; normalised: TRUE</span>
 <span class="co">#&gt; F14C: FALSE</span>
-<span class="co">#&gt; p_cutoff: 1e-05</span>
-</pre></div>
+<span class="co">#&gt; p_cutoff: 1e-05</span></code></pre></div>
 <p>And calculating meaningful summary statistics, such as the minimum and maximum of the calibrated range:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># See https://github.com/joeroe/stratigraphr/issues/7</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># See https://github.com/joeroe/stratigraphr/issues/7</span>
 <span class="co"># min(shub1_radiocarbon$cal)</span>
-<span class="co"># max(shub1_radiocarbon$cal)</span>
-</pre></div>
+<span class="co"># max(shub1_radiocarbon$cal)</span></code></pre></div>
 </div>
 </div>
 <div id="visualising-radiocarbon-data-with-ggplot2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualising-radiocarbon-data-with-ggplot2" class="anchor"></a>Visualising radiocarbon data with <code>ggplot2</code>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="http://ggplot2.tidyverse.org">"ggplot2"</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://tidyr.tidyverse.org">"tidyr"</a></span>)
-<span class="kw">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">outlier</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">cal</span>)) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x = <span class="kw">year</span>, y = <span class="kw">p</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(<span class="kw">lab_id</span>), ncol = <span class="fl">1</span>, scales = <span class="st">"free_y"</span>, strip.position = <span class="st">"left"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(x = <span class="st">"cal BP"</span>, y = <span class="kw">NULL</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(axis.text.y = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
-        axis.ticks.y = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
-        panel.grid.major.y = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
-        panel.grid.minor.y = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(),
-        strip.text.y.left = <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span>(angle = <span class="fl">0</span>))
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyr.tidyverse.org">"tidyr"</a></span><span class="op">)</span>
+<span class="va">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outlier</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">cal</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">lab_id</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, strip.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"cal BP"</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        axis.ticks.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        panel.grid.minor.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        strip.text.y.left <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="tidy_radiocarbon_files/figure-html/plot-cal-1.png" width="700"></p>
 </div>
 <div id="modelling-radiocarbon-data" class="section level2">
@@ -259,13 +254,13 @@
 <h3 class="hasAnchor">
 <a href="#summed-probability-distributions" class="anchor"></a>Summed probability distributions</h3>
 <p>In <code>dplyr</code>’s grammar, summing radiocarbon dates is a <em>summary</em> of the original data, because it reduces the number of observations. <code>c14_sum</code> is a wrapper for <code><a href="https://rdrr.io/pkg/rcarbon/man/spd.html">rcarbon::spd()</a></code> that can be used in a <code>dplyr</code> statement.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">phase</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(spd = <span class="fu"><a href="../reference/c14_sum.html">c14_sum</a></span>(<span class="kw">cal</span>, verbose = <span class="fl">FALSE</span>), .groups = <span class="st">"drop_last"</span>) <span class="op">-&gt;</span>
-  <span class="kw">shub1_spd</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>spd <span class="op">=</span> <span class="fu"><a href="../reference/c14_sum.html">c14_sum</a></span><span class="op">(</span><span class="va">cal</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op">-&gt;</span>
+  <span class="va">shub1_spd</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">shub1_spd</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shub1_spd</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   phase   spd                       </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;list&gt;                    </span>
@@ -274,8 +269,7 @@
 <span class="co">#&gt; 3 Phase 3 &lt;CalGrid[,2] [473 × 2]&gt;   </span>
 <span class="co">#&gt; 4 Phase 4 &lt;CalGrid[,2] [1,230 × 2]&gt; </span>
 <span class="co">#&gt; 5 Phase 5 &lt;CalGrid[,2] [1,324 × 2]&gt; </span>
-<span class="co">#&gt; 6 Phase 6 &lt;CalGrid[,2] [1,123 × 2]&gt;</span>
-</pre></div>
+<span class="co">#&gt; 6 Phase 6 &lt;CalGrid[,2] [1,123 × 2]&gt;</span></code></pre></div>
 </div>
 <div id="bayesian-calibration" class="section level3">
 <h3 class="hasAnchor">
