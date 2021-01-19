@@ -26,6 +26,10 @@ reference:
   - as_cal
   - starts_with("as.CalDates")
   - starts_with("c14_")
+- title: "Stratigraphic models"
+  desc: "Functions for building stratigraphic models for Bayesian radiocarbon calibration."
+- contents:
+  - has_concept("stratigraphic model functions")
 - title: "CQL"
   desc: "An R interface to the Chronological Query Language (CQL)."
 - contents:
