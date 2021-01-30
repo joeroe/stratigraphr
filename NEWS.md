@@ -1,3 +1,5 @@
+# stratigraphr (development version)
+
 # stratigraphr 0.3.0
 
 * Expanded framework for tidy radiocarbon analysis, adding:
