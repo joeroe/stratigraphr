@@ -1,5 +1,7 @@
 # stratigraphr (development version)
 
+* Radiocarbon-related functions (`c14_*` and `cal_*`) have been moved to the [c14 package](https://github.com/joeroe/c14). The legacy versions in this package will issue a deprecation warning until the next version, when they will be removed.
+
 # stratigraphr 0.3.0
 
 * Expanded framework for tidy radiocarbon analysis, adding:

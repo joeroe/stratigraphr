@@ -24,6 +24,9 @@
 #'   dplyr::mutate(cal = c14_calibrate(cra, error))
 c14_calibrate <- function(cra, error, ...,
                           engine = c("rcarbon", "OxCal", "Bchron")) {
+  rlang::warn("stratigraphr::c14_calibrate() is deprecated. Please use c14::c14_calibrate() instead.",
+              class = "stratigraphr_deprecated_function")
+
   engine <- rlang::arg_match(engine)
 
   if (engine == "rcarbon") {
@@ -86,6 +89,9 @@ c14_calibrate <- function(cra, error, ...,
 #'   dplyr::summarise(SPD = c14_sum(cal, spdnormalised = TRUE, verbose = FALSE),
 #'                    .groups = "drop_last")
 c14_sum <- function(cal, time_range = NA, ...) {
+  rlang::warn("stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum() instead.",
+              class = "stratigraphr_deprecated_function")
+
   cal_dates <- as.CalDates.cal(cal)
 
   if(is.na(time_range)) {

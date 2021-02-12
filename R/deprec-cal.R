@@ -44,6 +44,9 @@ cal <- function(x,
                 p_cutoff = NA) {
   checkmate::assert_data_frame(x, ncols = 2)
 
+  rlang::warn("stratigraphr::cal() is deprecated. Please use c14::cal() instead.",
+              class = "stratigraphr_deprecated_function")
+
   new_cal(x,
           era = era,
           lab_id = lab_id,
@@ -226,7 +229,11 @@ max.cal <- function(...) {
 #' @family functions for working with `cal` objects
 #'
 #' @export
-as_cal <- function(x) UseMethod("as_cal")
+as_cal <- function(x) {
+  rlang::warn("stratigraphr::as_cal() is deprecated. Please use c14::as_cal() instead.",
+              class = "stratigraphr_deprecated_function")
+  UseMethod("as_cal")
+}
 
 #' @rdname as_cal
 #' @export
@@ -331,6 +338,8 @@ as_cal.BchronCalibratedDates <- function(x) {
 #'
 #' @export
 cal_metadata <- function(x) {
+  rlang::warn("stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.",
+              class = "stratigraphr_deprecated_function")
   attrs <- attributes(x)
   attrs$names <- NULL
   attrs$row.names <- NULL
