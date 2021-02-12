@@ -81,16 +81,19 @@ read_lst <- function(file, split = TRUE, sep = ",",
       cols_to_split <- split
     }
 
-    strata <- dplyr::mutate(strata, dplyr::across(tidyselect::all_of(cols_to_split),
-       ~if (any(stringr::str_detect(.x, stringr::coll(sep)), na.rm = TRUE)) {
-         stringr::str_split(.x, stringr::coll(sep))
-       }
-       else .x
-       ))
+    strata[cols_to_split] <- lapply(strata[cols_to_split], stringr::str_split,
+                                    pattern = stringr::coll(sep))
+
+    strata[cols_to_split] <- lapply(strata[cols_to_split], try_to_flatten)
   }
 
   attr(strata, "dataset_name") <- header$dataset_name
   return(strata)
+}
+
+try_to_flatten <- function(x) {
+  if (all(lengths(x) == 1)) unlist(x, recursive = FALSE)
+  else x
 }
 
 #' Extract header from an LST file
@@ -98,6 +101,7 @@ read_lst <- function(file, split = TRUE, sep = ",",
 #' @param lst Character vector of lines from an LST file (e.g. from [readr::read_lines()])
 #'
 #' @noRd
+#' @keywords internal
 lst_extract_header <- function(lst) {
   # TODO: Add type checking
   header <- lst[1:3]
@@ -120,6 +124,7 @@ lst_extract_header <- function(lst) {
 #' A named list of attributes.
 #'
 #' @noRd
+#' @keywords internal
 lst_extract_stratum <- function(stratum) {
   # TODO: Add type checking
   # TODO: Extract name, label and site code separately – need some test data
@@ -139,6 +144,7 @@ lst_extract_stratum <- function(stratum) {
 #' A named list with one element, i.e. `list(attribute = value)`.
 #'
 #' @noRd
+#' @keywords internal
 lst_extract_attribute <- function(attr) {
   checkmate::assert_character(attr, pattern = ".*:.*", len = 1)
 
