@@ -35,7 +35,8 @@ Imports:
     rlang,
     stringr,
     tidyr,
-    ggplot2
+    ggplot2,
+    tidyselect
 Suggests: 
     knitr,
     rmarkdown,

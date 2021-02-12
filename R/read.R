@@ -81,7 +81,7 @@ read_lst <- function(file, split = TRUE, sep = ",",
       cols_to_split <- split
     }
 
-    strata <- dplyr::mutate(strata, dplyr::across(dplyr::all_of(cols_to_split),
+    strata <- dplyr::mutate(strata, dplyr::across(tidyselect::all_of(cols_to_split),
        ~if (any(stringr::str_detect(.x, stringr::coll(sep)), na.rm = TRUE)) {
          stringr::str_split(.x, stringr::coll(sep))
        }
