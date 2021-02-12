@@ -15,7 +15,7 @@
 #'   splitting will be done. Alternatively, specify a vector of column names
 #'   (corresponding to LST attribute names, see details) that should be split.
 #' @param sep Delimiter used to separate multiple values in attributes.
-#'   multiple values. Ignored if `split = FALSE`. Default: ",".
+#'   multiple values. Ignored if `split = FALSE`. Default: `","`.
 #' @param locale [readr::locale()] object specifying the character encoding and
 #'   other region-specific settings used in the file. Defaults to
 #'   [readr::default_locale()].
@@ -85,9 +85,8 @@ read_lst <- function(file, split = TRUE, sep = ",",
        ~if (any(stringr::str_detect(.x, stringr::coll(sep)), na.rm = TRUE)) {
          stringr::str_split(.x, stringr::coll(sep))
        }
-       else {
-         return(.x)
-       }))
+       else .x
+       ))
   }
 
   attr(strata, "dataset_name") <- header$dataset_name

@@ -16,7 +16,7 @@ splitting will be done. Alternatively, specify a vector of column names
 (corresponding to LST attribute names, see details) that should be split.}
 
 \item{sep}{Delimiter used to separate multiple values in attributes.
-multiple values. Ignored if \code{split = FALSE}. Default: ",".}
+multiple values. Ignored if \code{split = FALSE}. Default: \code{","}.}
 
 \item{locale}{\code{\link[readr:locale]{readr::locale()}} object specifying the character encoding and
 other region-specific settings used in the file. Defaults to
