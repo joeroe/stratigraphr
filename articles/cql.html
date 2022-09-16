@@ -29,6 +29,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -41,23 +43,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">stratigraphr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -80,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/joeroe/stratigraphr/">
+  <a href="https://github.com/joeroe/stratigraphr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -101,218 +97,220 @@
       <h1 data-toc-skip>Chronological Query Language (CQL)</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/joeroe/stratigraphr/blob/master/vignettes/cql.Rmd"><code>vignettes/cql.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/joeroe/stratigraphr/blob/HEAD/vignettes/cql.Rmd" class="external-link"><code>vignettes/cql.Rmd</code></a></small>
       <div class="hidden name"><code>cql.Rmd</code></div>
 
     </div>
 
     
     
-<p>The Chronological Query Language (CQL) is a tool for formally describing chronological models <span class="citation">(Bronk Ramsey 1998)</span>. It is most commonly used to input data for Bayesian radiocarbon calibration in <a href="https://c14.arch.ox.ac.uk/oxcal.html">OxCal</a> <span class="citation">(Bronk Ramsey 2009)</span>. <code>stratigraphr</code> includes an R interface for CQL2, the version used in OxCal v3+.</p>
+<p>The Chronological Query Language (CQL) is a tool for formally describing chronological models <span class="citation">(Bronk Ramsey 1998)</span>. It is most commonly used to input data for Bayesian radiocarbon calibration in <a href="https://c14.arch.ox.ac.uk/oxcal.html" class="external-link">OxCal</a> <span class="citation">(Bronk Ramsey 2009)</span>. <code>stratigraphr</code> includes an R interface for CQL2, the version used in OxCal v3+.</p>
 <p>This vignette describes how to use this interface to generate CQL models in R.</p>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <ul>
-<li>Individual CQL commands (see <a href="https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html" class="uri">https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a>) are implemented as <code>cql_*</code> functions.</li>
+<li>Individual CQL commands (see <a href="https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html" class="external-link uri">https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a>) are implemented as <code>cql_*</code> functions.</li>
 <li>Use <code><a href="../reference/cql.html">cql()</a></code> to group together CQL functions or include arbitrary CQL code.</li>
-<li>Execute CQL scripts in OxCal using <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> or the <a href="https://CRAN.R-project.org/package=oxcAAR">oxcAAR package</a>.</li>
+<li>Execute CQL scripts in OxCal using <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> or the <a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR package</a>.</li>
 </ul>
 </div>
-<div id="writing-cql-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#writing-cql-models" class="anchor"></a>Writing CQL models</h2>
+<div class="section level2">
+<h2 id="writing-cql-models">Writing CQL models<a class="anchor" aria-label="anchor" href="#writing-cql-models"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://stratigraphr.joeroe.io">"stratigraphr"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://stratigraphr.joeroe.io" class="external-link">"stratigraphr"</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="generating-cql-models-from-other-types-of-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generating-cql-models-from-other-types-of-data" class="anchor"></a>Generating CQL models from other types of data</h2>
+<div class="section level2">
+<h2 id="generating-cql-models-from-other-types-of-data">Generating CQL models from other types of data<a class="anchor" aria-label="anchor" href="#generating-cql-models-from-other-types-of-data"></a>
+</h2>
 <p>Used in the simple way above, <code>stratigraphr</code>’s CQL interface offers little benefit over writing CQL directly. Its real power is in combining <code><a href="../reference/cql.html">cql()</a></code> with other R tools to build models based on other data.</p>
 <p>For the following examples, we will use stratigraphic and radiocarbon data from Shubayqa 1 <span class="citation">(Richter et al. 2017)</span>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"shub1"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"shub1_radiocarbon"</span><span class="op">)</span></code></pre></div>
-<div id="tabular-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tabular-data" class="anchor"></a>Tabular data</h3>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1_radiocarbon"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="tabular-data">Tabular data<a class="anchor" aria-label="anchor" href="#tabular-data"></a>
+</h3>
 <p>With radiocarbon and stratigraphic data in a tabular format, you can take advantage of <code>dplyr</code>’s powerful tools for data manipulation to build CQL models programmatically.</p>
-<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code> to concisely express a table of dates as CQL <code>R_Date</code> commands:</p>
+<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to concisely express a table of dates as CQL <code>R_Date</code> commands:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://purrr.tidyverse.org">"purrr"</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-
-<span class="va">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>r_date <span class="op">=</span> <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">cra</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">"r_date"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt;  // CQL2 generated by stratigraphr v0.3.0.9000</span>
-<span class="co">#&gt;  R_Date("RTD-7951", 12166, 55);</span>
-<span class="co">#&gt;  R_Date("Beta-112146", 12310, 60);</span>
-<span class="co">#&gt;  R_Date("RTD-7317", 12289, 46);</span>
-<span class="co">#&gt;  R_Date("RTD-7318", 12332, 46);</span>
-<span class="co">#&gt;  R_Date("RTD-7948", 12478, 38);</span>
-<span class="co">#&gt;  R_Date("RTD-7947", 12322, 38);</span>
-<span class="co">#&gt;  R_Date("RTD-7313", 12346, 46);</span>
-<span class="co">#&gt;  R_Date("RTD-7311", 12367, 65);</span>
-<span class="co">#&gt;  R_Date("RTD-7312", 12405, 50);</span>
-<span class="co">#&gt;  R_Date("RTD-7314", 12273, 48);</span>
-<span class="co">#&gt;  R_Date("RTD-7316", 12337, 46);</span>
-<span class="co">#&gt;  R_Date("RTD-7315", 12445, 70);</span>
-<span class="co">#&gt;  R_Date("RTK-6818", 12477, 76);</span>
-<span class="co">#&gt;  R_Date("RTK-6820", 12385, 75);</span>
-<span class="co">#&gt;  R_Date("RTK-6821", 12385, 78);</span>
-<span class="co">#&gt;  R_Date("RTK-6822", 12412, 79);</span>
-<span class="co">#&gt;  R_Date("RTK-6823", 12321, 78);</span>
-<span class="co">#&gt;  R_Date("RTK-6813", 12344, 85);</span>
-<span class="co">#&gt;  R_Date("RTK-6816", 12389, 78);</span>
-<span class="co">#&gt;  R_Date("RTK-6819", 11325, 74);</span>
-<span class="co">#&gt;  R_Date("RTK-6812", 11365, 72);</span>
-<span class="co">#&gt;  R_Date("RTK-6817", 11322, 75);</span>
-<span class="co">#&gt;  R_Date("RTD-8904", 10317, 38);</span>
-<span class="co">#&gt;  R_Date("RTK-6814", 10229, 70);</span>
-<span class="co">#&gt;  R_Date("RTD-8902", 10107, 53);</span>
-<span class="co">#&gt;  R_Date("RTD-8903", 10095, 52);</span>
-<span class="co">#&gt;  R_Date("RTK-6815", 1229, 54);</span></code></pre></div>
-<p>Or use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">dplyr::group_by()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">dplyr::summarise()</a></code> to build phase models. This is a three stage process, illustrated below with the phase model from Shubayqa 1:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://purrr.tidyverse.org" class="external-link">"purrr"</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>r_date <span class="op">=</span> <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">cra</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"r_date"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  // CQL2 generated by stratigraphr v0.3.0.9000</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7951", 12166, 55);</span></span>
+<span><span class="co">#&gt;  R_Date("Beta-112146", 12310, 60);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7317", 12289, 46);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7318", 12332, 46);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7948", 12478, 38);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7947", 12322, 38);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7313", 12346, 46);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7311", 12367, 65);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7312", 12405, 50);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7314", 12273, 48);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7316", 12337, 46);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-7315", 12445, 70);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6818", 12477, 76);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6820", 12385, 75);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6821", 12385, 78);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6822", 12412, 79);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6823", 12321, 78);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6813", 12344, 85);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6816", 12389, 78);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6819", 11325, 74);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6812", 11365, 72);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6817", 11322, 75);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-8904", 10317, 38);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6814", 10229, 70);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-8902", 10107, 53);</span></span>
+<span><span class="co">#&gt;  R_Date("RTD-8903", 10095, 52);</span></span>
+<span><span class="co">#&gt;  R_Date("RTK-6815", 1229, 54);</span></span></code></pre></div>
+<p>Or use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code> to build phase models. This is a three stage process, illustrated below with the phase model from Shubayqa 1:</p>
 <ol style="list-style-type: decimal">
 <li>Preprocess the dates, e.g. to remove outliers and order phases.</li>
 <li>Group dates by phase and summarise them with <code><a href="../reference/cql_phase.html">cql_phase()</a></code>.</li>
 <li>Group phases into a sequence, using <code>boundaries</code> to automatically add boundary constraints between them. If we had multiple independent sequences, we could include an additional grouping variable here, before concatenating them with <code><a href="../reference/cql.html">cql()</a></code>.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">shub1_radiocarbon</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outlier</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_phase.html">cql_phase</a></span><span class="op">(</span><span class="va">phase</span>, <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">cra</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_sequence.html">cql_sequence</a></span><span class="op">(</span><span class="st">"Shubayqa 1"</span>, <span class="va">cql</span>, boundaries <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">"cql"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">shub1_cql</span>
-
-<span class="va">shub1_cql</span>
-<span class="co">#&gt;  // CQL2 generated by stratigraphr v0.3.0.9000</span>
-<span class="co">#&gt;  Sequence("Shubayqa 1")</span>
-<span class="co">#&gt;  {</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 7")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTD-7951", 12166, 55);</span>
-<span class="co">#&gt;    R_Date("Beta-112146", 12310, 60);</span>
-<span class="co">#&gt;    R_Date("RTD-7317", 12289, 46);</span>
-<span class="co">#&gt;    R_Date("RTD-7318", 12332, 46);</span>
-<span class="co">#&gt;    R_Date("RTD-7948", 12478, 38);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 6")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTD-7947", 12322, 38);</span>
-<span class="co">#&gt;    R_Date("RTD-7313", 12346, 46);</span>
-<span class="co">#&gt;    R_Date("RTD-7311", 12367, 65);</span>
-<span class="co">#&gt;    R_Date("RTD-7312", 12405, 50);</span>
-<span class="co">#&gt;    R_Date("RTD-7314", 12273, 48);</span>
-<span class="co">#&gt;    R_Date("RTD-7316", 12337, 46);</span>
-<span class="co">#&gt;    R_Date("RTD-7315", 12445, 70);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 5")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTK-6818", 12477, 76);</span>
-<span class="co">#&gt;    R_Date("RTK-6820", 12385, 75);</span>
-<span class="co">#&gt;    R_Date("RTK-6821", 12385, 78);</span>
-<span class="co">#&gt;    R_Date("RTK-6822", 12412, 79);</span>
-<span class="co">#&gt;    R_Date("RTK-6823", 12321, 78);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 4")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTK-6813", 12344, 85);</span>
-<span class="co">#&gt;    R_Date("RTK-6816", 12389, 78);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 3")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTK-6819", 11325, 74);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 2")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTK-6812", 11365, 72);</span>
-<span class="co">#&gt;    R_Date("RTK-6817", 11322, 75);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;   Phase("Phase 1")</span>
-<span class="co">#&gt;   {</span>
-<span class="co">#&gt;    R_Date("RTD-8904", 10317, 38);</span>
-<span class="co">#&gt;    R_Date("RTK-6814", 10229, 70);</span>
-<span class="co">#&gt;    R_Date("RTD-8902", 10107, 53);</span>
-<span class="co">#&gt;    R_Date("RTD-8903", 10095, 52);</span>
-<span class="co">#&gt;   };</span>
-<span class="co">#&gt;   Boundary("");</span>
-<span class="co">#&gt;  };</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outlier</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_phase.html">cql_phase</a></span><span class="op">(</span><span class="va">phase</span>, <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">cra</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_sequence.html">cql_sequence</a></span><span class="op">(</span><span class="st">"Shubayqa 1"</span>, <span class="va">cql</span>, boundaries <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"cql"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">shub1_cql</span></span>
+<span></span>
+<span><span class="va">shub1_cql</span></span>
+<span><span class="co">#&gt;  // CQL2 generated by stratigraphr v0.3.0.9000</span></span>
+<span><span class="co">#&gt;  Sequence("Shubayqa 1")</span></span>
+<span><span class="co">#&gt;  {</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 7")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7951", 12166, 55);</span></span>
+<span><span class="co">#&gt;    R_Date("Beta-112146", 12310, 60);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7317", 12289, 46);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7318", 12332, 46);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7948", 12478, 38);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 6")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7947", 12322, 38);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7313", 12346, 46);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7311", 12367, 65);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7312", 12405, 50);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7314", 12273, 48);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7316", 12337, 46);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-7315", 12445, 70);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 5")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6818", 12477, 76);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6820", 12385, 75);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6821", 12385, 78);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6822", 12412, 79);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6823", 12321, 78);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 4")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6813", 12344, 85);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6816", 12389, 78);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 3")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6819", 11325, 74);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 2")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6812", 11365, 72);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6817", 11322, 75);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;   Phase("Phase 1")</span></span>
+<span><span class="co">#&gt;   {</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-8904", 10317, 38);</span></span>
+<span><span class="co">#&gt;    R_Date("RTK-6814", 10229, 70);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-8902", 10107, 53);</span></span>
+<span><span class="co">#&gt;    R_Date("RTD-8903", 10095, 52);</span></span>
+<span><span class="co">#&gt;   };</span></span>
+<span><span class="co">#&gt;   Boundary("");</span></span>
+<span><span class="co">#&gt;  };</span></span></code></pre></div>
 </div>
-<div id="stratigraphs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#stratigraphs" class="anchor"></a>Stratigraphs</h3>
+<div class="section level3">
+<h3 id="stratigraphs">Stratigraphs<a class="anchor" aria-label="anchor" href="#stratigraphs"></a>
+</h3>
 <p>…</p>
 </div>
 </div>
-<div id="running-cql-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#running-cql-models" class="anchor"></a>Running CQL models</h2>
+<div class="section level2">
+<h2 id="running-cql-models">Running CQL models<a class="anchor" aria-label="anchor" href="#running-cql-models"></a>
+</h2>
 <p>You can run models generated by <code><a href="../reference/cql.html">cql()</a></code> using the desktop or online versions of OxCal by simply copying the output into the program. Alternatively, use <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> to create a .oxcal file:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">oxcal_cql</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-001"</span>, <span class="fl">9100</span>, <span class="fl">30</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-002"</span>, <span class="fl">9200</span>, <span class="fl">30</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-003"</span>, <span class="fl">9300</span>, <span class="fl">30</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/write_oxcal.html">write_oxcal</a></span><span class="op">(</span><span class="va">oxcal_cql</span>, <span class="st">"cql.oxcal"</span><span class="op">)</span></code></pre></div>
-<p>You can also run OxCal directly through R using the <a href="https://CRAN.R-project.org/package=oxcAAR">oxcAAR</a> package. This depends on a local installation of OxCal. If you already have one installed, you can set the path to the executable using <code><a href="https://rdrr.io/pkg/oxcAAR/man/setOxcalExecutablePath.html">oxcAAR::setOxcalExecutablePath()</a></code>. Otherwise, use <code><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html">oxcAAR::quickSetupOxcal()</a></code> to download one, for example to a temporary directory:</p>
+<code class="sourceCode R"><span><span class="va">oxcal_cql</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-001"</span>, <span class="fl">9100</span>, <span class="fl">30</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-002"</span>, <span class="fl">9200</span>, <span class="fl">30</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-003"</span>, <span class="fl">9300</span>, <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/write_oxcal.html">write_oxcal</a></span><span class="op">(</span><span class="va">oxcal_cql</span>, <span class="st">"cql.oxcal"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also run OxCal directly through R using the <a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR</a> package. This depends on a local installation of OxCal. If you already have one installed, you can set the path to the executable using <code><a href="https://rdrr.io/pkg/oxcAAR/man/setOxcalExecutablePath.html" class="external-link">oxcAAR::setOxcalExecutablePath()</a></code>. Otherwise, use <code><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">oxcAAR::quickSetupOxcal()</a></code> to download one, for example to a temporary directory:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"oxcAAR"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html">quickSetupOxcal</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/file_temp.html">path_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>You can then use <code><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html">oxcAAR::executeOxcalScript()</a></code> to run the CQL script and <code><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html">oxcAAR::readOxcalOutput()</a></code> to read the output back into R.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"oxcAAR"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">quickSetupOxcal</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">path_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You can then use <code><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">oxcAAR::executeOxcalScript()</a></code> to run the CQL script and <code><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">oxcAAR::readOxcalOutput()</a></code> to read the output back into R.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html">executeOxcalScript</a></span><span class="op">(</span><span class="va">oxcal_cql</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html">readOxcalOutput</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span>
-  <span class="va">oxcal_output</span></code></pre></div>
-<p>You can parse the output with <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html">oxcAAR::parseOxcalOutput()</a></code> and visualise it using <code>oxcAAR</code>’s built-in plotting functions:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">executeOxcalScript</a></span><span class="op">(</span><span class="va">oxcal_cql</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">readOxcalOutput</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">oxcal_output</span></span></code></pre></div>
+<p>You can parse the output with <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code> and visualise it using <code>oxcAAR</code>’s built-in plotting functions:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">oxcal_parsed</span> <span class="op">&lt;-</span> <span class="fu">oxcAAR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html">parseOxcalOutput</a></span><span class="op">(</span><span class="va">oxcal_output</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/calcurve_plot.html">calcurve_plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">oxcal_parsed</span> <span class="op">&lt;-</span> <span class="fu">oxcAAR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">parseOxcalOutput</a></span><span class="op">(</span><span class="va">oxcal_output</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span></span>
+<span><span class="co">#&gt; use `guide = "none"` instead.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/calcurve_plot.html" class="external-link">calcurve_plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cql_files/figure-html/oxcaar-plot-1.png" width="700"><img src="cql_files/figure-html/oxcaar-plot-2.png" width="700"></p>
-<p>The current CRAN version of oxcAAR (v. 1.0.0) does not read the posterior probabilities produced by a model with Bayesian calibration, so to work with these you need to install the latest development version (<code>devtools::install_github("ISAAKiel/oxcAAR")</code>). With this, <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html">oxcAAR::parseOxcalOutput()</a></code> also contains the modelled results in <code>$posterior_sigma_ranges</code> and <code>$posterior_probabilities</code>. Again, you can quickly visualise these with the built-in plotting functions:</p>
+<p>The current CRAN version of oxcAAR (v. 1.0.0) does not read the posterior probabilities produced by a model with Bayesian calibration, so to work with these you need to install the latest development version (<code>devtools::install_github("ISAAKiel/oxcAAR")</code>). With this, <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code> also contains the modelled results in <code>$posterior_sigma_ranges</code> and <code>$posterior_probabilities</code>. Again, you can quickly visualise these with the built-in plotting functions:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Not run: slow</span>
-<span class="co"># shub1_oxcal &lt;- executeOxcalScript(shub1_cql)</span>
-<span class="co"># readOxcalOutput(shub1_oxcal) %&gt;% </span>
-<span class="co">#   parseOxcalOutput() %&gt;% </span>
-<span class="co">#   plot()</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Not run: slow</span></span>
+<span><span class="co"># shub1_oxcal &lt;- executeOxcalScript(shub1_cql)</span></span>
+<span><span class="co"># readOxcalOutput(shub1_oxcal) %&gt;% </span></span>
+<span><span class="co">#   parseOxcalOutput() %&gt;% </span></span>
+<span><span class="co">#   plot()</span></span></code></pre></div>
 </div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2 unnumbered">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references">
 <div id="ref-Bronk_Ramsey2009-yk">
-<p>Bronk Ramsey, Christopher. 2009. “Bayesian Analysis of Radiocarbon Dates.” <em>Radiocarbon</em> 51 (1): 337–60. <a href="https://doi.org/10.1017/S0033822200033865">https://doi.org/10.1017/S0033822200033865</a>.</p>
+<p>Bronk Ramsey, Christopher. 2009. “Bayesian Analysis of Radiocarbon Dates.” <em>Radiocarbon</em> 51 (1): 337–60. <a href="https://doi.org/10.1017/S0033822200033865" class="external-link">https://doi.org/10.1017/S0033822200033865</a>.</p>
 </div>
 <div id="ref-Bronk_Ramsey1998-zw">
 <p>———. 1998. “Probability and Dating.” <em>Radiocarbon</em> 40 (1): 461–74.</p>
 </div>
 <div id="ref-Richter2017-xy">
-<p>Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta Boaretto. 2017. “High Resolution AMS Dates from Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late Epipalaeolithic Natufian in the Levant.” <em>Scientific Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5">https://doi.org/10.1038/s41598-017-17096-5</a>.</p>
+<p>Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta Boaretto. 2017. “High Resolution AMS Dates from Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late Epipalaeolithic Natufian in the Levant.” <em>Scientific Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.</p>
 </div>
 </div>
 </div>
@@ -329,11 +327,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://joeroe.io">Joe Roe</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://joeroe.io" class="external-link">Joe Roe</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -341,6 +341,8 @@
 
   
 
+
+  
 
   </body>
 </html>
