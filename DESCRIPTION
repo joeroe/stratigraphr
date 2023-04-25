@@ -22,9 +22,6 @@ Imports:
     checkmate,
     cli,
     dplyr,
-    fs,
-    ggplot2,
-    ggraph,
     glue,
     igraph,
     magrittr,
@@ -38,16 +35,18 @@ Imports:
     tibble,
     tidygraph,
     tidyr,
-    tidyselect,
     utils,
 Suggests: 
-    knitr,
-    rmarkdown,
-    readxl,
-    oxcAAR,
-    testthat,
+    Bchron,
     covr,
-    Bchron
+    fs,
+    ggplot2,
+    ggraph,
+    knitr,
+    oxcAAR,
+    readxl,
+    rmarkdown,
+    testthat,
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
