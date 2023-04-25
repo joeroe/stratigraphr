@@ -102,7 +102,7 @@ oxcal_cql <- cql(
 write_oxcal(oxcal_cql, "cql.oxcal")
 ```
 ```{r write-oxcal-cleanup, include=FALSE}
-fs::file_delete("cql.oxcal")
+file.remove("cql.oxcal")
 ```
 
 You can also run OxCal directly through R using the [oxcAAR](https://CRAN.R-project.org/package=oxcAAR) package.
@@ -112,7 +112,7 @@ Otherwise, use `oxcAAR::quickSetupOxcal()` to download one, for example to a tem
 
 ```{r oxcaar-setup, results=FALSE, message=FALSE}
 library("oxcAAR")
-quickSetupOxcal(path = fs::path_temp())
+quickSetupOxcal(path = tempdir())
 ```
 
 You can then use `oxcAAR::executeOxcalScript()` to run the CQL script and `oxcAAR::readOxcalOutput()` to read the output back into R.

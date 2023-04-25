@@ -39,7 +39,6 @@ Imports:
 Suggests: 
     Bchron,
     covr,
-    fs,
     ggplot2,
     ggraph,
     knitr,
