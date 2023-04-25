@@ -91,7 +91,7 @@
 
       
 
-      </header><script src="tidy_radiocarbon_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tidy radiocarbon analysis</h1>
@@ -106,41 +106,69 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stratigraphr.joeroe.io" class="external-link">stratigraphr</a></span><span class="op">)</span></span></code></pre></div>
-<p>stratigraphr includes a framework for working with radiocarbon dates in a tidy data analysis.</p>
-<p>There are many existing packages that deal with radiocarbon data in R:</p>
+<p>stratigraphr includes a framework for working with radiocarbon dates
+in a tidy data analysis.</p>
+<p>There are many existing packages that deal with radiocarbon data in
+R:</p>
 <ul>
 <li>
 <strong>Data retrieval and cleaning</strong>: <a href="https://docs.ropensci.org/c14bazAAR/" class="external-link">c14bazAAR</a>
 </li>
 <li>
-<strong>Calibration and modelling</strong>: <a href="https://github.com/ahb108/rcarbon" class="external-link">rcarbon</a>, <a href="https://github.com/ISAAKiel/oxcAAR" class="external-link">oxcAAR</a>, <a href="https://cran.r-project.org/web/packages/RChronoModel/index.html" class="external-link">RChronoModel</a>, <a href="https://andrewcparnell.github.io/Bchron/" class="external-link">BChron</a>, <a href="http://chrono.qub.ac.uk/blaauw/bacon.html" class="external-link">bacon</a>
+<strong>Calibration and modelling</strong>: <a href="https://github.com/ahb108/rcarbon" class="external-link">rcarbon</a>, <a href="https://github.com/ISAAKiel/oxcAAR" class="external-link">oxcAAR</a>, <a href="https://cran.r-project.org/web/packages/RChronoModel/index.html" class="external-link">RChronoModel</a>,
+<a href="https://andrewcparnell.github.io/Bchron/" class="external-link">BChron</a>, <a href="http://chrono.qub.ac.uk/blaauw/bacon.html" class="external-link">bacon</a>
 </li>
 <li>
-<strong>Analysis:</strong> rcarbon (summed probability distributions, spatial analysis), <a href="https://www.math.sciences.univ-nantes.fr/~philippe/ArchaeoPhases.html" class="external-link">ArchaeoPhases</a> (post-processing of Bayesian models)</li>
+<strong>Analysis:</strong> rcarbon (summed probability
+distributions, spatial analysis), <a href="https://www.math.sciences.univ-nantes.fr/~philippe/ArchaeoPhases.html" class="external-link">ArchaeoPhases</a>
+(post-processing of Bayesian models)</li>
 </ul>
-<p>The idea is not to duplicate these packages, but to provide tools that make it easier to use them together and with other packages in the extended <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>.</p>
-<p>This vignette introduces some general principles for keeping radiocarbon data and models tidy, and describes how to carry out some common analysis tasks in that framework.</p>
+<p>The idea is not to duplicate these packages, but to provide tools
+that make it easier to use them together and with other packages in the
+extended <a href="https://www.tidyverse.org/" class="external-link">tidyverse</a>.</p>
+<p>This vignette introduces some general principles for keeping
+radiocarbon data and models tidy, and describes how to carry out some
+common analysis tasks in that framework.</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <ul>
-<li>Keep uncalibrated dates in a tidy, tabular format (e.g. a <code>tibble</code> or <code>data.frame</code>) together with contextual data associated with the sample.</li>
+<li>Keep uncalibrated dates in a tidy, tabular format (e.g. a
+<code>tibble</code> or <code>data.frame</code>) together with contextual
+data associated with the sample.</li>
 <li>
-<code>cal</code> objects are a generic representation of calibrated probability distributions that can be nested within tables to maintain their association with contextual data. Functions are provided to convert objects from a variety of other packages to and from the <code>cal</code> format.</li>
+<code>cal</code> objects are a generic representation of calibrated
+probability distributions that can be nested within tables to maintain
+their association with contextual data. Functions are provided to
+convert objects from a variety of other packages to and from the
+<code>cal</code> format.</li>
 <li>
-<code>c14_*</code> functions provide a consistent set of verbs for transforming radiocarbon data that work well with <code>dplyr</code>-style data manipulation and within functional analysis pipelines.</li>
+<code>c14_*</code> functions provide a consistent set of verbs for
+transforming radiocarbon data that work well with
+<code>dplyr</code>-style data manipulation and within functional
+analysis pipelines.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="tidy-radiocarbon-data">Tidy radiocarbon data<a class="anchor" aria-label="anchor" href="#tidy-radiocarbon-data"></a>
 </h2>
-<p>“Tidy data” <span class="citation">(Wickham 2014)</span> is a set of principles for organising datasets in a way that makes it easy to perform data analysis without tedious “data munging” between each step. In brief, tidy datasets are “rectangular” tables where:</p>
+<p>“Tidy data” <span class="citation">(Wickham 2014)</span> is a set of
+principles for organising datasets in a way that makes it easy to
+perform data analysis without tedious “data munging” between each step.
+In brief, tidy datasets are “rectangular” tables where:</p>
 <ol style="list-style-type: decimal">
 <li>Every column is variable.</li>
 <li>Every row is an observation.</li>
 <li>Every cell is a single value.</li>
 </ol>
-<p>Conventionally-reported uncalibrated radiocarbon dates <span class="citation">(Millard 2014)</span> are readily adapted into this format. Each row should represent a single sample, with the most important variables being the laboratory code, conventional radiocarbon age (CRA), and standard error. Further information about each sample, from the laboratory or about its context, should be stored in additional commons. The <code>shub1-radiocarbon</code> dataset <span class="citation">(Richter et al. 2017)</span>, including with this package, is an example of tidy radiocarbon data in a <code>tibble</code>:</p>
+<p>Conventionally-reported uncalibrated radiocarbon dates <span class="citation">(Millard 2014)</span> are readily adapted into this
+format. Each row should represent a single sample, with the most
+important variables being the laboratory code, conventional radiocarbon
+age (CRA), and standard error. Further information about each sample,
+from the laboratory or about its context, should be stored in additional
+commons. The <code>shub1-radiocarbon</code> dataset <span class="citation">(Richter et al. 2017)</span>, including with this
+package, is an example of tidy radiocarbon data in a
+<code>tibble</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1_radiocarbon"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shub1_radiocarbon</span><span class="op">)</span></span>
@@ -158,42 +186,81 @@
 <span><span class="co">#&gt; 4 Zilla sp. (wood charcoal) 12332    46   FALSE</span></span>
 <span><span class="co">#&gt; 5 Bolboschoenus sp. (tuber) 12478    38   FALSE</span></span>
 <span><span class="co">#&gt; 6 Bolboschoenus sp. (tuber) 12322    38   FALSE</span></span></code></pre></div>
-<p>Radiocarbon data from other sources might require some cleaning to get it into this format. <a href="https://tidyr.tidyverse.org/" class="external-link">tidyr</a> is a useful package for this (see <a href="https://github.com/joeroe/stratigraphr/blob/master/data-raw/shub1_radiocarbon.R" class="external-link">shub1_radiocarbon.R</a> for an example of how tidyr was used to clean the Shubayqa 1 dataset). Or if you are working with dates aggregated from multiple sources, <a href="https://docs.ropensci.org/c14bazAAR/" class="external-link">c14bazAAR</a> package provides many useful tools for automatically querying published databases and cleaning the results.</p>
+<p>Radiocarbon data from other sources might require some cleaning to
+get it into this format. <a href="https://tidyr.tidyverse.org/" class="external-link">tidyr</a> is a useful package for
+this (see <a href="https://github.com/joeroe/stratigraphr/blob/master/data-raw/shub1_radiocarbon.R" class="external-link">shub1_radiocarbon.R</a>
+for an example of how tidyr was used to clean the Shubayqa 1 dataset).
+Or if you are working with dates aggregated from multiple sources, <a href="https://docs.ropensci.org/c14bazAAR/" class="external-link">c14bazAAR</a> package
+provides many useful tools for automatically querying published
+databases and cleaning the results.</p>
 <p>For this vignette, we will stick with the shub1 dataset.</p>
 </div>
 <div class="section level2">
 <h2 id="calibration">Calibration<a class="anchor" aria-label="anchor" href="#calibration"></a>
 </h2>
-<p>The first step in any analysis of radiocarbon data is likely to be calibration. In <code>dplyr</code>’s grammar, calibration is a <em>mutation</em> of the original (uncalibrated) data; it creates a new variable (the calibrated probability distribution) for each observation based on a transformation based on some of the original variables (<code>cra</code>, <code>error</code>) and a number of other, fixed parameters (e.g. the calibration curve). Performing calibration with <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> is useful because it allows us to keep the result of this transformation together with the input data and associated contextual information.</p>
-<p><code><a href="../reference/c14_calibrate.html">c14_calibrate()</a></code> is a wrapper for <code><a href="https://rdrr.io/pkg/rcarbon/man/calibrate.html" class="external-link">rcarbon::calibrate()</a></code> that can be used within <code>dplyr</code> statements:</p>
+<p>The first step in any analysis of radiocarbon data is likely to be
+calibration. In <code>dplyr</code>’s grammar, calibration is a
+<em>mutation</em> of the original (uncalibrated) data; it creates a new
+variable (the calibrated probability distribution) for each observation
+based on a transformation based on some of the original variables
+(<code>cra</code>, <code>error</code>) and a number of other, fixed
+parameters (e.g. the calibration curve). Performing calibration with
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> is useful because it allows us to keep the
+result of this transformation together with the input data and
+associated contextual information.</p>
+<p><code><a href="../reference/c14_calibrate.html">c14_calibrate()</a></code> is a wrapper for
+<code><a href="https://rdrr.io/pkg/rcarbon/man/calibrate.html" class="external-link">rcarbon::calibrate()</a></code> that can be used within
+<code>dplyr</code> statements:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cal <span class="op">=</span> <span class="fu"><a href="../reference/c14_calibrate.html">c14_calibrate</a></span><span class="op">(</span><span class="va">cra</span>, <span class="va">error</span>, <span class="va">lab_id</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">shub1_radiocarbon</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_calibrate() is deprecated. Please use</span></span>
-<span><span class="co">#&gt; c14::c14_calibrate() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::as_cal() is deprecated. Please use c14::as_cal() instead.</span></span>
+<span><span class="co">#&gt; Warning: There were 2 warnings in `mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `cal = c14_calibrate(cra, error, lab_id, verbose = FALSE)`.</span></span>
+<span><span class="co">#&gt; Caused by warning:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> stratigraphr::c14_calibrate() is deprecated. Please use c14::c14_calibrate() instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shub1_radiocarbon</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
-<span><span class="co">#&gt;   lab_id      context phase   sample           mater…¹   cra error outlier cal  </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> RTD-7951         23 Phase 7 Context 126, Sa… Bolbos… <span style="text-decoration: underline;">12</span>166    55 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Beta-112146      24 Phase 7 SHUB1/105        gazell… <span style="text-decoration: underline;">12</span>310    60 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> RTD-7317         26 Phase 7 Context 83, Sam… Bolbos… <span style="text-decoration: underline;">12</span>289    46 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> RTD-7318         27 Phase 7 Context 86, Sam… Zilla … <span style="text-decoration: underline;">12</span>332    46 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> RTD-7948         24 Phase 7 Context 120, Sa… Bolbos… <span style="text-decoration: underline;">12</span>478    38 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> RTD-7947         22 Phase 6 Context 166, K2… Bolbos… <span style="text-decoration: underline;">12</span>322    38 FALSE   &lt;cal&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​material</span></span></span></code></pre></div>
-<p>The calibrated dates are stored as a <a href="https://tidyr.tidyverse.org/articles/nest.html" class="external-link">nested column</a> of <code>cal</code> objects (see below). To work with the probability distributions directly (e.g. to plot them with <code>ggplot2</code>) we will eventually need to expand this column into a “long” format, where each year from each sample is its own row, using <code>[tidyr::unnest()]</code>. But for now the nested table is helpful for keeping our master dataset readable.</p>
+<span><span class="co">#&gt;   lab_id      context phase   sample          material   cra error outlier cal  </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> RTD-7951         23 Phase 7 Context 126, S… Bolbosc… <span style="text-decoration: underline;">12</span>166    55 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Beta-112146      24 Phase 7 SHUB1/105       gazelle… <span style="text-decoration: underline;">12</span>310    60 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> RTD-7317         26 Phase 7 Context 83, Sa… Bolbosc… <span style="text-decoration: underline;">12</span>289    46 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> RTD-7318         27 Phase 7 Context 86, Sa… Zilla s… <span style="text-decoration: underline;">12</span>332    46 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> RTD-7948         24 Phase 7 Context 120, S… Bolbosc… <span style="text-decoration: underline;">12</span>478    38 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> RTD-7947         22 Phase 6 Context 166, K… Bolbosc… <span style="text-decoration: underline;">12</span>322    38 FALSE   <span style="color: #949494;">&lt;cal&gt;</span></span></span></code></pre></div>
+<p>The calibrated dates are stored as a <a href="https://tidyr.tidyverse.org/articles/nest.html" class="external-link">nested column</a>
+of <code>cal</code> objects (see below). To work with the probability
+distributions directly (e.g. to plot them with <code>ggplot2</code>) we
+will eventually need to expand this column into a “long” format, where
+each year from each sample is its own row, using
+<code>[tidyr::unnest()]</code>. But for now the nested table is helpful
+for keeping our master dataset readable.</p>
 <div class="section level3">
 <h3 id="the-cal-class">The <code>cal</code> class<a class="anchor" aria-label="anchor" href="#the-cal-class"></a>
 </h3>
-<p>stratigraphr uses the <code>cal</code> S3 class as a generic representation of calibrated radiocarbon dates. This is a data.frame with two columns containing the range of calendar years (<code>year</code>) and associated probability densities (<code>p</code>). Metadata associated with the calibration, such as the era system and atmospheric curve used, are stored as attributes that can be accessed with <code><a href="../reference/cal_metadata.html">cal_metadata()</a></code>.</p>
-<p>Most other radiocarbon packages have similar structures for storing calibrated dates, differing primarily in how metadata is handled. The <code>c14_*</code> functions described here are designed to seamlessly convert between these object types when functions from other packages are invoked. However, if you need to, you can directly construct a <code>cal</code> object from a vector of probabilities with <code><a href="../reference/cal.html">cal()</a></code>, or from various other types of object with <code><a href="../reference/as_cal.html">as_cal()</a></code>.</p>
-<p>The <code>cal</code> class also has methods for pretty-printing calibrated dates:</p>
+<p>stratigraphr uses the <code>cal</code> S3 class as a generic
+representation of calibrated radiocarbon dates. This is a data.frame
+with two columns containing the range of calendar years
+(<code>year</code>) and associated probability densities
+(<code>p</code>). Metadata associated with the calibration, such as the
+era system and atmospheric curve used, are stored as attributes that can
+be accessed with <code><a href="../reference/cal_metadata.html">cal_metadata()</a></code>.</p>
+<p>Most other radiocarbon packages have similar structures for storing
+calibrated dates, differing primarily in how metadata is handled. The
+<code>c14_*</code> functions described here are designed to seamlessly
+convert between these object types when functions from other packages
+are invoked. However, if you need to, you can directly construct a
+<code>cal</code> object from a vector of probabilities with
+<code><a href="../reference/cal.html">cal()</a></code>, or from various other types of object with
+<code><a href="../reference/as_cal.html">as_cal()</a></code>.</p>
+<p>The <code>cal</code> class also has methods for pretty-printing
+calibrated dates:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shub1_radiocarbon</span><span class="op">$</span><span class="va">cal</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use</span></span>
@@ -218,7 +285,8 @@
 <span><span class="co">#&gt; normalised: TRUE</span></span>
 <span><span class="co">#&gt; F14C: FALSE</span></span>
 <span><span class="co">#&gt; p_cutoff: 1e-05</span></span></code></pre></div>
-<p>And calculating meaningful summary statistics, such as the minimum and maximum of the calibrated range:</p>
+<p>And calculating meaningful summary statistics, such as the minimum
+and maximum of the calibrated range:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># See https://github.com/joeroe/stratigraphr/issues/7</span></span>
 <span><span class="co"># min(shub1_radiocarbon$cal)</span></span>
@@ -233,7 +301,7 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyr.tidyverse.org" class="external-link">"tidyr"</a></span><span class="op">)</span></span>
 <span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outlier</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cal</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">cal</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html" class="external-link">vars</a></span><span class="op">(</span><span class="va">lab_id</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1</span>, scales <span class="op">=</span> <span class="st">"free_y"</span>, strip.position <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html" class="external-link">geom_area</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -251,54 +319,23 @@
 <div class="section level3">
 <h3 id="summed-probability-distributions">Summed probability distributions<a class="anchor" aria-label="anchor" href="#summed-probability-distributions"></a>
 </h3>
-<p>In <code>dplyr</code>’s grammar, summing radiocarbon dates is a <em>summary</em> of the original data, because it reduces the number of observations. <code>c14_sum</code> is a wrapper for <code><a href="https://rdrr.io/pkg/rcarbon/man/spd.html" class="external-link">rcarbon::spd()</a></code> that can be used in a <code>dplyr</code> statement.</p>
+<p>In <code>dplyr</code>’s grammar, summing radiocarbon dates is a
+<em>summary</em> of the original data, because it reduces the number of
+observations. <code>c14_sum</code> is a wrapper for
+<code><a href="https://rdrr.io/pkg/rcarbon/man/spd.html" class="external-link">rcarbon::spd()</a></code> that can be used in a <code>dplyr</code>
+statement.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>spd <span class="op">=</span> <span class="fu"><a href="../reference/c14_sum.html">c14_sum</a></span><span class="op">(</span><span class="va">cal</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop_last"</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">shub1_spd</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use</span></span>
-<span><span class="co">#&gt; c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum()</span></span>
-<span><span class="co">#&gt; instead.</span></span>
-<span><span class="co">#&gt; Warning: stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
-<span><span class="co">#&gt; stratigraphr::cal_metadata() is deprecated. Please use c14::cal_metadata() instead.</span></span>
+<span><span class="co">#&gt; Warning: There were 34 warnings in `summarise()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `spd = c14_sum(cal, verbose = FALSE)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `phase = "Phase 1"`.</span></span>
+<span><span class="co">#&gt; Caused by warning:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> stratigraphr::c14_sum() is deprecated. Please use c14::c14_sum() instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 33 remaining warnings.</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shub1_spd</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
@@ -318,17 +355,23 @@
 </div>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-Millard2014-tr">
-<p>Millard, Andrew R. 2014. “Conventions for Reporting Radiocarbon Determinations.” <em>Radiocarbon</em> 56 (2): 555–59. <a href="https://doi.org/10.2458/56.17455" class="external-link">https://doi.org/10.2458/56.17455</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Millard2014-tr" class="csl-entry">
+Millard, Andrew R. 2014. <span>“Conventions for Reporting Radiocarbon
+Determinations.”</span> <em>Radiocarbon</em> 56 (2): 555–59. <a href="https://doi.org/10.2458/56.17455" class="external-link">https://doi.org/10.2458/56.17455</a>.
 </div>
-<div id="ref-Richter2017-xy">
-<p>Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta Boaretto. 2017. “High Resolution AMS Dates from Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late Epipalaeolithic Natufian in the Levant.” <em>Scientific Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.</p>
+<div id="ref-Richter2017-xy" class="csl-entry">
+Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta
+Boaretto. 2017. <span>“High Resolution <span>AMS</span> Dates from
+Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late
+Epipalaeolithic Natufian in the Levant.”</span> <em>Scientific
+Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.
 </div>
-<div id="ref-Wickham2014-ud">
-<p>Wickham, Hadley. 2014. “Tidy Data.” <em>Journal of Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="external-link">https://doi.org/10.18637/jss.v059.i10</a>.</p>
+<div id="ref-Wickham2014-ud" class="csl-entry">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of
+Statistical Software</em> 59 (10): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10" class="external-link">https://doi.org/10.18637/jss.v059.i10</a>.
 </div>
 </div>
 </div>
@@ -351,7 +394,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

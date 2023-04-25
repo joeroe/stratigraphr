@@ -91,7 +91,7 @@
 
       
 
-      </header><script src="cql_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Chronological Query Language (CQL)</h1>
@@ -104,15 +104,24 @@
 
     
     
-<p>The Chronological Query Language (CQL) is a tool for formally describing chronological models <span class="citation">(Bronk Ramsey 1998)</span>. It is most commonly used to input data for Bayesian radiocarbon calibration in <a href="https://c14.arch.ox.ac.uk/oxcal.html" class="external-link">OxCal</a> <span class="citation">(Bronk Ramsey 2009)</span>. <code>stratigraphr</code> includes an R interface for CQL2, the version used in OxCal v3+.</p>
-<p>This vignette describes how to use this interface to generate CQL models in R.</p>
+<p>The Chronological Query Language (CQL) is a tool for formally
+describing chronological models <span class="citation">(Bronk Ramsey
+1998)</span>. It is most commonly used to input data for Bayesian
+radiocarbon calibration in <a href="https://c14.arch.ox.ac.uk/oxcal.html" class="external-link">OxCal</a> <span class="citation">(Bronk Ramsey 2009)</span>. <code>stratigraphr</code>
+includes an R interface for CQL2, the version used in OxCal v3+.</p>
+<p>This vignette describes how to use this interface to generate CQL
+models in R.</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <ul>
-<li>Individual CQL commands (see <a href="https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html" class="external-link uri">https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a>) are implemented as <code>cql_*</code> functions.</li>
-<li>Use <code><a href="../reference/cql.html">cql()</a></code> to group together CQL functions or include arbitrary CQL code.</li>
-<li>Execute CQL scripts in OxCal using <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> or the <a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR package</a>.</li>
+<li>Individual CQL commands (see <a href="https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html" class="external-link uri">https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html</a>)
+are implemented as <code>cql_*</code> functions.</li>
+<li>Use <code><a href="../reference/cql.html">cql()</a></code> to group together CQL functions or include
+arbitrary CQL code.</li>
+<li>Execute CQL scripts in OxCal using <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> or the
+<a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR
+package</a>.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -124,18 +133,26 @@
 <div class="section level2">
 <h2 id="generating-cql-models-from-other-types-of-data">Generating CQL models from other types of data<a class="anchor" aria-label="anchor" href="#generating-cql-models-from-other-types-of-data"></a>
 </h2>
-<p>Used in the simple way above, <code>stratigraphr</code>’s CQL interface offers little benefit over writing CQL directly. Its real power is in combining <code><a href="../reference/cql.html">cql()</a></code> with other R tools to build models based on other data.</p>
-<p>For the following examples, we will use stratigraphic and radiocarbon data from Shubayqa 1 <span class="citation">(Richter et al. 2017)</span>:</p>
+<p>Used in the simple way above, <code>stratigraphr</code>’s CQL
+interface offers little benefit over writing CQL directly. Its real
+power is in combining <code><a href="../reference/cql.html">cql()</a></code> with other R tools to build
+models based on other data.</p>
+<p>For the following examples, we will use stratigraphic and radiocarbon
+data from Shubayqa 1 <span class="citation">(Richter et al.
+2017)</span>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1_radiocarbon"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="tabular-data">Tabular data<a class="anchor" aria-label="anchor" href="#tabular-data"></a>
 </h3>
-<p>With radiocarbon and stratigraphic data in a tabular format, you can take advantage of <code>dplyr</code>’s powerful tools for data manipulation to build CQL models programmatically.</p>
-<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to concisely express a table of dates as CQL <code>R_Date</code> commands:</p>
+<p>With radiocarbon and stratigraphic data in a tabular format, you can
+take advantage of <code>dplyr</code>’s powerful tools for data
+manipulation to build CQL models programmatically.</p>
+<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to concisely express a
+table of dates as CQL <code>R_Date</code> commands:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://purrr.tidyverse.org" class="external-link">"purrr"</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://purrr.tidyverse.org/" class="external-link">"purrr"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -178,11 +195,18 @@
 <span><span class="co">#&gt;  R_Date("RTD-8902", 10107, 53);</span></span>
 <span><span class="co">#&gt;  R_Date("RTD-8903", 10095, 52);</span></span>
 <span><span class="co">#&gt;  R_Date("RTK-6815", 1229, 54);</span></span></code></pre></div>
-<p>Or use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code> to build phase models. This is a three stage process, illustrated below with the phase model from Shubayqa 1:</p>
+<p>Or use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> and
+<code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code> to build phase models. This is a three
+stage process, illustrated below with the phase model from Shubayqa
+1:</p>
 <ol style="list-style-type: decimal">
 <li>Preprocess the dates, e.g. to remove outliers and order phases.</li>
-<li>Group dates by phase and summarise them with <code><a href="../reference/cql_phase.html">cql_phase()</a></code>.</li>
-<li>Group phases into a sequence, using <code>boundaries</code> to automatically add boundary constraints between them. If we had multiple independent sequences, we could include an additional grouping variable here, before concatenating them with <code><a href="../reference/cql.html">cql()</a></code>.</li>
+<li>Group dates by phase and summarise them with
+<code><a href="../reference/cql_phase.html">cql_phase()</a></code>.</li>
+<li>Group phases into a sequence, using <code>boundaries</code> to
+automatically add boundary constraints between them. If we had multiple
+independent sequences, we could include an additional grouping variable
+here, before concatenating them with <code><a href="../reference/cql.html">cql()</a></code>.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">shub1_radiocarbon</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -265,7 +289,10 @@
 <div class="section level2">
 <h2 id="running-cql-models">Running CQL models<a class="anchor" aria-label="anchor" href="#running-cql-models"></a>
 </h2>
-<p>You can run models generated by <code><a href="../reference/cql.html">cql()</a></code> using the desktop or online versions of OxCal by simply copying the output into the program. Alternatively, use <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> to create a .oxcal file:</p>
+<p>You can run models generated by <code><a href="../reference/cql.html">cql()</a></code> using the desktop
+or online versions of OxCal by simply copying the output into the
+program. Alternatively, use <code><a href="../reference/write_oxcal.html">write_oxcal()</a></code> to create a
+.oxcal file:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oxcal_cql</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="st">"ABC-001"</span>, <span class="fl">9100</span>, <span class="fl">30</span><span class="op">)</span>,</span>
@@ -274,24 +301,46 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/write_oxcal.html">write_oxcal</a></span><span class="op">(</span><span class="va">oxcal_cql</span>, <span class="st">"cql.oxcal"</span><span class="op">)</span></span></code></pre></div>
-<p>You can also run OxCal directly through R using the <a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR</a> package. This depends on a local installation of OxCal. If you already have one installed, you can set the path to the executable using <code><a href="https://rdrr.io/pkg/oxcAAR/man/setOxcalExecutablePath.html" class="external-link">oxcAAR::setOxcalExecutablePath()</a></code>. Otherwise, use <code><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">oxcAAR::quickSetupOxcal()</a></code> to download one, for example to a temporary directory:</p>
+<p>You can also run OxCal directly through R using the <a href="https://CRAN.R-project.org/package=oxcAAR" class="external-link">oxcAAR</a> package.
+This depends on a local installation of OxCal. If you already have one
+installed, you can set the path to the executable using
+<code><a href="https://rdrr.io/pkg/oxcAAR/man/setOxcalExecutablePath.html" class="external-link">oxcAAR::setOxcalExecutablePath()</a></code>. Otherwise, use
+<code><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">oxcAAR::quickSetupOxcal()</a></code> to download one, for example to a
+temporary directory:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"oxcAAR"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">quickSetupOxcal</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/file_temp.html" class="external-link">path_temp</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>You can then use <code><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">oxcAAR::executeOxcalScript()</a></code> to run the CQL script and <code><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">oxcAAR::readOxcalOutput()</a></code> to read the output back into R.</p>
+<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/quickSetupOxcal.html" class="external-link">quickSetupOxcal</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You can then use <code><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">oxcAAR::executeOxcalScript()</a></code> to run the
+CQL script and <code><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">oxcAAR::readOxcalOutput()</a></code> to read the output
+back into R.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">executeOxcalScript</a></span><span class="op">(</span><span class="va">oxcal_cql</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">readOxcalOutput</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">oxcal_output</span></span></code></pre></div>
-<p>You can parse the output with <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code> and visualise it using <code>oxcAAR</code>’s built-in plotting functions:</p>
+<p>You can parse the output with <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code>
+and visualise it using <code>oxcAAR</code>’s built-in plotting
+functions:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oxcal_parsed</span> <span class="op">&lt;-</span> <span class="fu">oxcAAR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">parseOxcalOutput</a></span><span class="op">(</span><span class="va">oxcal_output</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please</span></span>
-<span><span class="co">#&gt; use `guide = "none"` instead.</span></span>
+<span><span class="co">#&gt; Warning: The `guide` argument in `scale_*()` cannot be `FALSE`. This was deprecated in</span></span>
+<span><span class="co">#&gt; ggplot2 3.3.4.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use "none" instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">oxcAAR</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/calcurve_plot.html" class="external-link">calcurve_plot</a></span><span class="op">(</span><span class="va">oxcal_parsed</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cql_files/figure-html/oxcaar-plot-1.png" width="700"><img src="cql_files/figure-html/oxcaar-plot-2.png" width="700"></p>
-<p>The current CRAN version of oxcAAR (v. 1.0.0) does not read the posterior probabilities produced by a model with Bayesian calibration, so to work with these you need to install the latest development version (<code>devtools::install_github("ISAAKiel/oxcAAR")</code>). With this, <code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code> also contains the modelled results in <code>$posterior_sigma_ranges</code> and <code>$posterior_probabilities</code>. Again, you can quickly visualise these with the built-in plotting functions:</p>
+<p>The current CRAN version of oxcAAR (v. 1.0.0) does not read the
+posterior probabilities produced by a model with Bayesian calibration,
+so to work with these you need to install the latest development version
+(<code>devtools::install_github("ISAAKiel/oxcAAR")</code>). With this,
+<code><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">oxcAAR::parseOxcalOutput()</a></code> also contains the modelled
+results in <code>$posterior_sigma_ranges</code> and
+<code>$posterior_probabilities</code>. Again, you can quickly visualise
+these with the built-in plotting functions:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Not run: slow</span></span>
 <span><span class="co"># shub1_oxcal &lt;- executeOxcalScript(shub1_cql)</span></span>
@@ -300,17 +349,23 @@
 <span><span class="co">#   plot()</span></span></code></pre></div>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-Bronk_Ramsey2009-yk">
-<p>Bronk Ramsey, Christopher. 2009. “Bayesian Analysis of Radiocarbon Dates.” <em>Radiocarbon</em> 51 (1): 337–60. <a href="https://doi.org/10.1017/S0033822200033865" class="external-link">https://doi.org/10.1017/S0033822200033865</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Bronk_Ramsey1998-zw" class="csl-entry">
+Bronk Ramsey, Christopher. 1998. <span>“Probability and Dating.”</span>
+<em>Radiocarbon</em> 40 (1): 461–74.
 </div>
-<div id="ref-Bronk_Ramsey1998-zw">
-<p>———. 1998. “Probability and Dating.” <em>Radiocarbon</em> 40 (1): 461–74.</p>
+<div id="ref-Bronk_Ramsey2009-yk" class="csl-entry">
+———. 2009. <span>“Bayesian Analysis of Radiocarbon Dates.”</span>
+<em>Radiocarbon</em> 51 (1): 337–60. <a href="https://doi.org/10.1017/S0033822200033865" class="external-link">https://doi.org/10.1017/S0033822200033865</a>.
 </div>
-<div id="ref-Richter2017-xy">
-<p>Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta Boaretto. 2017. “High Resolution AMS Dates from Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late Epipalaeolithic Natufian in the Levant.” <em>Scientific Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.</p>
+<div id="ref-Richter2017-xy" class="csl-entry">
+Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta
+Boaretto. 2017. <span>“High Resolution <span>AMS</span> Dates from
+Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late
+Epipalaeolithic Natufian in the Levant.”</span> <em>Scientific
+Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.
 </div>
 </div>
 </div>
@@ -333,7 +388,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

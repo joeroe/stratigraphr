@@ -63,20 +63,8 @@
     </div>
 
     <table class="ref-index"><colgroup><col class="alias"><col class="title"></colgroup><tbody><tr><th colspan="2">
-          <h2 id="read-and-write">Read and write <a href="#read-and-write" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p><p>Functions for reading and writing stratigraphic and chronological data.</p>
-        </th>
-      </tr></tbody><tbody><tr><td>
-          <p><code><a href="read_lst.html">read_lst()</a></code> </p>
-        </td>
-        <td><p>Read an LST file</p></td>
-      </tr><tr><td>
-          <p><code><a href="write_oxcal.html">write_oxcal()</a></code> </p>
-        </td>
-        <td><p>Write CQL to a file</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="stratigraphs">Stratigraphs <a href="#stratigraphs" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p><p>Functions for graph-based analysis of stratigraphy.</p>
+          <p class="section-desc"></p><p>Construct and validate a graph representation of a stratigraphic sequence.</p>
         </th>
       </tr></tbody><tbody><tr><td>
           <p><code><a href="stratigraph.html">stratigraph()</a></code> </p>
@@ -94,34 +82,22 @@
           <p><code><a href="strat_is_valid.html">strat_is_valid()</a></code> </p>
         </td>
         <td><p>Is an object a valid stratigraphic graph?</p></td>
+      </tr><tr><td>
+          <p><code><a href="strg_prune.html">strg_prune()</a></code> </p>
+        </td>
+        <td><p>Remove redundant relations from a stratigraph</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="tidy-radiocarbon">Tidy radiocarbon <a href="#tidy-radiocarbon" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p><p>Functions for working with radiocarbon data in a tidy framework.</p>
+          <h2 id="read-and-write">Read and write <a href="#read-and-write" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Functions for reading and writing stratigraphic and chronological data.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="cal.html">cal()</a></code> <code><a href="cal.html">print(<i>&lt;cal&gt;</i>)</a></code> </p>
+          <p><code><a href="read_lst.html">read_lst()</a></code> </p>
         </td>
-        <td><p>Calibrated radiocarbon dates</p></td>
+        <td><p>Read an LST file</p></td>
       </tr><tr><td>
-          <p><code><a href="cal_metadata.html">cal_metadata()</a></code> </p>
+          <p><code><a href="write_oxcal.html">write_oxcal()</a></code> </p>
         </td>
-        <td><p>Extract metadata from a calibrated date</p></td>
-      </tr><tr><td>
-          <p><code><a href="as_cal.html">as_cal()</a></code> </p>
-        </td>
-        <td><p>Convert an object to a cal object</p></td>
-      </tr><tr><td>
-          <p><code><a href="as.CalDates.cal.html">as.CalDates.cal()</a></code> </p>
-        </td>
-        <td><p>Convert cal objects to a rcarbon CalDates object</p></td>
-      </tr><tr><td>
-          <p><code><a href="c14_calibrate.html">c14_calibrate()</a></code> </p>
-        </td>
-        <td><p>Calibrate radiocarbon dates</p></td>
-      </tr><tr><td>
-          <p><code><a href="c14_sum.html">c14_sum()</a></code> </p>
-        </td>
-        <td><p>Sum radiocarbon dates with tidy syntax</p></td>
+        <td><p>Write CQL to a file</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="cql">CQL <a href="#cql" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>An R interface to the Chronological Query Language (CQL).</p>
@@ -174,6 +150,34 @@
           <p><code><a href="shub1_radiocarbon.html">shub1_radiocarbon</a></code> </p>
         </td>
         <td><p>Radiocarbon dates from Shubayqa 1</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="deprecated">Deprecated <a href="#deprecated" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p><p>Functions for working with radiocarbon data in a tidy framework can now be found in the <a href="https://c14.joeroe.io/" class="external-link">c14 package</a> and will be removed in a future version of stratigraph.</p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="cal.html">cal()</a></code> <code><a href="cal.html">print(<i>&lt;cal&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Calibrated radiocarbon dates</p></td>
+      </tr><tr><td>
+          <p><code><a href="cal_metadata.html">cal_metadata()</a></code> </p>
+        </td>
+        <td><p>Extract metadata from a calibrated date</p></td>
+      </tr><tr><td>
+          <p><code><a href="as_cal.html">as_cal()</a></code> </p>
+        </td>
+        <td><p>Convert an object to a cal object</p></td>
+      </tr><tr><td>
+          <p><code><a href="as.CalDates.cal.html">as.CalDates.cal()</a></code> </p>
+        </td>
+        <td><p>Convert cal objects to a rcarbon CalDates object</p></td>
+      </tr><tr><td>
+          <p><code><a href="c14_calibrate.html">c14_calibrate()</a></code> </p>
+        </td>
+        <td><p>Calibrate radiocarbon dates</p></td>
+      </tr><tr><td>
+          <p><code><a href="c14_sum.html">c14_sum()</a></code> </p>
+        </td>
+        <td><p>Sum radiocarbon dates with tidy syntax</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -187,7 +191,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
