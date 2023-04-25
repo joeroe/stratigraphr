@@ -20,6 +20,10 @@
 #' A `stratigraph` object.
 #'
 #' @export
+#' circle <- stratigraph(data.frame(
+#'   label = LETTERS[1:4],
+#'   below = c("B", "C", "D", "A")
+#' ), "label", "below", "below")
 stratigraph <- function(data, label, relation, direction = c("above", "below")) {
   direction <- match.arg(direction)
 
@@ -95,6 +99,14 @@ strat_is_valid <- function(stratigraph, warn = TRUE) {
   }
 }
 
+strg_locate_cycles <- function(graph) {
+  if (tidygraph::with_graph(graph, tidygraph::graph_is_dag())) {
+    rlang::warn("`graph` does not contain cycles")
+    return(NA)
+  }
+
+  bad_edges <- igraph::feedback_arc_set(graph)
+}
 
 # Validation functions ----------------------------------------------------
 

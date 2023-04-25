@@ -23,7 +23,7 @@ Imports:
     cli,
     dplyr,
     glue,
-    igraph,
+    igraph (>= 0.3.0),
     magrittr,
     purrr,
     rcarbon,
