@@ -9,23 +9,17 @@ template:
       card: summary
 
 reference:
+- title: "Stratigraphs"
+  desc: "Construct and validate a graph representation of a stratigraphic sequence."
+- contents:
+  - stratigraph
+  - starts_with("strat")
+  - starts_with("strg")
 - title: "Read and write"
   desc: "Functions for reading and writing stratigraphic and chronological data."
 - contents:
   - starts_with("read_")
   - starts_with("write_")
-- title: "Stratigraphs"
-  desc: "Functions for graph-based analysis of stratigraphy."
-- contents:
-  - stratigraph
-  - starts_with("strat")
-- title: "Tidy radiocarbon"
-  desc: "Functions for working with radiocarbon data in a tidy framework."
-- contents:
-  - starts_with("cal")
-  - as_cal
-  - starts_with("as.CalDates")
-  - starts_with("c14_")
 - title: "CQL"
   desc: "An R interface to the Chronological Query Language (CQL)."
 - contents:
@@ -36,3 +30,10 @@ reference:
   - harris12
   - shub1
   - shub1_radiocarbon
+- title: "Deprecated"
+  desc: "Functions for working with radiocarbon data in a tidy framework can now be found in the [c14 package](https://c14.joeroe.io/) and will be removed in a future version of stratigraph."
+- contents:
+  - starts_with("cal")
+  - as_cal
+  - starts_with("as.CalDates")
+  - starts_with("c14_")
