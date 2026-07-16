@@ -1,7 +1,7 @@
 # stratigraphr <img src="man/figures/logo.svg" align="right" style="float: right; height: 180px; margin-left: 1em">
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN status](https://www.r-pkg.org/badges/version/stratigraphr)](https://CRAN.R-project.org/package=stratigraphr)
 [![R build status](https://github.com/joeroe/stratigraphr/workflows/R-CMD-check/badge.svg)](https://github.com/joeroe/stratigraphr/actions)
 [![Codecov test coverage](https://codecov.io/gh/joeroe/stratigraphr/branch/master/graph/badge.svg)](https://codecov.io/gh/joeroe/stratigraphr?branch=master)
