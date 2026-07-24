@@ -31,8 +31,8 @@ shub1_radiocarbon \%>\%
   dplyr::mutate(cal = c14_calibrate(cra, error))
 }
 \seealso{
-Other tidy radiocarbon functions: 
-\code{\link{c14_sum}()},
-\code{\link{cal}()}
+Other tidy radiocarbon functions:
+\code{\link[=c14_sum]{c14_sum()}},
+\code{\link[=cal]{cal()}}
 }
 \concept{tidy radiocarbon functions}

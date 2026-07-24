@@ -40,9 +40,9 @@ These functions are intended for complex S3 objects from other packages.
 See \code{\link[=cal]{cal()}} for a more generic constructor, e.g. using a data frame.
 }
 \seealso{
-Other functions for working with \code{cal} objects: 
-\code{\link{as.CalDates.cal}()},
-\code{\link{cal_metadata}()},
-\code{\link{cal}()}
+Other functions for working with \code{cal} objects:
+\code{\link[=as.CalDates.cal]{as.CalDates.cal()}},
+\code{\link[=cal]{cal()}},
+\code{\link[=cal_metadata]{cal_metadata()}}
 }
 \concept{functions for working with \code{cal} objects}

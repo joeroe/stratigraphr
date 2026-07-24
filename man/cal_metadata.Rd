@@ -16,9 +16,9 @@ A named list of metadata attributes.
 Extract metadata from a calibrated date
 }
 \seealso{
-Other functions for working with \code{cal} objects: 
-\code{\link{as.CalDates.cal}()},
-\code{\link{as_cal}()},
-\code{\link{cal}()}
+Other functions for working with \code{cal} objects:
+\code{\link[=as.CalDates.cal]{as.CalDates.cal()}},
+\code{\link[=as_cal]{as_cal()}},
+\code{\link[=cal]{cal()}}
 }
 \concept{functions for working with \code{cal} objects}

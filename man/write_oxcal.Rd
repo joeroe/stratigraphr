@@ -18,15 +18,15 @@ Returns \code{cql} invisibly.
 Writes a CQL script (from \code{\link[=cql]{cql()}}) to an .oxcal file, for input to OxCal.
 }
 \seealso{
-Other CQL functions: 
-\code{\link{cql_boundary}()},
-\code{\link{cql_n}()},
-\code{\link{cql_options}()},
+Other CQL functions:
+\code{\link[=cql]{cql()}},
+\code{\link[=cql_boundary]{cql_boundary()}},
+\code{\link[=cql_n]{cql_n()}},
+\code{\link[=cql_options]{cql_options()}},
 \code{\link{cql_other}},
-\code{\link{cql_phase}()},
-\code{\link{cql_r_date}()},
-\code{\link{cql_sequence}()},
-\code{\link{cql}()}
+\code{\link[=cql_phase]{cql_phase()}},
+\code{\link[=cql_r_date]{cql_r_date()}},
+\code{\link[=cql_sequence]{cql_sequence()}}
 }
 \concept{CQL functions}
 \concept{write functions}

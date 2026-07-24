@@ -20,7 +20,7 @@ multiple values. Ignored if \code{split = FALSE}. Default: \code{","}.}
 
 \item{locale}{\code{\link[readr:locale]{readr::locale()}} object specifying the character encoding and
 other region-specific settings used in the file. Defaults to
-\code{\link[readr:locale]{readr::default_locale()}}.}
+\code{\link[readr:default_locale]{readr::default_locale()}}.}
 }
 \value{
 A data frame. Each row represents one stratum. Columns contain the name of

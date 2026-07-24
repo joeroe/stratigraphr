@@ -59,14 +59,14 @@ attributes and can be accessed with \code{\link[=cal_metadata]{cal_metadata()}}.
 or other calendar-based probability distribution.
 }
 \seealso{
-Other tidy radiocarbon functions: 
-\code{\link{c14_calibrate}()},
-\code{\link{c14_sum}()}
+Other tidy radiocarbon functions:
+\code{\link[=c14_calibrate]{c14_calibrate()}},
+\code{\link[=c14_sum]{c14_sum()}}
 
-Other functions for working with \code{cal} objects: 
-\code{\link{as.CalDates.cal}()},
-\code{\link{as_cal}()},
-\code{\link{cal_metadata}()}
+Other functions for working with \code{cal} objects:
+\code{\link[=as.CalDates.cal]{as.CalDates.cal()}},
+\code{\link[=as_cal]{as_cal()}},
+\code{\link[=cal_metadata]{cal_metadata()}}
 }
 \concept{functions for working with \code{cal} objects}
 \concept{tidy radiocarbon functions}

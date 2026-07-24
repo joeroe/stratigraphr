@@ -6,6 +6,8 @@
 \alias{stratigraphr-package}
 \title{stratigraphr: Archaeological Stratigraphy and Chronological Sequences}
 \description{
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
 A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphy (Harris matrices) and sequences as directed graphs (Dye & Buck 2015) \doi{10.1016/j.jas.2015.08.008}; helper functions for using radiocarbon dates in a tidy data analysis; and an R interface to the Chronological Query Language (CQL) used by 'OxCal' (Bronk Ramsey 2009) \doi{10.1017/S0033822200033865}.
 }
 \seealso{
@@ -19,6 +21,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Joe Roe \email{joe@joeroe.io} (\href{https://orcid.org/0000-0002-1011-1244}{ORCID})
+
+Authors:
+\itemize{
+  \item Joe Roe \email{joe@joeroe.io} (\href{https://orcid.org/0000-0002-1011-1244}{ORCID})
+}
 
 }
 \keyword{internal}

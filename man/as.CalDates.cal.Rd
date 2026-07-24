@@ -16,9 +16,9 @@ A \code{CalDates} object. See \code{\link[rcarbon:calibrate]{rcarbon::calibrate(
 Convert cal objects to a rcarbon CalDates object
 }
 \seealso{
-Other functions for working with \code{cal} objects: 
-\code{\link{as_cal}()},
-\code{\link{cal_metadata}()},
-\code{\link{cal}()}
+Other functions for working with \code{cal} objects:
+\code{\link[=as_cal]{as_cal()}},
+\code{\link[=cal]{cal()}},
+\code{\link[=cal_metadata]{cal_metadata()}}
 }
 \concept{functions for working with \code{cal} objects}

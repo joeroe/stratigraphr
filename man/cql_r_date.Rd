@@ -53,14 +53,14 @@ year, for details see: \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_cal
 \insertAllCited{}
 }
 \seealso{
-Other CQL functions: 
-\code{\link{cql_boundary}()},
-\code{\link{cql_n}()},
-\code{\link{cql_options}()},
+Other CQL functions:
+\code{\link[=cql]{cql()}},
+\code{\link[=cql_boundary]{cql_boundary()}},
+\code{\link[=cql_n]{cql_n()}},
+\code{\link[=cql_options]{cql_options()}},
 \code{\link{cql_other}},
-\code{\link{cql_phase}()},
-\code{\link{cql_sequence}()},
-\code{\link{cql}()},
-\code{\link{write_oxcal}()}
+\code{\link[=cql_phase]{cql_phase()}},
+\code{\link[=cql_sequence]{cql_sequence()}},
+\code{\link[=write_oxcal]{write_oxcal()}}
 }
 \concept{CQL functions}

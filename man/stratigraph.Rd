@@ -25,3 +25,9 @@ A \code{stratigraph} object.
 Takes a data frame describing stratigraphic units and relations and turns
 it into a graph representation.
 }
+\examples{
+circle <- stratigraph(data.frame(
+  label = LETTERS[1:4],
+  below = c("B", "C", "D", "A")
+), "label", "below", "below")
+}

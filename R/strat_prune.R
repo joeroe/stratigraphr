@@ -68,7 +68,7 @@ strg_to_relation <- function(graph) {
 #'
 #' Via igraph. Returns a two-column data.frame, ignoring the names of the
 #' adjacency matrix from the relation (so we assume we're working with
-#' bare indices, as returned by [strg_to_relation()]).
+#' bare indices, as returned by strg_to_relation()).
 #'
 #' @noRd
 #' @keywords {internal}

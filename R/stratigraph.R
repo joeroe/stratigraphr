@@ -20,6 +20,8 @@
 #' A `stratigraph` object.
 #'
 #' @export
+#'
+#' @examples
 #' circle <- stratigraph(data.frame(
 #'   label = LETTERS[1:4],
 #'   below = c("B", "C", "D", "A")

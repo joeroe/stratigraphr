@@ -37,8 +37,8 @@ shub1_radiocarbon \%>\%
                    .groups = "drop_last")
 }
 \seealso{
-Other tidy radiocarbon functions: 
-\code{\link{c14_calibrate}()},
-\code{\link{cal}()}
+Other tidy radiocarbon functions:
+\code{\link[=c14_calibrate]{c14_calibrate()}},
+\code{\link[=cal]{cal()}}
 }
 \concept{tidy radiocarbon functions}
