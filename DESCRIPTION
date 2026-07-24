@@ -20,7 +20,6 @@ LazyData: true
 Imports: 
     Rdpack,
     checkmate,
-    dplyr,
     glue,
     igraph (>= 0.3.0),
     purrr,
@@ -32,8 +31,10 @@ Imports:
     tidygraph,
     tidyr,
     utils,
+    vctrs,
 Suggests: 
     covr,
+    dplyr,
     ggraph,
     knitr,
     oxcAAR,

@@ -1,11 +1,12 @@
 # stratigraphr (development version)
 
+- Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in the
   [c14 package](https://c14.joeroe.io/).
+- Adds dependency on vctrs
 - Drops dependencies on cli, rcarbon, magrittr, Bchron (suggested) and ggplot2 
   (suggested)
-- Downgrades dependency on tibble to suggested
-- Minimum required R version is now 4.1
+- Downgrades dependencies on tibble and dplyr to suggested
 
 # stratigraphr 0.4.0
 

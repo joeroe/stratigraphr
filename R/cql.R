@@ -147,8 +147,7 @@ cql_options <- function(bcad = TRUE,
     strings <- sapply(options, is.character)
     options[strings] <- paste0("\"", options[strings], "\"")
 
-    names(options) <- dplyr::recode(
-      names(options),
+    options_recode <- c(
       bcad = "BCAD",
       convergence_data = "ConvergenceData",
       curve = "Curve",
@@ -169,6 +168,7 @@ cql_options <- function(bcad = TRUE,
       use_f14c = "UseF14C",
       year = "Year"
     )
+    names(options) <- options_recode[names(options)]
 
     cql <- paste(names(options), options, sep = " = ")
     cql <- paste(cql, collapse = ";\n")

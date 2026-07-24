@@ -130,11 +130,10 @@ strg_locate_cycles <- function(graph) {
 #' @examples
 #' data("harris12")
 #' strat_is_mirror(harris12$context, harris12$above, harris12$below)
-#' @importFrom rlang .data
 strat_is_mirror <- function(units, relation1, relation2) {
   edges1 <- strat_connect(units, relation1, "above")
   edges2 <- strat_connect(units, relation2, "below")
-  edges1 <- dplyr::arrange(edges1, .data$to, .data$from)
-  edges2 <- dplyr::arrange(edges2, .data$to, .data$from)
+  edges1 <- vctrs::vec_slice(edges1, vctrs::vec_order(edges1[c("to", "from")]))
+  edges2 <- vctrs::vec_slice(edges2, vctrs::vec_order(edges2[c("to", "from")]))
   return(all(edges1 == edges2))
 }
