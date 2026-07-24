@@ -36,7 +36,4 @@ Phase and structure names are also based on the diagram.
 \references{
 \insertAllCited{}
 }
-\seealso{
-\link{shub1_radiocarbon}
-}
 \keyword{datasets}

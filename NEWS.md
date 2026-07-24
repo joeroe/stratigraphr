@@ -4,6 +4,7 @@
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in the
   [c14 package](https://c14.joeroe.io/).
+  - Removes `shub1_radiocarbon` dataset (also now found in c14)
 - Adds dependencies on vctrs and vroom
 - Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron (suggested) and 
   ggplot2 (suggested)
