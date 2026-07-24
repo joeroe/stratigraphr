@@ -8,17 +8,17 @@ test_that("stratigraphs constructed from above and below are isomorphic", {
   )
 })
 
-test_that("strat_is_valid() returns TRUE for the harris12 dataset", {
+test_that("strg_is_valid() returns TRUE for the harris12 dataset", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
-  expect_warning(strat_is_valid(h12_graph), NA)
-  expect_true(strat_is_valid(h12_graph))
+  expect_warning(strg_is_valid(h12_graph), NA)
+  expect_true(strg_is_valid(h12_graph))
 })
 
-test_that("strat_is_valid() detects cycles", {
+test_that("strg_is_valid() detects cycles", {
   data("harris12")
   harris12$above[1] <- list(c("natural"))
   expect_warning(h12_graph <- stratigraph(harris12, "context", "above"))
-  expect_warning(strat_is_valid(h12_graph), "cycle")
-  expect_false(strat_is_valid(h12_graph, warn = FALSE))
+  expect_warning(strg_is_valid(h12_graph), "cycle")
+  expect_false(strg_is_valid(h12_graph, warn = FALSE))
 })

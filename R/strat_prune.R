@@ -29,7 +29,7 @@
 #' strg_prune(bushy_stratigraphy)
 strg_prune <- function(strg) {
   # TODO: use tidygraph morphers to maintain original data?
-  to_transitive_reduction(strg)
+  strg_to_transitive_reduction(strg)
 }
 
 #' Generate the transitive reduction of a graph
@@ -39,7 +39,7 @@ strg_prune <- function(strg) {
 #'
 #' @noRd
 #' @keywords {internal}
-to_transitive_reduction <- function(graph) {
+strg_to_transitive_reduction <- function(graph) {
   relation <- strg_to_relation(graph)
   reduction <- relations::transitive_reduction(relation)
   tidygraph::tbl_graph(

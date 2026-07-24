@@ -36,7 +36,7 @@ stratigraph <- function(data, label, relation, direction = c("above", "below")) 
   # TODO: turn into an as.stratigraph function?
   class(graph) <- c("stratigraph", class(graph))
 
-  invisible(strat_is_valid(graph))
+  invisible(strg_is_valid(graph))
 
   return(graph)
 }
@@ -91,7 +91,7 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
 #' `TRUE` or `FALSE`.
 #'
 #' @export
-strat_is_valid <- function(stratigraph, warn = TRUE) {
+strg_is_valid <- function(stratigraph, warn = TRUE) {
   if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
     if(warn) warning("Invalid stratigraphic graph: contains cycles")
     return(FALSE)
