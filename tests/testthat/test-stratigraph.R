@@ -98,10 +98,10 @@ test_that("strg_box_render() produces exact output for harris12", {
   # Row 13: "natural" centered
   
   # Check specific rows
-  expect_true(any(grepl("┌───────┼───────┐", tree)))  # Split from 1
-  expect_true(any(grepl("└───────┼───────┘", tree)))  # Merge into 5
-  expect_true(any(grepl("┌───┴───┐", tree)))          # Split from 6
-  expect_true(any(grepl("└───┬───┘", tree)))          # Merge into 9
+  expect_true(any(grepl("┌───────────────┼───────────────┐", tree)))  # Split from 1
+  expect_true(any(grepl("└───────────────┼───────────────┘", tree)))  # Merge into 5
+  expect_true(any(grepl("┌───────┴───────┐", tree)))          # Split from 6
+  expect_true(any(grepl("└───────┬───────┘", tree)))          # Merge into 9
   
   # Check that 2, 3, 4 are on the same row
   row_with_2 <- which(grepl("2", tree))
@@ -139,4 +139,54 @@ test_that("strg_box_render() handles long edges with dummy nodes", {
     expect_true(grepl("[│┌┐└┘┼┬┴├┤]", prev_line),
                 info = "Node 30 should be connected to the graph")
   }
+})
+
+test_that("strg_box_render() truncates labels wider than max_label_width", {
+  # Create a graph with long labels
+  nodes <- data.frame(
+    context = c("verylonglabel1", "verylonglabel2", "verylonglabel3"),
+    above = I(list(NA_character_, "verylonglabel1", "verylonglabel2")),
+    stringsAsFactors = FALSE
+  )
+  
+  g <- stratigraph(nodes, "context", "above")
+  
+  # Test with default max_label_width (8)
+  tree_default <- stratigraphr:::strg_box_render(g)
+  expect_true(any(grepl("verylong", tree_default)))
+  expect_false(any(grepl("verylonglabel", tree_default)))
+  
+  # Test with custom max_label_width (5)
+  tree_custom <- stratigraphr:::strg_box_render(g, max_label_width = 5)
+  expect_true(any(grepl("veryl", tree_custom)))
+  expect_false(any(grepl("verylo", tree_custom)))
+  
+  # Verify column width adapts to truncated width
+  # With max_label_width = 5, column width should be 6 (5 + 1 gap)
+  line_lengths <- nchar(tree_custom)
+  expect_true(max(line_lengths) <= 20)  # 3 nodes * 6 chars + some spacing
+})
+
+test_that("strg_box_render() centers labels on edge connections", {
+  # Create a simple graph with odd-width labels
+  nodes <- data.frame(
+    context = c("abcde", "fghij", "klmno"),
+    above = I(list(NA_character_, "abcde", "fghij")),
+    stringsAsFactors = FALSE
+  )
+  
+  g <- stratigraph(nodes, "context", "above")
+  tree <- stratigraphr:::strg_box_render(g)
+  
+  # For odd-width labels (5 chars), the vertical edge should be centered
+  # Find the line with the label and the line below it with the edge
+  label_line <- which(grepl("abcde", tree))[1]
+  edge_line <- label_line + 1
+  
+  # The edge "│" should be at the center of the label
+  label_pos <- as.integer(regexpr("abcde", tree[label_line]))
+  edge_pos <- as.integer(regexpr("│", tree[edge_line]))
+  
+  # For a 5-char label starting at position label_pos, center is at label_pos + 2
+  expect_equal(edge_pos, label_pos + 2)
 })

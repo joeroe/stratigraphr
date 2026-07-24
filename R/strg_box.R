@@ -33,8 +33,19 @@ strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
   # Convert layout to grid positions
   col_pos <- strg_box_compute_col_positions(full_layout, labels, max_label_width, n_nodes)
   node_to_row <- strg_box_compute_label_rows(full_layout, nrow(full_layout))
+  
+  # Center labels on their column positions
+  label_widths <- pmin(nchar(labels), max_label_width)
+  label_offsets <- floor((label_widths - 1) / 2)
+  
+  # Calculate adjusted column positions to ensure no label extends to column < 1
+  min_col_after_centering <- min(col_pos[1:n_nodes] - label_offsets)
+  shift <- max(0, 1 - min_col_after_centering)
+  col_pos <- col_pos + shift
+  
   n_rows <- max(node_to_row) + 1
-  n_cols <- max(col_pos) + max_label_width
+  max_right_extent <- max(col_pos[1:n_nodes] + floor(label_widths / 2))
+  n_cols <- max_right_extent
 
   # Initialize canvas
   canvas <- matrix(" ", nrow = n_rows, ncol = n_cols)
@@ -68,25 +79,15 @@ strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
 strg_box_compute_col_positions <- function(layout, labels, max_label_width, n_original) {
   n_total <- nrow(layout)
   
-  # Create full labels vector (original labels + dummy node placeholders)
-  if (n_total > n_original) {
-    full_labels <- c(labels, rep("", n_total - n_original))
-  } else {
-    full_labels <- labels
-  }
+  # Calculate uniform column width based on actual max label width
+  actual_max_width <- min(max(nchar(labels)), max_label_width)
+  column_width <- actual_max_width + 1  # label width + 1 char gap for edges
   
   all_x <- sort(unique(layout[, 1]))
+  n_unique_x <- length(all_x)
   
-  label_widths <- purrr::map_int(all_x, function(x) {
-    node_at_x <- which(layout[, 1] == x)[1]
-    if (node_at_x <= n_original) {
-      min(nchar(full_labels[node_at_x]), max_label_width)
-    } else {
-      1  # Dummy nodes have width 1
-    }
-  })
-  
-  x_to_col <- 1 + cumsum(c(0, label_widths[-length(label_widths)] + 3))
+  # All columns have uniform width
+  x_to_col <- 1 + cumsum(c(0, rep(column_width, n_unique_x - 1)))
   names(x_to_col) <- as.character(all_x)
   
   stats::setNames(x_to_col[as.character(layout[, 1])], seq_len(n_total))
@@ -287,10 +288,13 @@ strg_box_generate_label_operations <- function(labels, node_to_label_row, col_po
     function(label, row, col) {
       label_truncated <- substr(label, 1, max_label_width)
       chars <- strsplit(label_truncated, "")[[1]]
+      
+      # Center label on column position
+      offset <- floor((length(chars) - 1) / 2)
 
       data.frame(
         row = rep(row, length(chars)),
-        col = col + seq_along(chars) - 1,
+        col = col - offset + seq_along(chars) - 1,
         char = chars
       )
     }
