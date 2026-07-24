@@ -6,7 +6,7 @@ and ArchEd) into a data frame.
 ## Usage
 
 ``` r
-read_lst(file, split = TRUE, sep = ",", locale = readr::default_locale())
+read_lst(file, split = TRUE, sep = ",", locale = vroom::default_locale())
 ```
 
 ## Arguments
@@ -31,10 +31,10 @@ read_lst(file, split = TRUE, sep = ",", locale = readr::default_locale())
 
 - locale:
 
-  [`readr::locale()`](https://readr.tidyverse.org/reference/locale.html)
+  [`vroom::locale()`](https://vroom.tidyverse.org/reference/locale.html)
   object specifying the character encoding and other region-specific
   settings used in the file. Defaults to
-  [`readr::default_locale()`](https://readr.tidyverse.org/reference/locale.html).
+  [`vroom::default_locale()`](https://vroom.tidyverse.org/reference/locale.html).
 
 ## Value
 

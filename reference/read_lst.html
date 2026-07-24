@@ -47,7 +47,7 @@ ArchEd) into a data frame.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_lst</span><span class="op">(</span><span class="va">file</span>, split <span class="op">=</span> <span class="cn">TRUE</span>, sep <span class="op">=</span> <span class="st">","</span>, locale <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/locale.html" class="external-link">default_locale</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_lst</span><span class="op">(</span><span class="va">file</span>, split <span class="op">=</span> <span class="cn">TRUE</span>, sep <span class="op">=</span> <span class="st">","</span>, locale <span class="op">=</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.tidyverse.org/reference/locale.html" class="external-link">default_locale</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,9 +72,9 @@ multiple values. Ignored if <code>split = FALSE</code>. Default: <code>","</code
 
 
 <dt id="arg-locale">locale<a class="anchor" aria-label="anchor" href="#arg-locale"></a></dt>
-<dd><p><code><a href="https://readr.tidyverse.org/reference/locale.html" class="external-link">readr::locale()</a></code> object specifying the character encoding and
+<dd><p><code><a href="https://vroom.tidyverse.org/reference/locale.html" class="external-link">vroom::locale()</a></code> object specifying the character encoding and
 other region-specific settings used in the file. Defaults to
-<code><a href="https://readr.tidyverse.org/reference/locale.html" class="external-link">readr::default_locale()</a></code>.</p></dd>
+<code><a href="https://vroom.tidyverse.org/reference/locale.html" class="external-link">vroom::default_locale()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

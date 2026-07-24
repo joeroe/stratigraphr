@@ -39,7 +39,12 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="stratigraphr-development-version">stratigraphr (development version)<a class="anchor" aria-label="anchor" href="#stratigraphr-development-version"></a></h2>
-</div>
+<ul><li>Minimum supported R version is now 4.1</li>
+<li>Removes deprecated <code>c14_*</code> and <code>cal_*</code> functions. These now live in the <a href="https://c14.joeroe.io/" class="external-link">c14 package</a>.</li>
+<li>Adds dependencies on vctrs and vroom</li>
+<li>Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron (suggested) and ggplot2 (suggested)</li>
+<li>Downgrades dependencies on tibble, dplyr and readr to suggested</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="stratigraphr-040">stratigraphr 0.4.0<a class="anchor" aria-label="anchor" href="#stratigraphr-040"></a></h2>
 <ul><li>
@@ -56,12 +61,12 @@
 <ul><li>Expanded framework for tidy radiocarbon analysis, adding:
 <ul><li>New S3 object <code>cal</code>, a generic representation of calibrated probability distributions</li>
 <li>Methods for printing and summarising <code>cal</code> objects</li>
-<li>Type conversion functions for <code>cal</code> objects (<code><a href="../reference/as_cal.html">as_cal.CalDates()</a></code>, <code><a href="../reference/as_cal.html">as_cal.oxcAARCalibratedDatesList()</a></code> and <code><a href="../reference/as_cal.html">as_cal.BchronCalibratedDates()</a></code>)</li>
+<li>Type conversion functions for <code>cal</code> objects (<code>as_cal.CalDates()</code>, <code>as_cal.oxcAARCalibratedDatesList()</code> and <code>as_cal.BchronCalibratedDates()</code>)</li>
 <li>New <code><a href="../articles/tidy_radiocarbon.html">vignette("tidy_radiocarbon")</a></code>
 </li>
 </ul></li>
 <li>
-<strong>Breaking change</strong>: <code><a href="../reference/cal.html">cal()</a></code> and <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
+<strong>Breaking change</strong>: <code>cal()</code> and <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
 <li>
 <strong>Breaking changes</strong> to <code>stratigraph</code> interface:
 <ul><li>Renamed functions: <code>harris()</code> → <code><a href="../reference/strat_connect.html">strat_connect()</a></code>, <code>is_valid_harris()</code> → <code><a href="../reference/strat_is_valid.html">strat_is_valid()</a></code>

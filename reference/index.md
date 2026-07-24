@@ -80,19 +80,3 @@ Example data included with the package.
 - [`shub1`](shub1.md) : Schematic stratigraphy of Shubayqa 1
 - [`shub1_radiocarbon`](shub1_radiocarbon.md) : Radiocarbon dates from
   Shubayqa 1
-
-## Deprecated
-
-Functions for working with radiocarbon data in a tidy framework can now
-be found in the [c14 package](https://c14.joeroe.io/) and will be
-removed in a future version of stratigraph.
-
-- [`cal()`](cal.md) [`print(`*`<cal>`*`)`](cal.md) : Calibrated
-  radiocarbon dates
-- [`cal_metadata()`](cal_metadata.md) : Extract metadata from a
-  calibrated date
-- [`as_cal()`](as_cal.md) : Convert an object to a cal object
-- [`as.CalDates.cal()`](as.CalDates.cal.md) : Convert cal objects to a
-  rcarbon CalDates object
-- [`c14_calibrate()`](c14_calibrate.md) : Calibrate radiocarbon dates
-- [`c14_sum()`](c14_sum.md) : Sum radiocarbon dates with tidy syntax

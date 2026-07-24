@@ -2,6 +2,14 @@
 
 ## stratigraphr (development version)
 
+- Minimum supported R version is now 4.1
+- Removes deprecated `c14_*` and `cal_*` functions. These now live in
+  the [c14 package](https://c14.joeroe.io/).
+- Adds dependencies on vctrs and vroom
+- Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron
+  (suggested) and ggplot2 (suggested)
+- Downgrades dependencies on tibble, dplyr and readr to suggested
+
 ## stratigraphr 0.4.0
 
 - [`strg_prune()`](../reference/strg_prune.md) implements transitive
@@ -24,13 +32,12 @@
   - New S3 object `cal`, a generic representation of calibrated
     probability distributions
   - Methods for printing and summarising `cal` objects
-  - Type conversion functions for `cal` objects
-    ([`as_cal.CalDates()`](../reference/as_cal.md),
-    [`as_cal.oxcAARCalibratedDatesList()`](../reference/as_cal.md) and
-    [`as_cal.BchronCalibratedDates()`](../reference/as_cal.md))
+  - Type conversion functions for `cal` objects (`as_cal.CalDates()`,
+    `as_cal.oxcAARCalibratedDatesList()` and
+    `as_cal.BchronCalibratedDates()`)
   - New
     [`vignette("tidy_radiocarbon")`](../articles/tidy_radiocarbon.md)
-- **Breaking change**: [`cal()`](../reference/cal.md) and
+- **Breaking change**: `cal()` and
   [`sum()`](https://rdrr.io/r/base/sum.html) renamed `c14_calibrate` and
   `c14_sum` and now return `cal` objects.
 - **Breaking changes** to `stratigraph` interface:
