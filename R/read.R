@@ -16,9 +16,9 @@
 #'   (corresponding to LST attribute names, see details) that should be split.
 #' @param sep Delimiter used to separate multiple values in attributes.
 #'   multiple values. Ignored if `split = FALSE`. Default: `","`.
-#' @param locale [readr::locale()] object specifying the character encoding and
+#' @param locale [vroom::locale()] object specifying the character encoding and
 #'   other region-specific settings used in the file. Defaults to
-#'   [readr::default_locale()].
+#'   [vroom::default_locale()].
 #'
 #' @return
 #' A data frame. Each row represents one stratum. Columns contain the name of
@@ -56,9 +56,9 @@
 #' stratify_lst <- system.file("extdata", "stratify.lst", package = "stratigraphr")
 #' read_lst(stratify_lst)
 read_lst <- function(file, split = TRUE, sep = ",",
-                     locale = readr::default_locale()) {
+                     locale = vroom::default_locale()) {
   # TODO: Add type checking/validation
-  lst <- readr::read_lines(file, locale = locale)
+  lst <- vroom::vroom_lines(file, locale = locale)
 
   # Extract header
   header <- lst_extract_header(lst)

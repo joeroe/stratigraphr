@@ -4,7 +4,7 @@
 \alias{read_lst}
 \title{Read an LST file}
 \usage{
-read_lst(file, split = TRUE, sep = ",", locale = readr::default_locale())
+read_lst(file, split = TRUE, sep = ",", locale = vroom::default_locale())
 }
 \arguments{
 \item{file}{Path to an LST file.}
@@ -18,9 +18,9 @@ splitting will be done. Alternatively, specify a vector of column names
 \item{sep}{Delimiter used to separate multiple values in attributes.
 multiple values. Ignored if \code{split = FALSE}. Default: \code{","}.}
 
-\item{locale}{\code{\link[readr:locale]{readr::locale()}} object specifying the character encoding and
+\item{locale}{\code{\link[vroom:locale]{vroom::locale()}} object specifying the character encoding and
 other region-specific settings used in the file. Defaults to
-\code{\link[readr:default_locale]{readr::default_locale()}}.}
+\code{\link[vroom:default_locale]{vroom::default_locale()}}.}
 }
 \value{
 A data frame. Each row represents one stratum. Columns contain the name of

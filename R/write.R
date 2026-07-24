@@ -23,7 +23,7 @@ write_oxcal <- function(cql, file) {
   }
 
   out <- utils::capture.output(print(cql))
-  readr::write_lines(out, file, sep = "\r\n")
+  vroom::vroom_write_lines(out, file, eol = "\r\n")
 
   invisible(cql)
 }

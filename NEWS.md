@@ -3,10 +3,10 @@
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in the
   [c14 package](https://c14.joeroe.io/).
-- Adds dependency on vctrs
+- Adds dependencies on vctrs and vroom
 - Drops dependencies on cli, rcarbon, magrittr, Bchron (suggested) and ggplot2 
   (suggested)
-- Downgrades dependencies on tibble and dplyr to suggested
+- Downgrades dependencies on tibble, dplyr and readr to suggested
 
 # stratigraphr 0.4.0
 
