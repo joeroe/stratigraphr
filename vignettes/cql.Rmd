@@ -39,11 +39,13 @@ library("stratigraphr")
 Used in the simple way above, `stratigraphr`'s CQL interface offers little benefit over writing CQL directly.
 Its real power is in combining `cql()` with other R tools to build models based on other data.
 
-For the following examples, we will use stratigraphic and radiocarbon data from Shubayqa 1 [@Richter2017-xy]:
+For the following examples, we will use stratigraphic and radiocarbon data from Shubayqa 1 [@Richter2017-xy].
+The latter is made available by the c14 package:
 
 ```{r shub-data}
+library(c14)
 data("shub1")
-data("shub1_radiocarbon")
+data("shub1_c14")
 ```
 
 ### Tabular data
@@ -56,8 +58,8 @@ For example, use `dplyr::mutate()` to concisely express a table of dates as CQL 
 library("purrr")
 library("dplyr")
 
-shub1_radiocarbon |> 
-  mutate(r_date = cql_r_date(lab_id, cra, error)) |> 
+shub1_c14 |> 
+  mutate(r_date = cql_r_date(lab_id, c14_age, c14_error)) |> 
   pluck("r_date") |> 
   cql()
 ```
@@ -70,10 +72,10 @@ This is a three stage process, illustrated below with the phase model from Shuba
 3. Group phases into a sequence, using `boundaries` to automatically add boundary constraints between them. If we had multiple independent sequences, we could include an additional grouping variable here, before concatenating them with `cql()`.
 
 ```{r shub-phase}
-shub1_radiocarbon |> 
+shub1_c14 |> 
   filter(!outlier) |> 
   group_by(phase) |> 
-  summarise(cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) |> 
+  summarise(cql = cql_phase(phase, cql_r_date(lab_id, c14_age, c14_error))) |> 
   arrange(desc(phase)) |> 
   summarise(cql = cql_sequence("Shubayqa 1", cql, boundaries = TRUE)) %>%
   pluck("cql") %>%

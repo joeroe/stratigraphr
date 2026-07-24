@@ -32,6 +32,7 @@ Imports:
     vctrs,
     vroom,
 Suggests: 
+    c14,
     covr,
     dplyr,
     ggraph,
