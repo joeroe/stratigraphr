@@ -1,3 +1,5 @@
+# stratigraphr (development version)
+
 # stratigraphr 0.4.0
 
 - `strg_prune()` implements transitive reduction of stratigraphic graphs (#13)
