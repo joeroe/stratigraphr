@@ -28,7 +28,6 @@ Imports:
     sets,
     stringr,
     tidygraph,
-    tidyr,
     utils,
     vctrs,
     vroom,

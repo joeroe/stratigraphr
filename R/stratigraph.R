@@ -72,7 +72,7 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
   }
 
   df <- data.frame(to, from)
-  df <- tidyr::drop_na(df)
+  df <- vctrs::vec_slice(df, vctrs::vec_detect_complete(df))
   return(df)
 }
 
