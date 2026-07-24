@@ -110,6 +110,42 @@ strg_locate_cycles <- function(graph) {
   bad_edges <- igraph::feedback_arc_set(graph)
 }
 
+#' Print a stratigraphic graph
+#'
+#' Prints a stratigraph object with a summary header and box-drawing
+#' visualization using a Sugiyama-style layered layout.
+#'
+#' @param x A [stratigraph()] object.
+#' @param max_lines Maximum number of lines to display. Default: 20.
+#' @param max_label_width Maximum width of labels in characters. Default: 8.
+#' @param ... Additional arguments (currently unused).
+#'
+#' @return Invisibly returns `x`.
+#'
+#' @exportS3Method print stratigraph
+print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
+  n_nodes <- igraph::gorder(x)
+  n_edges <- igraph::gsize(x)
+  valid <- strg_is_valid(x, warn = FALSE)
+
+  cat(cli::col_grey(sprintf("# A stratigraph: %d units and %d relations\n", n_nodes, n_edges)))
+  if (valid) {
+    cat(cli::col_grey("# "), cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"), sep = "")
+  } else {
+    cat(cli::col_grey("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
+  }
+
+  if (n_nodes == 0) {
+    return(invisible(x))
+  }
+
+  tree <- strg_box_render(x, max_lines = max_lines,
+                            max_label_width = max_label_width)
+  cat(tree, sep = "\n")
+
+  invisible(x)
+}
+
 # Validation functions ----------------------------------------------------
 
 #' Are two relation vectors mirrored?

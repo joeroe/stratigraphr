@@ -27,19 +27,19 @@ test_that("print.stratigraph() produces output", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
   
-  output <- capture.output(print(h12_graph))
+  output <- cli::ansi_strip(capture.output(print(h12_graph)))
   expect_true(length(output) > 0)
   expect_true(any(grepl("A stratigraph:", output)))
   expect_true(any(grepl("10 units", output)))
   expect_true(any(grepl("12 relations", output)))
-  expect_true(any(grepl("Valid: TRUE", output)))
+  expect_true(any(grepl("Valid stratigraphic graph", output)))
 })
 
 test_that("print.stratigraph() handles empty graphs", {
   empty_graph <- stratigraph(data.frame(label = character(0), above = list()), 
                              "label", "above")
   
-  output <- capture.output(print(empty_graph))
+  output <- cli::ansi_strip(capture.output(print(empty_graph)))
   expect_true(length(output) > 0)
   expect_true(any(grepl("0 units", output)))
   expect_true(any(grepl("0 relations", output)))
@@ -101,4 +101,30 @@ test_that("strg_box_render() produces exact output for harris12", {
   row_with_7 <- which(grepl("7", tree))
   row_with_8 <- which(grepl("8", tree))
   expect_equal(length(unique(c(row_with_7, row_with_8))), 1)
+})
+
+test_that("strg_box_render() handles long edges with dummy nodes", {
+  data("shub1")
+  shub1_graph <- stratigraph(shub1, "context", "above")
+  
+  tree <- stratigraphr:::strg_box_render(shub1_graph, max_lines = 100)
+  
+  # Check that all nodes are present
+  for (i in 1:30) {
+    expect_true(any(grepl(paste0("\\b", i, "\\b"), tree)),
+                info = paste("Node", i, "not found"))
+  }
+  
+  # Check that node 30 is connected (has edges above it)
+  # Node 30 should have a "│" or "└" or "┘" or "┴" or "┬" above it on the previous line
+  row_with_30 <- which(grepl("30", tree))
+  expect_true(length(row_with_30) > 0)
+  
+  # The line before node 30 should have some edge character
+  if (row_with_30 > 1) {
+    prev_line <- tree[row_with_30 - 1]
+    # Should have some box-drawing character indicating connection
+    expect_true(grepl("[│┌┐└┘┼┬┴├┤]", prev_line),
+                info = "Node 30 should be connected to the graph")
+  }
 })
