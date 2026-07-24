@@ -56,9 +56,9 @@ For example, use `dplyr::mutate()` to concisely express a table of dates as CQL 
 library("purrr")
 library("dplyr")
 
-shub1_radiocarbon %>% 
-  mutate(r_date = cql_r_date(lab_id, cra, error)) %>% 
-  pluck("r_date") %>% 
+shub1_radiocarbon |> 
+  mutate(r_date = cql_r_date(lab_id, cra, error)) |> 
+  pluck("r_date") |> 
   cql()
 ```
 
@@ -70,11 +70,11 @@ This is a three stage process, illustrated below with the phase model from Shuba
 3. Group phases into a sequence, using `boundaries` to automatically add boundary constraints between them. If we had multiple independent sequences, we could include an additional grouping variable here, before concatenating them with `cql()`.
 
 ```{r shub-phase}
-shub1_radiocarbon %>% 
-  filter(!outlier) %>% 
-  group_by(phase) %>% 
-  summarise(cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) %>% 
-  arrange(desc(phase)) %>% 
+shub1_radiocarbon |> 
+  filter(!outlier) |> 
+  group_by(phase) |> 
+  summarise(cql = cql_phase(phase, cql_r_date(lab_id, cra, error))) |> 
+  arrange(desc(phase)) |> 
   summarise(cql = cql_sequence("Shubayqa 1", cql, boundaries = TRUE)) %>%
   pluck("cql") %>%
   cql() ->
@@ -118,7 +118,7 @@ quickSetupOxcal(path = tempdir())
 You can then use `oxcAAR::executeOxcalScript()` to run the CQL script and `oxcAAR::readOxcalOutput()` to read the output back into R.
 
 ```{r oxcaar-execute, results=FALSE, message=FALSE}
-executeOxcalScript(oxcal_cql) %>% 
+executeOxcalScript(oxcal_cql) |> 
   readOxcalOutput() ->
   oxcal_output
 ```
@@ -138,8 +138,8 @@ Again, you can quickly visualise these with the built-in plotting functions:
 ```{r oxcaar-bayes}
 # Not run: slow
 # shub1_oxcal <- executeOxcalScript(shub1_cql)
-# readOxcalOutput(shub1_oxcal) %>% 
-#   parseOxcalOutput() %>% 
+# readOxcalOutput(shub1_oxcal) |> 
+#   parseOxcalOutput() |> 
 #   plot()
 ```
 

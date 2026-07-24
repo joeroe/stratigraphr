@@ -23,7 +23,6 @@ Imports:
     dplyr,
     glue,
     igraph (>= 0.3.0),
-    magrittr,
     purrr,
     readr,
     relations,
@@ -46,5 +45,5 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1)
 Config/roxygen2/version: 8.0.0
