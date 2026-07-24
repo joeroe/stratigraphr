@@ -1,6 +1,7 @@
 # stratigraphr (development version)
 
 - `strat_is_valid()` renamed to `strg_is_valid()` (#21)
+- Adds `print()` method for stratigraphs
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in the
   [c14 package](https://c14.joeroe.io/).

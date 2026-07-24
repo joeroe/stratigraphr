@@ -3,7 +3,7 @@
 
 # Render a stratigraph with box-drawing characters using Sugiyama layout
 #' @noRd
-strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
+strg_box_render <- function(strg, n = NULL, max_label_width = 8) {
   # Extract data
   nodes <- tidygraph::as_tibble(strg, active = "nodes")
   labels <- as.character(nodes[[1]])
@@ -12,7 +12,13 @@ strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
 
   # Handle edge cases
   if (n_nodes == 1) {
-    return(substr(labels[1], 1, max_label_width))
+    return(list(
+      lines = substr(labels[1], 1, max_label_width),
+      total_nodes = 1,
+      total_levels = 1,
+      nodes_shown = 1,
+      levels_shown = 1
+    ))
   }
 
   # Compute Sugiyama layout
@@ -33,6 +39,10 @@ strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
   # Convert layout to grid positions
   col_pos <- strg_box_compute_col_positions(full_layout, labels, max_label_width, n_nodes)
   node_to_row <- strg_box_compute_label_rows(full_layout, nrow(full_layout))
+  
+  # Compute level assignments for original nodes
+  node_levels <- strg_box_compute_levels(full_layout, n_nodes)
+  total_levels <- max(node_levels)
   
   # Center labels on their column positions
   label_widths <- pmin(nchar(labels), max_label_width)
@@ -70,8 +80,8 @@ strg_box_render <- function(strg, max_lines = NULL, max_label_width = 8) {
     }
   }
 
-  # Convert to lines
-  strg_box_canvas_to_lines(canvas, max_lines)
+  # Convert to lines with level-based truncation
+  strg_box_canvas_to_lines(canvas, n, node_levels, n_nodes)
 }
 
 # Compute column positions from layout coordinates
@@ -91,6 +101,14 @@ strg_box_compute_col_positions <- function(layout, labels, max_label_width, n_or
   names(x_to_col) <- as.character(all_x)
   
   stats::setNames(x_to_col[as.character(layout[, 1])], seq_len(n_total))
+}
+
+# Compute level assignments for original nodes
+#' @noRd
+strg_box_compute_levels <- function(layout, n_original) {
+  y_max <- max(layout[, 2])
+  layers <- round(y_max - layout[1:n_original, 2]) + 1
+  stats::setNames(layers, seq_len(n_original))
 }
 
 # Compute label row assignments from layout coordinates
@@ -323,9 +341,9 @@ strg_box_generate_dummy_operations <- function(node_to_row, col_pos, n_original)
   })
 }
 
-# Convert canvas matrix to character lines
+# Convert canvas matrix to character lines with level-based truncation
 #' @noRd
-strg_box_canvas_to_lines <- function(canvas, max_lines) {
+strg_box_canvas_to_lines <- function(canvas, n, node_levels, n_nodes) {
   lines <- apply(canvas, 1, paste0, collapse = "")
 
   # Trim trailing spaces
@@ -333,11 +351,39 @@ strg_box_canvas_to_lines <- function(canvas, max_lines) {
 
   # Remove empty lines at start and end
   lines <- purrr::keep(lines, ~ .x != "")
-
-  # Truncate if max_lines specified
-  if (!is.null(max_lines) && length(lines) > max_lines) {
-    lines <- c(lines[1:(max_lines - 1)], "...")
+  
+  total_levels <- max(node_levels)
+  
+  # Determine how many levels to show
+  if (is.null(n) || n >= total_levels) {
+    # Show all levels
+    levels_shown <- total_levels
+    nodes_shown <- n_nodes
+  } else if (n == 0) {
+    # Show nothing
+    return(list(
+      lines = character(0),
+      total_nodes = n_nodes,
+      total_levels = total_levels,
+      nodes_shown = 0,
+      levels_shown = 0
+    ))
+  } else {
+    # Truncate to n levels
+    levels_shown <- n
+    nodes_shown <- sum(node_levels <= n)
+    
+    # Each level takes 2 rows (label row + edge row), except last level has no edge row
+    # But canvas has both, so we cut at row 2*n
+    cutoff_row <- min(2 * n, length(lines))
+    lines <- lines[1:cutoff_row]
   }
 
-  lines
+  list(
+    lines = lines,
+    total_nodes = n_nodes,
+    total_levels = total_levels,
+    nodes_shown = nodes_shown,
+    levels_shown = levels_shown
+  )
 }

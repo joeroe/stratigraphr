@@ -76,16 +76,6 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
   return(df)
 }
 
-strg_validity_issues <- function(stratigraph) {
-  issues <- character(0)
-
-  if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
-    issues <- c(issues, "Contains cycles")
-  }
-
-  issues
-}
-
 #' Is an object a valid stratigraphic graph?
 #'
 #' @details
@@ -109,6 +99,20 @@ strg_is_valid <- function(stratigraph, warn = TRUE) {
   return(length(issues) == 0)
 }
 
+#' @noRd
+#' @keywords internal
+strg_validity_issues <- function(stratigraph) {
+  issues <- character(0)
+
+  if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
+    issues <- c(issues, "Contains cycles")
+  }
+
+  issues
+}
+
+#' @noRd
+#' @keywords internal
 strg_locate_cycles <- function(graph) {
   if (tidygraph::with_graph(graph, tidygraph::graph_is_dag())) {
     rlang::warn("`graph` does not contain cycles")
@@ -124,14 +128,14 @@ strg_locate_cycles <- function(graph) {
 #' visualization using a Sugiyama-style layered layout.
 #'
 #' @param x A [stratigraph()] object.
-#' @param max_lines Maximum number of lines to display. Default: 20.
+#' @param n Number of stratigraphic layers to display. Default: 10.
 #' @param max_label_width Maximum width of labels in characters. Default: 8.
 #' @param ... Additional arguments (currently unused).
 #'
 #' @return Invisibly returns `x`.
 #'
 #' @exportS3Method print stratigraph
-print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
+print.stratigraph <- function(x, n = 10, max_label_width = 8, ...) {
   n_nodes <- igraph::gorder(x)
   n_edges <- igraph::gsize(x)
   issues <- strg_validity_issues(x)
@@ -145,9 +149,17 @@ print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
       return(invisible(x))
     }
 
-    tree <- strg_box_render(x, max_lines = max_lines,
-                              max_label_width = max_label_width)
-    cat(tree, sep = "\n")
+    result <- strg_box_render(x, n = n, max_label_width = max_label_width)
+    cat(result$lines, sep = "\n")
+    
+    # Print footer if truncated
+    if (result$levels_shown < result$total_levels) {
+      remaining_nodes <- result$total_nodes - result$nodes_shown
+      remaining_levels <- result$total_levels - result$levels_shown
+      
+      cat(pillar::style_subtle(sprintf("# %d more units on %d more layers", remaining_nodes, remaining_levels)), "\n")
+      cat(pillar::style_subtle("# \u2139 Use `print(n = ...)` to see more layers"), "\n")
+    }
   } else {
     cat(pillar::style_subtle("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
     for (issue in issues) {

@@ -61,7 +61,8 @@ test_that("strg_box_render() produces correct structure for harris12", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
   
-  tree <- stratigraphr:::strg_box_render(h12_graph)
+  result <- stratigraphr:::strg_box_render(h12_graph)
+  tree <- result$lines
   
   # Check that the output contains the expected nodes
   expect_true(any(grepl("1", tree)))
@@ -80,7 +81,8 @@ test_that("strg_box_render() produces exact output for harris12", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
   
-  tree <- stratigraphr:::strg_box_render(h12_graph)
+  result <- stratigraphr:::strg_box_render(h12_graph)
+  tree <- result$lines
   
   # Expected output structure
   # Row 1: "1" centered
@@ -119,7 +121,8 @@ test_that("strg_box_render() handles long edges with dummy nodes", {
   data("shub1")
   shub1_graph <- stratigraph(shub1, "context", "above")
   
-  tree <- stratigraphr:::strg_box_render(shub1_graph, max_lines = 100)
+  result <- stratigraphr:::strg_box_render(shub1_graph, n = 100)
+  tree <- result$lines
   
   # Check that all nodes are present
   for (i in 1:30) {
@@ -152,12 +155,14 @@ test_that("strg_box_render() truncates labels wider than max_label_width", {
   g <- stratigraph(nodes, "context", "above")
   
   # Test with default max_label_width (8)
-  tree_default <- stratigraphr:::strg_box_render(g)
+  result_default <- stratigraphr:::strg_box_render(g)
+  tree_default <- result_default$lines
   expect_true(any(grepl("verylong", tree_default)))
   expect_false(any(grepl("verylonglabel", tree_default)))
   
   # Test with custom max_label_width (5)
-  tree_custom <- stratigraphr:::strg_box_render(g, max_label_width = 5)
+  result_custom <- stratigraphr:::strg_box_render(g, max_label_width = 5)
+  tree_custom <- result_custom$lines
   expect_true(any(grepl("veryl", tree_custom)))
   expect_false(any(grepl("verylo", tree_custom)))
   
@@ -176,7 +181,8 @@ test_that("strg_box_render() centers labels on edge connections", {
   )
   
   g <- stratigraph(nodes, "context", "above")
-  tree <- stratigraphr:::strg_box_render(g)
+  result <- stratigraphr:::strg_box_render(g)
+  tree <- result$lines
   
   # For odd-width labels (5 chars), the vertical edge should be centered
   # Find the line with the label and the line below it with the edge
@@ -189,4 +195,34 @@ test_that("strg_box_render() centers labels on edge connections", {
   
   # For a 5-char label starting at position label_pos, center is at label_pos + 2
   expect_equal(edge_pos, label_pos + 2)
+})
+
+test_that("print.stratigraph() truncates by levels and shows footer", {
+  data("harris12")
+  h12_graph <- stratigraph(harris12, "context", "above")
+  
+  # Test truncation with n = 3 (show first 3 levels: 1, 2-3-4, 5)
+  output <- cli::ansi_strip(capture.output(print(h12_graph, n = 3)))
+  
+  # Should show nodes from first 3 levels (1, 2, 3, 4, 5)
+  expect_true(any(grepl("1", output)))
+  expect_true(any(grepl("5", output)))
+  
+  # Should NOT show nodes from later levels (6, 7, 8, 9, natural)
+  expect_false(any(grepl("\\b6\\b", output)))
+  expect_false(any(grepl("natural", output)))
+  
+  # Should show footer
+  expect_true(any(grepl("more units on.*more layers", output)))
+  expect_true(any(grepl("Use.*print.*n.*to see more", output)))
+  
+  # Test with n = NULL (show all)
+  output_all <- cli::ansi_strip(capture.output(print(h12_graph, n = NULL)))
+  expect_true(any(grepl("natural", output_all)))
+  expect_false(any(grepl("more units", output_all)))
+  
+  # Test with n >= total levels (show all)
+  output_big <- cli::ansi_strip(capture.output(print(h12_graph, n = 100)))
+  expect_true(any(grepl("natural", output_big)))
+  expect_false(any(grepl("more units", output_big)))
 })
