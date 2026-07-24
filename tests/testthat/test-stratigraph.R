@@ -36,13 +36,25 @@ test_that("print.stratigraph() produces output", {
 })
 
 test_that("print.stratigraph() handles empty graphs", {
-  empty_graph <- stratigraph(data.frame(label = character(0), above = list()), 
+  empty_graph <- stratigraph(data.frame(label = character(0), above = list()),
                              "label", "above")
-  
+
   output <- cli::ansi_strip(capture.output(print(empty_graph)))
   expect_true(length(output) > 0)
   expect_true(any(grepl("0 units", output)))
   expect_true(any(grepl("0 relations", output)))
+})
+
+test_that("print.stratigraph() shows validity issues for invalid graphs", {
+  data("harris12")
+  harris12$above[1] <- list(c("natural"))
+  suppressWarnings(invalid_graph <- stratigraph(harris12, "context", "above"))
+
+  output <- cli::ansi_strip(capture.output(print(invalid_graph)))
+  expect_true(length(output) > 0)
+  expect_true(any(grepl("Invalid stratigraphic graph", output)))
+  expect_true(any(grepl("Contains cycles", output)))
+  expect_false(any(grepl("[\u250c\u2510\u2514\u2518\u2502]", output)))
 })
 
 test_that("strg_box_render() produces correct structure for harris12", {

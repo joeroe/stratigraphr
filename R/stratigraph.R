@@ -76,6 +76,16 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
   return(df)
 }
 
+strg_validity_issues <- function(stratigraph) {
+  issues <- character(0)
+
+  if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
+    issues <- c(issues, "Contains cycles")
+  }
+
+  issues
+}
+
 #' Is an object a valid stratigraphic graph?
 #'
 #' @details
@@ -92,13 +102,11 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
 #'
 #' @export
 strg_is_valid <- function(stratigraph, warn = TRUE) {
-  if (!tidygraph::with_graph(stratigraph, tidygraph::graph_is_dag())) {
-    if(warn) warning("Invalid stratigraphic graph: contains cycles")
-    return(FALSE)
+  issues <- strg_validity_issues(stratigraph)
+  if (length(issues) > 0 && warn) {
+    warning("Invalid stratigraphic graph: ", paste(issues, collapse = "; "))
   }
-  else {
-    return(TRUE)
-  }
+  return(length(issues) == 0)
 }
 
 strg_locate_cycles <- function(graph) {
@@ -126,22 +134,26 @@ strg_locate_cycles <- function(graph) {
 print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
   n_nodes <- igraph::gorder(x)
   n_edges <- igraph::gsize(x)
-  valid <- strg_is_valid(x, warn = FALSE)
+  issues <- strg_validity_issues(x)
 
   cat(cli::col_grey(sprintf("# A stratigraph: %d units and %d relations\n", n_nodes, n_edges)))
-  if (valid) {
+
+  if (length(issues) == 0) {
     cat(cli::col_grey("# "), cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"), sep = "")
+
+    if (n_nodes == 0) {
+      return(invisible(x))
+    }
+
+    tree <- strg_box_render(x, max_lines = max_lines,
+                              max_label_width = max_label_width)
+    cat(tree, sep = "\n")
   } else {
     cat(cli::col_grey("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
+    for (issue in issues) {
+      cat(cli::col_grey(paste0("#   \u2022 ", issue, "\n")), sep = "")
+    }
   }
-
-  if (n_nodes == 0) {
-    return(invisible(x))
-  }
-
-  tree <- strg_box_render(x, max_lines = max_lines,
-                            max_label_width = max_label_width)
-  cat(tree, sep = "\n")
 
   invisible(x)
 }

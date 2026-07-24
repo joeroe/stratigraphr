@@ -17,7 +17,8 @@ URL: https://stratigraphr.joeroe.io, https://github.com/joeroe/stratigraphr
 BugReports: https://github.com/joeroe/stratigraphr/issues
 Encoding: UTF-8
 LazyData: true
-Imports: 
+Imports:
+    cli,
     Rdpack,
     checkmate,
     glue,

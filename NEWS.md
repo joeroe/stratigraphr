@@ -6,7 +6,7 @@
   [c14 package](https://c14.joeroe.io/).
   - Removes `shub1_radiocarbon` dataset (also now found in c14)
 - Adds dependencies on vctrs, vroom and c14 (suggested)
-- Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron (suggested) and 
+- Drops dependencies on rcarbon, magrittr, tidyr, Bchron (suggested) and 
   ggplot2 (suggested)
 - Downgrades dependencies on tibble, dplyr and readr to suggested
 
