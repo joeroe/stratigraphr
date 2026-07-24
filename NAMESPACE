@@ -3,6 +3,7 @@
 S3method(as_cql,default)
 S3method(as_cql,list)
 S3method(print,cql)
+S3method(print,stratigraph)
 export(as_cql)
 export(cql)
 export(cql_after)
