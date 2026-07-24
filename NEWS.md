@@ -1,5 +1,11 @@
 # stratigraphr (development version)
 
+- Removes deprecated `c14_*` and `cal_*` functions. These now live in the
+  [c14 package](https://c14.joeroe.io/).
+  - Drops dependencies on cli, rcarbon, Bchron (suggested) and ggplot2 
+    (suggested)
+  - Downgrades dependency on tibble to suggested
+
 # stratigraphr 0.4.0
 
 - `strg_prune()` implements transitive reduction of stratigraphic graphs (#13)

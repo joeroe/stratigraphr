@@ -20,32 +20,28 @@ LazyData: true
 Imports: 
     Rdpack,
     checkmate,
-    cli,
     dplyr,
     glue,
     igraph (>= 0.3.0),
     magrittr,
     purrr,
-    rcarbon,
     readr,
     relations,
     rlang,
     sets,
     stringr,
-    tibble,
     tidygraph,
     tidyr,
     utils,
 Suggests: 
-    Bchron,
     covr,
-    ggplot2,
     ggraph,
     knitr,
     oxcAAR,
     readxl,
     rmarkdown,
     testthat,
+    tibble,
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
