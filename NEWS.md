@@ -1,4 +1,4 @@
-# stratigraphr (development version)
+# stratigraphr 0.4.0
 
 - `strg_prune()` implements transitive reduction of stratigraphic graphs (#13)
 - `strg_locate_cycles()` locates cycles in stratigraphic graphs (#3)
