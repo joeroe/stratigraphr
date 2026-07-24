@@ -2,6 +2,9 @@
 
 ## stratigraphr (development version)
 
+- `strat_is_valid()` renamed to
+  [`strg_is_valid()`](../reference/strg_is_valid.md)
+  ([\#21](https://github.com/joeroe/stratigraphr/issues/21))
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in
   the [c14 package](https://c14.joeroe.io/).
@@ -43,8 +46,7 @@
 - **Breaking changes** to `stratigraph` interface:
   - Renamed functions: `harris()` →
     [`strat_connect()`](../reference/strat_connect.md),
-    `is_valid_harris()` →
-    [`strat_is_valid()`](../reference/strat_is_valid.md)
+    `is_valid_harris()` → `strat_is_valid()`
   - Removed the notion of a “type” of
     [`stratigraph()`](../reference/stratigraph.md).
   - [`stratigraph()`](../reference/stratigraph.md) will now return a

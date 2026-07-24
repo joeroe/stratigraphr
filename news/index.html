@@ -39,7 +39,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="stratigraphr-development-version">stratigraphr (development version)<a class="anchor" aria-label="anchor" href="#stratigraphr-development-version"></a></h2>
-<ul><li>Minimum supported R version is now 4.1</li>
+<ul><li>
+<code>strat_is_valid()</code> renamed to <code><a href="../reference/strg_is_valid.html">strg_is_valid()</a></code> (<a href="https://github.com/joeroe/stratigraphr/issues/21" class="external-link">#21</a>)</li>
+<li>Minimum supported R version is now 4.1</li>
 <li>Removes deprecated <code>c14_*</code> and <code>cal_*</code> functions. These now live in the <a href="https://c14.joeroe.io/" class="external-link">c14 package</a>.</li>
 <li>Adds dependencies on vctrs and vroom</li>
 <li>Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron (suggested) and ggplot2 (suggested)</li>
@@ -69,7 +71,7 @@
 <strong>Breaking change</strong>: <code>cal()</code> and <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
 <li>
 <strong>Breaking changes</strong> to <code>stratigraph</code> interface:
-<ul><li>Renamed functions: <code>harris()</code> → <code><a href="../reference/strat_connect.html">strat_connect()</a></code>, <code>is_valid_harris()</code> → <code><a href="../reference/strat_is_valid.html">strat_is_valid()</a></code>
+<ul><li>Renamed functions: <code>harris()</code> → <code><a href="../reference/strat_connect.html">strat_connect()</a></code>, <code>is_valid_harris()</code> → <code>strat_is_valid()</code>
 </li>
 <li>Removed the notion of a “type” of <code><a href="../reference/stratigraph.html">stratigraph()</a></code>.</li>
 <li>

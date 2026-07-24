@@ -9,7 +9,7 @@ sequence.
 - [`strat_connect()`](strat_connect.md) : Connect stratigraphic units
 - [`strat_is_mirror()`](strat_is_mirror.md) : Are two relation vectors
   mirrored?
-- [`strat_is_valid()`](strat_is_valid.md) : Is an object a valid
+- [`strg_is_valid()`](strg_is_valid.md) : Is an object a valid
   stratigraphic graph?
 - [`strg_prune()`](strg_prune.md) : Remove redundant relations from a
   stratigraph
