@@ -23,6 +23,7 @@ Imports:
     checkmate,
     glue,
     igraph (>= 0.3.0),
+    pillar,
     purrr,
     relations,
     rlang,

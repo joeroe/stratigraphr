@@ -136,10 +136,10 @@ print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
   n_edges <- igraph::gsize(x)
   issues <- strg_validity_issues(x)
 
-  cat(cli::col_grey(sprintf("# A stratigraph: %d units and %d relations\n", n_nodes, n_edges)))
+  cat(pillar::style_subtle(sprintf("# A stratigraph: %d units and %d relations\n", n_nodes, n_edges)))
 
   if (length(issues) == 0) {
-    cat(cli::col_grey("# "), cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"), sep = "")
+    cat(pillar::style_subtle("# "), cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"), sep = "")
 
     if (n_nodes == 0) {
       return(invisible(x))
@@ -149,9 +149,9 @@ print.stratigraph <- function(x, max_lines = 20, max_label_width = 8, ...) {
                               max_label_width = max_label_width)
     cat(tree, sep = "\n")
   } else {
-    cat(cli::col_grey("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
+    cat(pillar::style_subtle("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
     for (issue in issues) {
-      cat(cli::col_grey(paste0("#   \u2022 ", issue, "\n")), sep = "")
+      cat(pillar::style_subtle(paste0("#   \u2022 ", issue, "\n")), sep = "")
     }
   }
 

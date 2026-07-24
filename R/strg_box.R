@@ -273,7 +273,7 @@ strg_box_edge_char_at <- function(up, down, left, right) {
   )
 
   result <- chars[[key]]
-  if (is.na(result)) NULL else result
+  if (is.na(result)) NULL else pillar::style_subtle(result)
 }
 
 # Generate label placement operations
@@ -317,7 +317,7 @@ strg_box_generate_dummy_operations <- function(node_to_row, col_pos, n_original)
     data.frame(
       row = node_to_row[idx],
       col = col_pos[idx],
-      char = "\u2502",  # │
+      char = pillar::style_subtle("\u2502"),
       stringsAsFactors = FALSE
     )
   })
