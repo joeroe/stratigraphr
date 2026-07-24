@@ -1,5 +1,7 @@
 # Changelog
 
+## stratigraphr (development version)
+
 ## stratigraphr 0.4.0
 
 - [`strg_prune()`](../reference/strg_prune.md) implements transitive

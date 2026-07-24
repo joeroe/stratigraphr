@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/joeroe/stratigraphr/blob/master/DESCRIPTION)
 
 Roe J (2026). *stratigraphr: Archaeological Stratigraphy and
-Chronological Sequences*. R package version 0.4.0,
+Chronological Sequences*. R package version 0.4.0.9000,
 <https://stratigraphr.joeroe.io>.
 
     @Manual{,
       title = {stratigraphr: Archaeological Stratigraphy and Chronological Sequences},
       author = {Joe Roe},
       year = {2026},
-      note = {R package version 0.4.0},
+      note = {R package version 0.4.0.9000},
       url = {https://stratigraphr.joeroe.io},
     }
