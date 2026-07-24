@@ -67,8 +67,8 @@ ISSN 0033-8222, 1945-5755.
 
 ## See also
 
-Other CQL functions: [`cql_boundary()`](cql_boundary.md),
-[`cql_n()`](cql_n.md), [`cql_options()`](cql_options.md),
-[`cql_other`](cql_other.md), [`cql_phase()`](cql_phase.md),
-[`cql_sequence()`](cql_sequence.md), [`cql()`](cql.md),
+Other CQL functions: [`cql()`](cql.md),
+[`cql_boundary()`](cql_boundary.md), [`cql_n()`](cql_n.md),
+[`cql_options()`](cql_options.md), [`cql_other`](cql_other.md),
+[`cql_phase()`](cql_phase.md), [`cql_sequence()`](cql_sequence.md),
 [`write_oxcal()`](write_oxcal.md)

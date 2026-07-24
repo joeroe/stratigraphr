@@ -25,3 +25,8 @@ Useful links:
 
 **Maintainer**: Joe Roe <joe@joeroe.io>
 ([ORCID](https://orcid.org/0000-0002-1011-1244))
+
+Authors:
+
+- Joe Roe <joe@joeroe.io>
+  ([ORCID](https://orcid.org/0000-0002-1011-1244))

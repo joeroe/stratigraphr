@@ -1,11 +1,20 @@
 # Changelog
 
-## stratigraphr (development version)
+## stratigraphr 0.4.0
 
+- [`strg_prune()`](../reference/strg_prune.md) implements transitive
+  reduction of stratigraphic graphs
+  ([\#13](https://github.com/joeroe/stratigraphr/issues/13))
+- `strg_locate_cycles()` locates cycles in stratigraphic graphs
+  ([\#3](https://github.com/joeroe/stratigraphr/issues/3))
 - Radiocarbon-related functions (`c14_*` and `cal_*`) have been moved to
   the [c14 package](https://github.com/joeroe/c14). The legacy versions
   in this package will issue a deprecation warning until the next
   version, when they will be removed.
+- Removes fs dependency – replaced with base R functions
+  ([\#16](https://github.com/joeroe/stratigraphr/issues/16))
+- Removes tidyselect dependency
+- ggplot2 and ggraph moved to suggested dependencies
 
 ## stratigraphr 0.3.0
 

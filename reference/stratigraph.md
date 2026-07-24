@@ -33,3 +33,13 @@ stratigraph(data, label, relation, direction = c("above", "below"))
 ## Value
 
 A `stratigraph` object.
+
+## Examples
+
+``` r
+circle <- stratigraph(data.frame(
+  label = LETTERS[1:4],
+  below = c("B", "C", "D", "A")
+), "label", "below", "below")
+#> Warning: Invalid stratigraphic graph: contains cycles
+```

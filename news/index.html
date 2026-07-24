@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stratigraphr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,8 +38,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="stratigraphr-development-version">stratigraphr (development version)<a class="anchor" aria-label="anchor" href="#stratigraphr-development-version"></a></h2>
-<ul><li>Radiocarbon-related functions (<code>c14_*</code> and <code>cal_*</code>) have been moved to the <a href="https://github.com/joeroe/c14" class="external-link">c14 package</a>. The legacy versions in this package will issue a deprecation warning until the next version, when they will be removed.</li>
+<h2 class="pkg-version" data-toc-text="0.4.0" id="stratigraphr-040">stratigraphr 0.4.0<a class="anchor" aria-label="anchor" href="#stratigraphr-040"></a></h2>
+<ul><li>
+<code><a href="../reference/strg_prune.html">strg_prune()</a></code> implements transitive reduction of stratigraphic graphs (<a href="https://github.com/joeroe/stratigraphr/issues/13" class="external-link">#13</a>)</li>
+<li>
+<code>strg_locate_cycles()</code> locates cycles in stratigraphic graphs (<a href="https://github.com/joeroe/stratigraphr/issues/3" class="external-link">#3</a>)</li>
+<li>Radiocarbon-related functions (<code>c14_*</code> and <code>cal_*</code>) have been moved to the <a href="https://github.com/joeroe/c14" class="external-link">c14 package</a>. The legacy versions in this package will issue a deprecation warning until the next version, when they will be removed.</li>
+<li>Removes fs dependency – replaced with base R functions (<a href="https://github.com/joeroe/stratigraphr/issues/16" class="external-link">#16</a>)</li>
+<li>Removes tidyselect dependency</li>
+<li>ggplot2 and ggraph moved to suggested dependencies</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="stratigraphr-030">stratigraphr 0.3.0<a class="anchor" aria-label="anchor" href="#stratigraphr-030"></a></h2>

@@ -51,5 +51,5 @@ are stored as attributes and can be accessed with
 ## See also
 
 Other functions for working with `cal` objects:
-[`as.CalDates.cal()`](as.CalDates.cal.md),
-[`cal_metadata()`](cal_metadata.md), [`cal()`](cal.md)
+[`as.CalDates.cal()`](as.CalDates.cal.md), [`cal()`](cal.md),
+[`cal_metadata()`](cal_metadata.md)

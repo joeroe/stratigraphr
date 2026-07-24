@@ -23,4 +23,4 @@ for details.
 ## See also
 
 Other functions for working with `cal` objects: [`as_cal()`](as_cal.md),
-[`cal_metadata()`](cal_metadata.md), [`cal()`](cal.md)
+[`cal()`](cal.md), [`cal_metadata()`](cal_metadata.md)
