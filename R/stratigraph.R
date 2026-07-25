@@ -162,7 +162,8 @@ strg_locate_cycles <- function(graph) {
 #'
 #' @return Invisibly returns `x`.
 #'
-#' @exportS3Method print stratigraph
+#' @noRd
+#' @exportS3Method
 print.stratigraph <- function(x, n = 10, max_label_width = 8, ...) {
   n_nodes <- igraph::gorder(x)
   n_edges <- igraph::gsize(x)
