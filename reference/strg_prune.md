@@ -17,11 +17,14 @@ strg_prune(strg)
 
 - strg:
 
-  A [`stratigraph()`](stratigraph.md) object to prune.
+  A
+  [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md)
+  object to prune.
 
 ## Value
 
-A [stratigraph](stratigraph.md) with redundant relations removed.
+A [stratigraph](https://stratigraphr.joeroe.io/reference/stratigraph.md)
+with redundant relations removed.
 
 ## Examples
 
@@ -34,26 +37,18 @@ bushy_stratigraphy <- stratigraph(
   ),
   "id", "above"
 )
+#> Warning: Invalid stratigraphic graph:
+#> ! Contains redundant relations
+#> ℹ Use `strg_prune()` to remove redundant relations
 
 strg_prune(bushy_stratigraphy)
-#> # A tbl_graph: 5 nodes and 5 edges
-#> #
-#> # A directed acyclic simple graph with 1 component
-#> #
-#> # Node Data: 5 × 2 (active)
-#>   id    above    
-#>   <chr> <list>   
-#> 1 a     <lgl [1]>
-#> 2 b     <chr [1]>
-#> 3 c     <chr [1]>
-#> 4 d     <chr [3]>
-#> 5 e     <chr [3]>
-#> #
-#> # Edge Data: 5 × 2
-#>    from    to
-#>   <int> <int>
-#> 1     1     2
-#> 2     1     3
-#> 3     2     4
-#> # ℹ 2 more rows
+#> # A stratigraph: 5 units and 5 relations
+#> # ✔ Valid stratigraphic graph
+#>   a
+#> ┌─┴─┐
+#> b   c
+#> └─┬─┘
+#>   d
+#>   │
+#>   e
 ```

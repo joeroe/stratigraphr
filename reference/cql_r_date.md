@@ -67,8 +67,12 @@ ISSN 0033-8222, 1945-5755.
 
 ## See also
 
-Other CQL functions: [`cql()`](cql.md),
-[`cql_boundary()`](cql_boundary.md), [`cql_n()`](cql_n.md),
-[`cql_options()`](cql_options.md), [`cql_other`](cql_other.md),
-[`cql_phase()`](cql_phase.md), [`cql_sequence()`](cql_sequence.md),
-[`write_oxcal()`](write_oxcal.md)
+Other CQL functions:
+[`cql()`](https://stratigraphr.joeroe.io/reference/cql.md),
+[`cql_boundary()`](https://stratigraphr.joeroe.io/reference/cql_boundary.md),
+[`cql_n()`](https://stratigraphr.joeroe.io/reference/cql_n.md),
+[`cql_options()`](https://stratigraphr.joeroe.io/reference/cql_options.md),
+[`cql_other`](https://stratigraphr.joeroe.io/reference/cql_other.md),
+[`cql_phase()`](https://stratigraphr.joeroe.io/reference/cql_phase.md),
+[`cql_sequence()`](https://stratigraphr.joeroe.io/reference/cql_sequence.md),
+[`write_oxcal()`](https://stratigraphr.joeroe.io/reference/write_oxcal.md)

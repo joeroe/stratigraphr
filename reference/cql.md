@@ -35,7 +35,9 @@ A CQL script.
 
 CQL scripts are represented by the S3 class `cql`. `cql()` takes the
 output of individual `cql_` functions and assembles them into a single
-script. See [`vignette("cql")`](../articles/cql.md) for a tutorial.
+script. See
+[`vignette("cql")`](https://stratigraphr.joeroe.io/articles/cql.md) for
+a tutorial.
 
 List arguments to `cql()` are collapsed to produce a single script. If
 you want to coerce an object to `cql` and preserve its structure, use
@@ -47,8 +49,12 @@ you want to coerce an object to `cql` and preserve its structure, use
 
 ## See also
 
-Other CQL functions: [`cql_boundary()`](cql_boundary.md),
-[`cql_n()`](cql_n.md), [`cql_options()`](cql_options.md),
-[`cql_other`](cql_other.md), [`cql_phase()`](cql_phase.md),
-[`cql_r_date()`](cql_r_date.md), [`cql_sequence()`](cql_sequence.md),
-[`write_oxcal()`](write_oxcal.md)
+Other CQL functions:
+[`cql_boundary()`](https://stratigraphr.joeroe.io/reference/cql_boundary.md),
+[`cql_n()`](https://stratigraphr.joeroe.io/reference/cql_n.md),
+[`cql_options()`](https://stratigraphr.joeroe.io/reference/cql_options.md),
+[`cql_other`](https://stratigraphr.joeroe.io/reference/cql_other.md),
+[`cql_phase()`](https://stratigraphr.joeroe.io/reference/cql_phase.md),
+[`cql_r_date()`](https://stratigraphr.joeroe.io/reference/cql_r_date.md),
+[`cql_sequence()`](https://stratigraphr.joeroe.io/reference/cql_sequence.md),
+[`write_oxcal()`](https://stratigraphr.joeroe.io/reference/write_oxcal.md)

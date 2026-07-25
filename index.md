@@ -24,8 +24,8 @@ to contain breaking changes.
 ## Usage
 
 - Graph-bases stratigraphic analysis: see
-  [`vignette("stratigraph")`](articles/stratigraph.md).
+  [`vignette("stratigraph")`](https://stratigraphr.joeroe.io/articles/stratigraph.md).
 - Tidy analysis of radiocarbon dates: see
-  [`vignette("tidy_radiocarbon")`](articles/tidy_radiocarbon.md).
+  [`vignette("tidy_radiocarbon")`](https://stratigraphr.joeroe.io/articles/tidy_radiocarbon.md).
 - Chronological query language: see
-  [`vignette("cql")`](articles/cql.md).
+  [`vignette("cql")`](https://stratigraphr.joeroe.io/articles/cql.md).

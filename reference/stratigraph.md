@@ -41,5 +41,6 @@ circle <- stratigraph(data.frame(
   label = LETTERS[1:4],
   below = c("B", "C", "D", "A")
 ), "label", "below", "below")
-#> Warning: Invalid stratigraphic graph: contains cycles
+#> Warning: Invalid stratigraphic graph:
+#> ! Contains cycles
 ```

@@ -1,11 +1,12 @@
 # Describe a boundary constraint in CQL
 
 The CQL command `Boundary` describes constraints within an ordered
-sequence (see [`cql_sequence()`](cql_sequence.md)). Groups of events
-between two boundaries are assumed to be sampled from the same prior
-distribution. `Boundary` alone models a uniform prior. Other types of
-boundary, i.e. `Sigma_Boundary`, `Tau_Boundary`, and `Zero_Boundary` are
-not yet implemented in stratigraphr.
+sequence (see
+[`cql_sequence()`](https://stratigraphr.joeroe.io/reference/cql_sequence.md)).
+Groups of events between two boundaries are assumed to be sampled from
+the same prior distribution. `Boundary` alone models a uniform prior.
+Other types of boundary, i.e. `Sigma_Boundary`, `Tau_Boundary`, and
+`Zero_Boundary` are not yet implemented in stratigraphr.
 
 Boundaries can contain a `Transition` command, in which case they
 describe a non-instantaneous transition or 'trapezium' prior.
@@ -51,10 +52,15 @@ A `cql` object.
 
 ## See also
 
-Other CQL functions: [`cql()`](cql.md), [`cql_n()`](cql_n.md),
-[`cql_options()`](cql_options.md), [`cql_other`](cql_other.md),
-[`cql_phase()`](cql_phase.md), [`cql_r_date()`](cql_r_date.md),
-[`cql_sequence()`](cql_sequence.md), [`write_oxcal()`](write_oxcal.md)
+Other CQL functions:
+[`cql()`](https://stratigraphr.joeroe.io/reference/cql.md),
+[`cql_n()`](https://stratigraphr.joeroe.io/reference/cql_n.md),
+[`cql_options()`](https://stratigraphr.joeroe.io/reference/cql_options.md),
+[`cql_other`](https://stratigraphr.joeroe.io/reference/cql_other.md),
+[`cql_phase()`](https://stratigraphr.joeroe.io/reference/cql_phase.md),
+[`cql_r_date()`](https://stratigraphr.joeroe.io/reference/cql_r_date.md),
+[`cql_sequence()`](https://stratigraphr.joeroe.io/reference/cql_sequence.md),
+[`write_oxcal()`](https://stratigraphr.joeroe.io/reference/write_oxcal.md)
 
 ## Examples
 

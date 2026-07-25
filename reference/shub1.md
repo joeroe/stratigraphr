@@ -63,7 +63,3 @@ Origins of Late Epipalaeolithic Natufian in the Levant.” *Scientific
 reports*, **7**(1), 17025. ISSN 2045-2322.
 [doi:10.1038/s41598-017-17096-5](https://doi.org/10.1038/s41598-017-17096-5)
 .
-
-## See also
-
-[shub1_radiocarbon](shub1_radiocarbon.md)

@@ -2,21 +2,31 @@
 
 ## stratigraphr (development version)
 
-- `strat_is_valid()` renamed to
-  [`strg_is_valid()`](../reference/strg_is_valid.md)
-  ([\#21](https://github.com/joeroe/stratigraphr/issues/21))
+- Improved validation workflow for stratigraphs
+  - Validation now considers redundant relations.
+  - `strat_is_valid()` renamed to
+    [`strg_is_valid()`](https://stratigraphr.joeroe.io/reference/strg_is_valid.md)
+    ([\#21](https://github.com/joeroe/stratigraphr/issues/21)) and
+    silently returns a logical value.
+  - Use
+    [`strg_validate()`](https://stratigraphr.joeroe.io/reference/strg_is_valid.md)
+    to raise an error for invalid stratigraphs or
+    `strg_validate(warn = TRUE)` to raise a warning.
+- Adds [`print()`](https://rdrr.io/r/base/print.html) method for
+  stratigraphs including validations status
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in
   the [c14 package](https://c14.joeroe.io/).
-- Adds dependencies on vctrs and vroom
-- Drops dependencies on cli, rcarbon, magrittr, tidyr, Bchron
-  (suggested) and ggplot2 (suggested)
+  - Removes `shub1_radiocarbon` dataset (also now found in c14)
+- Adds dependencies on vctrs, vroom and c14 (suggested)
+- Drops dependencies on rcarbon, magrittr, tidyr, Bchron (suggested) and
+  ggplot2 (suggested)
 - Downgrades dependencies on tibble, dplyr and readr to suggested
 
 ## stratigraphr 0.4.0
 
-- [`strg_prune()`](../reference/strg_prune.md) implements transitive
-  reduction of stratigraphic graphs
+- [`strg_prune()`](https://stratigraphr.joeroe.io/reference/strg_prune.md)
+  implements transitive reduction of stratigraphic graphs
   ([\#13](https://github.com/joeroe/stratigraphr/issues/13))
 - `strg_locate_cycles()` locates cycles in stratigraphic graphs
   ([\#3](https://github.com/joeroe/stratigraphr/issues/3))
@@ -39,23 +49,24 @@
     `as_cal.oxcAARCalibratedDatesList()` and
     `as_cal.BchronCalibratedDates()`)
   - New
-    [`vignette("tidy_radiocarbon")`](../articles/tidy_radiocarbon.md)
-- **Breaking change**: `cal()` and
+    [`vignette("tidy_radiocarbon")`](https://stratigraphr.joeroe.io/articles/tidy_radiocarbon.md)
+- **Breaking change**:
+  [`cal()`](https://c14.joeroe.io/reference/cal.html) and
   [`sum()`](https://rdrr.io/r/base/sum.html) renamed `c14_calibrate` and
   `c14_sum` and now return `cal` objects.
 - **Breaking changes** to `stratigraph` interface:
   - Renamed functions: `harris()` →
-    [`strat_connect()`](../reference/strat_connect.md),
+    [`strat_connect()`](https://stratigraphr.joeroe.io/reference/strat_connect.md),
     `is_valid_harris()` → `strat_is_valid()`
   - Removed the notion of a “type” of
-    [`stratigraph()`](../reference/stratigraph.md).
-  - [`stratigraph()`](../reference/stratigraph.md) will now return a
-    graph even if it is not stratigraphically valid.
+    [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md).
+  - [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md)
+    will now return a graph even if it is not stratigraphically valid.
   - Renamed `vignette("harris")` →
-    [`vignette("stratigraph")`](../articles/stratigraph.md)
+    [`vignette("stratigraph")`](https://stratigraphr.joeroe.io/articles/stratigraph.md)
 - Expanded the `stratigraph` interface, adding:
   - Utility functions for validating stratigraphies:
-    [`strat_is_mirror()`](../reference/strat_is_mirror.md)
+    [`strat_is_mirror()`](https://stratigraphr.joeroe.io/reference/strat_is_mirror.md)
 - Fixed read_lst() when reading Stratify ‘extended’ LST files
 - Added a `NEWS.md` file to track changes to the package.
 

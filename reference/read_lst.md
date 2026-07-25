@@ -48,10 +48,10 @@ with an underscore (\_).
 
 Splitting multiple values into vectors is useful if the output is to be
 used to construct a stratigraphic graph with
-[`stratigraph()`](stratigraph.md), but will convert affected columns
-from atomic vectors to lists, which can make them awkward to work with
-in other contexts. Set `split = FALSE` to avoid this. You can manually
-split them later with
+[`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md),
+but will convert affected columns from atomic vectors to lists, which
+can make them awkward to work with in other contexts. Set
+`split = FALSE` to avoid this. You can manually split them later with
 [`stringr::str_split()`](https://stringr.tidyverse.org/reference/str_split.html).
 
 ## Details
@@ -94,7 +94,9 @@ read_lst(basp_lst)
 #> 19 70    <chr [2]> NA                NA       <chr [1]>
 
 # Extended LST (Stratify, ArchEd)
-stratify_lst <- system.file("extdata", "stratify.lst", package = "stratigraphr")
+stratify_lst <- system.file(
+  "extdata", "stratify.lst", package = "stratigraphr"
+)
 read_lst(stratify_lst)
 #> # A tibble: 17 × 4
 #>    name    below     unit_class above    
