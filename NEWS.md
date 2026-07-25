@@ -1,7 +1,12 @@
 # stratigraphr (development version)
 
-- `strat_is_valid()` renamed to `strg_is_valid()` (#21)
-- Adds `print()` method for stratigraphs
+- Improved validation workflow for stratigraphs
+  - Validation now considers redundant relations.
+  - `strat_is_valid()` renamed to `strg_is_valid()` (#21) and silently returns 
+    a logical value.
+  - Use `strg_validate()` to raise an error for invalid stratigraphs or
+    `strg_validate(warn = TRUE)` to raise a warning.
+- Adds `print()` method for stratigraphs including validations status
 - Minimum supported R version is now 4.1
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in the
   [c14 package](https://c14.joeroe.io/).

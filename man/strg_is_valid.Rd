@@ -2,25 +2,38 @@
 % Please edit documentation in R/stratigraph.R
 \name{strg_is_valid}
 \alias{strg_is_valid}
-\title{Is an object a valid stratigraphic graph?}
+\alias{strg_validate}
+\title{Validation of stratigraphic graphs}
 \usage{
-strg_is_valid(stratigraph, warn = TRUE)
+strg_is_valid(stratigraph)
+
+strg_validate(stratigraph, warn = FALSE)
 }
 \arguments{
 \item{stratigraph}{A \code{stratigraph} object (see \code{\link[=stratigraph]{stratigraph()}}).}
 
-\item{warn}{Display warnings for invalid graphs? Default: \code{TRUE}.}
+\item{warn}{If \code{TRUE}, signal warnings instead of errors.
+Default: \code{FALSE}.}
 }
 \value{
-\code{TRUE} or \code{FALSE}.
+\code{strg_is_valid()} returns \code{TRUE} or \code{FALSE}. \code{strg_validate()} returns
+the object invisibly and is called for its side effect of signalling an
+error/warning if invalid.
 }
 \description{
-Is an object a valid stratigraphic graph?
+Validation of stratigraphic graphs
 }
 \details{
 Checks whether a stratigraph object is a valid stratigraphic graph. Currently
 looks for:
 \itemize{
-\item Whether the graph contains cycles
+\item Whether the graph contains cycles (violating the law of stratigraphic
+superposition)
+\item Whether the graph contains redundant relations (i.e. relations that are
+implied by transitivity)
 }
+
+\code{strg_is_valid()} returns \code{TRUE} or \code{FALSE} silently. \code{strg_validate()}
+signals an error (or warning if \code{warn = TRUE}) with details of any validity
+issues found.
 }

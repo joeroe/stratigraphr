@@ -68,6 +68,35 @@ strg_to_relation <- function(graph) {
   })
 }
 
+#' @noRd
+#' @keywords {internal}
+strg_has_redundant_relations <- function(strg) {
+  if (igraph::gsize(strg) == 0) {
+    return(FALSE)
+  }
+  if (!tidygraph::with_graph(strg, tidygraph::graph_is_dag())) {
+    return(NA)
+  }
+  reduced <- strg_to_transitive_reduction(strg)
+  igraph::gsize(strg) > igraph::gsize(reduced)
+}
+
+#' @noRd
+#' @keywords {internal}
+strg_redundant_edges <- function(strg) {
+  if (!tidygraph::with_graph(strg, tidygraph::graph_is_dag())) {
+    return(NA)
+  }
+
+  original <- as.data.frame(tidygraph::as_tibble(strg, active = "edges"))
+  reduced <- as.data.frame(tidygraph::as_tibble(
+    strg_to_transitive_reduction(strg), active = "edges"
+  ))
+
+  # Edges in original but not in reduction
+  vctrs::vec_slice(original, !vctrs::vec_in(original, reduced))
+}
+
 #' Extract edge list from an endorelation
 #'
 #' Via igraph. Returns a two-column data.frame, ignoring the names of the

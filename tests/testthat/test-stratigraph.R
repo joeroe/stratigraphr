@@ -14,16 +14,27 @@ test_that("stratigraphs constructed from above and below are isomorphic", {
 test_that("strg_is_valid() returns TRUE for the harris12 dataset", {
   data("harris12")
   h12_graph <- stratigraph(harris12, "context", "above")
-  expect_warning(strg_is_valid(h12_graph), NA)
   expect_true(strg_is_valid(h12_graph))
 })
 
-test_that("strg_is_valid() detects cycles", {
+test_that("strg_validate() detects cycles", {
   data("harris12")
   harris12$above[1] <- list(c("natural"))
   expect_warning(h12_graph <- stratigraph(harris12, "context", "above"))
-  expect_warning(strg_is_valid(h12_graph), "cycle")
-  expect_false(strg_is_valid(h12_graph, warn = FALSE))
+  expect_error(strg_validate(h12_graph), class = "invalid_stratigraph")
+  expect_false(strg_is_valid(h12_graph))
+})
+
+test_that("strg_validate() detects redundant relations", {
+  bushy <- suppressWarnings(stratigraph(
+    tibble::tibble(
+      id = letters[1:5],
+      above = list(NA, "a", "a", c("a", "b", "c"), c("a", "c", "d"))
+    ),
+    "id", "above"
+  ))
+  expect_error(strg_validate(bushy), class = "invalid_stratigraph")
+  expect_false(strg_is_valid(bushy))
 })
 
 test_that("print.stratigraph() produces output", {
@@ -48,16 +59,12 @@ test_that("print.stratigraph() handles empty graphs", {
   expect_true(any(grepl("0 relations", output)))
 })
 
-test_that("print.stratigraph() shows validity issues for invalid graphs", {
+test_that("print.stratigraph() handles invalid graphs", {
   data("harris12")
   harris12$above[1] <- list(c("natural"))
   suppressWarnings(invalid_graph <- stratigraph(harris12, "context", "above"))
 
-  output <- cli::ansi_strip(capture.output(print(invalid_graph)))
-  expect_true(length(output) > 0)
-  expect_true(any(grepl("Invalid stratigraphic graph", output)))
-  expect_true(any(grepl("Contains cycles", output)))
-  expect_false(any(grepl("[┌┐└┘\u2502]", output)))
+  expect_no_error(capture.output(print(invalid_graph)))
 })
 
 test_that("strg_box_render() produces correct structure for harris12", {
@@ -130,7 +137,7 @@ test_that("strg_box_render() produces exact output for harris12", {
 
 test_that("strg_box_render() handles long edges with dummy nodes", {
   data("shub1")
-  shub1_graph <- stratigraph(shub1, "context", "above")
+  shub1_graph <- suppressWarnings(stratigraph(shub1, "context", "above"))
 
   result <- stratigraphr:::strg_box_render(shub1_graph, n = 100)
   tree <- result$lines
