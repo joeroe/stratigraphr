@@ -52,7 +52,9 @@ basp_lst <- system.file("extdata", "bonn.lst", package = "stratigraphr")
 read_lst(basp_lst)
 
 # Extended LST (Stratify, ArchEd)
-stratify_lst <- system.file("extdata", "stratify.lst", package = "stratigraphr")
+stratify_lst <- system.file(
+  "extdata", "stratify.lst", package = "stratigraphr"
+)
 read_lst(stratify_lst)
 }
 \references{

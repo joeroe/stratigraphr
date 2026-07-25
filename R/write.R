@@ -17,7 +17,7 @@
 write_oxcal <- function(cql, file) {
   checkmate::assert_class(cql, "cql")
 
-  if(!stringr::str_ends(file, ".oxcal")) {
+  if (!stringr::str_ends(file, ".oxcal")) {
     file <- paste0(file, ".oxcal")
     message("Writing to ", file)
   }

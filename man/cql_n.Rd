@@ -23,13 +23,17 @@ cql_u(name, from, to, resolution = NULL)
 
 \item{mu}{Integer. Mean of a normal or log–normal distribution.}
 
-\item{sigma}{Integer. Standard deviation of a normal or log–normal distribution.}
+\item{sigma}{Integer. Standard deviation of a normal or
+log–normal distribution.}
 
-\item{resolution}{Integer. Resolution of the PDF. Leave \code{NULL} (the default) to use the OxCal default.}
+\item{resolution}{Integer. Resolution of the PDF. Leave
+\code{NULL} (the default) to use the OxCal default.}
 
-\item{freedom}{Integer. Degrees of freedom of a Student's t distribution.}
+\item{freedom}{Integer. Degrees of freedom of a Student's
+t distribution.}
 
-\item{scale}{Numeric. Optional scaling parameter for a Student's t distribution.}
+\item{scale}{Numeric. Optional scaling parameter for a
+Student's t distribution.}
 
 \item{mid}{Integer. Centre point of a uniform distribution.}
 
@@ -44,7 +48,8 @@ A \code{cql} object.
 }
 \description{
 The CQL commands \code{N}, \code{LnN}, \code{T}, \code{U} and \code{Top_Hat} describe various types
-of probability distribution functions. \code{cql_n()} defines a normal distribution
+of probability distribution functions. \code{cql_n()} defines a
+normal distribution
 by its mean and standard deviation; \code{cql_lnn()} a log–normal distribution by
 its mean and standard deviation; \code{cql_t()} a Student's t distribution by
 degrees of freedom; \code{cql_u()} a uniform distribution by its start and end;

@@ -26,7 +26,8 @@
 #'   label = LETTERS[1:4],
 #'   below = c("B", "C", "D", "A")
 #' ), "label", "below", "below")
-stratigraph <- function(data, label, relation, direction = c("above", "below")) {
+stratigraph <- function(data, label, relation,
+                        direction = c("above", "below")) {
   direction <- match.arg(direction)
 
   edges <- strat_connect(data[[label]], data[[relation]], direction)
@@ -38,7 +39,7 @@ stratigraph <- function(data, label, relation, direction = c("above", "below")) 
 
   invisible(strg_is_valid(graph))
 
-  return(graph)
+  graph
 }
 
 #' Connect stratigraphic units
@@ -62,18 +63,17 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
   roots <- rep(units, times = purrr::map_int(relations, length))
   branches <- unlist(relations)
 
-  if(direction == "above") {
+  if (direction == "above") {
     to <- roots
     from <- branches
-  }
-  else if (direction == "below") {
+  } else if (direction == "below") {
     to <- branches
     from <- roots
   }
 
   df <- data.frame(to, from)
   df <- vctrs::vec_slice(df, vctrs::vec_detect_complete(df))
-  return(df)
+  df
 }
 
 #' Is an object a valid stratigraphic graph?
@@ -94,9 +94,12 @@ strat_connect <- function(units, relations, direction = c("above", "below")) {
 strg_is_valid <- function(stratigraph, warn = TRUE) {
   issues <- strg_validity_issues(stratigraph)
   if (length(issues) > 0 && warn) {
-    warning("Invalid stratigraphic graph: ", paste(issues, collapse = "; "))
+    warning(
+      "Invalid stratigraphic graph: ",
+      paste(issues, collapse = "; ")
+    )
   }
-  return(length(issues) == 0)
+  length(issues) == 0
 }
 
 #' @noRd
@@ -120,6 +123,7 @@ strg_locate_cycles <- function(graph) {
   }
 
   bad_edges <- igraph::feedback_arc_set(graph)
+  bad_edges
 }
 
 #' Print a stratigraphic graph
@@ -140,28 +144,49 @@ print.stratigraph <- function(x, n = 10, max_label_width = 8, ...) {
   n_edges <- igraph::gsize(x)
   issues <- strg_validity_issues(x)
 
-  cat(pillar::style_subtle(sprintf("# A stratigraph: %d units and %d relations\n", n_nodes, n_edges)))
+  cat(pillar::style_subtle(sprintf(
+    "# A stratigraph: %d units and %d relations\n",
+    n_nodes, n_edges
+  )))
 
   if (length(issues) == 0) {
-    cat(pillar::style_subtle("# "), cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"), sep = "")
+    cat(
+      pillar::style_subtle("# "),
+      cli::col_green(cli::symbol$tick, " Valid stratigraphic graph\n"),
+      sep = ""
+    )
 
     if (n_nodes == 0) {
       return(invisible(x))
     }
 
-    result <- strg_box_render(x, n = n, max_label_width = max_label_width)
+    result <- strg_box_render(
+      x, n = n, max_label_width = max_label_width
+    )
     cat(result$lines, sep = "\n")
-    
+
     # Print footer if truncated
     if (result$levels_shown < result$total_levels) {
       remaining_nodes <- result$total_nodes - result$nodes_shown
       remaining_levels <- result$total_levels - result$levels_shown
-      
-      cat(pillar::style_subtle(sprintf("# %d more units on %d more layers", remaining_nodes, remaining_levels)), "\n")
-      cat(pillar::style_subtle("# \u2139 Use `print(n = ...)` to see more layers"), "\n")
+
+      cat(pillar::style_subtle(sprintf(
+        "# %d more units on %d more layers",
+        remaining_nodes, remaining_levels
+      )), "\n")
+      cat(pillar::style_subtle(
+        "# \u2139 Use `print(n = ...)` to see more layers"
+      ), "\n")
     }
   } else {
-    cat(pillar::style_subtle("# "), cli::col_red(cli::symbol$cross, " Invalid stratigraphic graph\n"), sep = "")
+    cat(
+      pillar::style_subtle("# "),
+      cli::col_red(
+        cli::symbol$cross,
+        " Invalid stratigraphic graph\n"
+      ),
+      sep = ""
+    )
     for (issue in issues) {
       cat(pillar::style_subtle(paste0("#   \u2022 ", issue, "\n")), sep = "")
     }
@@ -195,5 +220,5 @@ strat_is_mirror <- function(units, relation1, relation2) {
   edges2 <- strat_connect(units, relation2, "below")
   edges1 <- vctrs::vec_slice(edges1, vctrs::vec_order(edges1[c("to", "from")]))
   edges2 <- vctrs::vec_slice(edges2, vctrs::vec_order(edges2[c("to", "from")]))
-  return(all(edges1 == edges2))
+  all(edges1 == edges2)
 }

@@ -18,9 +18,10 @@ cql_date(name, date)
 \arguments{
 \item{name}{Character. Date label(s), usually a lab code.}
 
-\item{date}{Numeric. Date or dates expressed in radiocarbon years (\code{cql_r_date()}),
-F14C (\code{cql_f14c_date()}), calendar years (\code{cql_c_date()}), or
-OxCal's internal format (\code{cql_date()}) See details.}
+\item{date}{Numeric. Date or dates expressed in radiocarbon
+years (\code{cql_r_date()}), F14C (\code{cql_f14c_date()}), calendar
+years (\code{cql_c_date()}), or OxCal's internal format
+(\code{cql_date()}) See details.}
 
 \item{error}{Integer. Uncertainty associated with the date(s).}
 }
@@ -42,8 +43,9 @@ in OxCal, which defaults to BC/AD. BC dates are specified as negative values.
 F14C measurements are recommended for modern, "post-bomb" radiocarbon dates
 \insertCite{Reimer2004-yl}{stratigraphr}.
 
-OxCal's internal date format, used with \code{Date()}, is a decimal Gregorian
-year, for details see: \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html}
+OxCal's internal date format, used with \code{Date()}, is a decimal
+Gregorian year, for details see:
+\url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html}
 }
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#date}

@@ -23,8 +23,8 @@ cql_transition(name, prior = NULL)
 
 \item{...}{\code{cql} objects contained within a boundary.}
 
-\item{prior}{\code{cql} object. Expression describing the prior likelihood of
-a boundary or transition.}
+\item{prior}{\code{cql} object. Expression describing the
+prior likelihood of a boundary or transition.}
 }
 \value{
 A \code{cql} object.
@@ -33,7 +33,8 @@ A \code{cql} object.
 The CQL command \code{Boundary} describes constraints within an ordered sequence
 (see \code{\link[=cql_sequence]{cql_sequence()}}). Groups of events between two boundaries are assumed
 to be sampled from the same prior distribution. \code{Boundary} alone models a
-uniform prior. Other types of boundary, i.e. \code{Sigma_Boundary}, \code{Tau_Boundary},
+uniform prior. Other types of boundary, i.e.
+\code{Sigma_Boundary}, \code{Tau_Boundary},
 and \code{Zero_Boundary} are not yet implemented in stratigraphr.
 
 Boundaries can contain a \code{Transition} command, in which case they describe

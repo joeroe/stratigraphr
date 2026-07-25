@@ -13,8 +13,9 @@ strg_prune(strg)
 A \link{stratigraph} with redundant relations removed.
 }
 \description{
-strg_prune() removes redundant relations from a stratigraphic graph by
-computing its \href{https://en.wikipedia.org/wiki/Transitive_reduction}{transitive reduction}.
+strg_prune() removes redundant relations from a stratigraphic
+graph by computing its
+\href{https://en.wikipedia.org/wiki/Transitive_reduction}{transitive reduction}.
 The result is a 'pruned' graph that follows Harris' "Law of Stratigraphical
 Succession": that only the uppermost and undermost relations are significant
 when placing a unit in a stratigraphic sequence.

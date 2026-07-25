@@ -6,18 +6,23 @@ NULL
 # shub1 -------------------------------------------------------------------
 #' Schematic stratigraphy of Shubayqa 1
 #'
-#' A simplified version of the stratigraphy of Shubayqa 1, an Epipalaeolithic
-#' site in eastern Jordan, after \insertCite{Richter2017-xy;textual}{stratigraphr}.
+#' A simplified version of the stratigraphy of Shubayqa 1,
+#' an Epipalaeolithic site in eastern Jordan,
+#' after \insertCite{Richter2017-xy;textual}{stratigraphr}.
 #'
 #' @format A data frame with 30 rows, representing contexts, and 7 variables:
 #' \describe{
 #'   \item{context}{integer; a unique identifier of the context.}
-#'   \item{type}{character; type of context, i.e. deposit, fill, cut, or structural.}
+#'   \item{type}{character; type of context, i.e. deposit, fill, cut,
+#'     or structural.}
 #'   \item{above}{integer vector; context(s) stratigraphically above this one.}
 #'   \item{below}{integer vector; context(s) stratigraphically below this one.}
-#'   \item{equal}{integer vector; context(s) stratigraphically equal to this one.}
-#'   \item{phase}{character; Phase assigned to the context, for contexts that aren't structural.}
-#'   \item{structure}{character; for structural contexts, the name of the structure they belong to.}
+#'   \item{equal}{integer vector; context(s) stratigraphically
+#'     equal to this one.}
+#'   \item{phase}{character; Phase assigned to the context,
+#'     for contexts that aren't structural.}
+#'   \item{structure}{character; for structural contexts,
+#'     the name of the structure they belong to.}
 #' }
 #'
 #' @details

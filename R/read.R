@@ -53,7 +53,9 @@
 #' read_lst(basp_lst)
 #'
 #' # Extended LST (Stratify, ArchEd)
-#' stratify_lst <- system.file("extdata", "stratify.lst", package = "stratigraphr")
+#' stratify_lst <- system.file(
+#'   "extdata", "stratify.lst", package = "stratigraphr"
+#' )
 #' read_lst(stratify_lst)
 read_lst <- function(file, split = TRUE, sep = ",",
                      locale = vroom::default_locale()) {
@@ -63,10 +65,13 @@ read_lst <- function(file, split = TRUE, sep = ",",
   # Extract header
   header <- lst_extract_header(lst)
 
-  # Split by stratum. A line that starts with a non-whitespace character is the
-  # start of a new stratum.
+  # Split by stratum. A line that starts with a non-whitespace
+  # character is the start of a new stratum.
   strata <- lst[4:length(lst)]
-  strata <- split(strata, cumsum(stringr::str_detect(strata, "^\\s", negate = TRUE)))
+  strata <- split(
+    strata,
+    cumsum(stringr::str_detect(strata, "^\\s", negate = TRUE))
+  )
 
   # Extract attributes for each stratum and bind into a data frame
   strata <- purrr::map_dfr(strata, lst_extract_stratum)
@@ -76,19 +81,23 @@ read_lst <- function(file, split = TRUE, sep = ",",
     if (any(split == TRUE)) {
       cols_to_split <- names(strata)
       cols_to_split <- cols_to_split[cols_to_split != "name"]
-    }
-    else {
+    } else {
       cols_to_split <- split
     }
 
-    strata[cols_to_split] <- lapply(strata[cols_to_split], stringr::str_split,
-                                    pattern = stringr::coll(sep))
+    strata[cols_to_split] <- lapply(
+      strata[cols_to_split],
+      stringr::str_split,
+      pattern = stringr::coll(sep)
+    )
 
-    strata[cols_to_split] <- lapply(strata[cols_to_split], try_to_flatten)
+    strata[cols_to_split] <- lapply(
+      strata[cols_to_split], try_to_flatten
+    )
   }
 
   attr(strata, "dataset_name") <- header$dataset_name
-  return(strata)
+  strata
 }
 
 try_to_flatten <- function(x) {
@@ -98,7 +107,8 @@ try_to_flatten <- function(x) {
 
 #' Extract header from an LST file
 #'
-#' @param lst Character vector of lines from an LST file (e.g. from [readr::read_lines()])
+#' @param lst Character vector of lines from an LST file
+#'   (e.g. from [readr::read_lines()])
 #'
 #' @noRd
 #' @keywords internal
@@ -108,17 +118,16 @@ lst_extract_header <- function(lst) {
   name <- header[1]
   name <- stringr::str_trim(name)
   #TODO: What are the other two lines for?
-  return(
-    list(
-      dataset_name = name
-    )
+  list(
+    dataset_name = name
   )
 }
 
 #' Extract a single stratum from an LST file
 #'
-#' @param lst Character vector of lines from an LST file (e.g. from [readr::read_lines()])
-#'              representing a single stratum.
+#' @param lst Character vector of lines from an LST file
+#'   (e.g. from [readr::read_lines()])
+#'   representing a single stratum.
 #'
 #' @return
 #' A named list of attributes.
@@ -133,7 +142,7 @@ lst_extract_stratum <- function(stratum) {
   attrs <- purrr::flatten(attrs)
 
   stratum <- c(name = name, attrs)
-  return(stratum)
+  stratum
 }
 
 #' Extract a single attribute from an LST file
@@ -163,13 +172,13 @@ lst_extract_attribute <- function(attr) {
   value <- stringr::str_remove_all(value, stringr::coll(" "))
 
   # Make missing values explicit
-  if(value == "") {
+  if (value == "") {
     value <- as.character(NA)
   }
 
   attr <- list(value)
   names(attr) <- name
-  return(attr)
+  attr
 }
 
 # OxCal -------------------------------------------------------------------

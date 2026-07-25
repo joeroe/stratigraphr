@@ -28,45 +28,65 @@ cql_options(
 )
 }
 \arguments{
-\item{bcad}{Logical. Whether BC/AD are used in the log file output.}
+\item{bcad}{Logical. Whether BC/AD are used in the
+log file output.}
 
-\item{convergence_data}{Logical. Whether sample convergence data is included in the output data file.}
+\item{convergence_data}{Logical. Whether sample convergence
+data is included in the output data file.}
 
 \item{curve}{Character. The default calibration curve.}
 
-\item{cubic}{Logical. Whether cubic (as opposed to linear) interpolation is used for calibration curves.}
+\item{cubic}{Logical. Whether cubic (as opposed to
+linear) interpolation is used for calibration curves.}
 
-\item{ensembles}{Integer. The number of age-depth ensembles stored during the analysis.}
+\item{ensembles}{Integer. The number of age-depth
+ensembles stored during the analysis.}
 
-\item{floruit}{Logical. Whether quantile ranges are calculated instead of the default highest posterior density (hpd).}
+\item{floruit}{Logical. Whether quantile ranges are
+calculated instead of the default highest posterior density
+(hpd).}
 
-\item{intercept}{Logical. Whether the intercept method is used for radiocarbon calibration ranges.}
+\item{intercept}{Logical. Whether the intercept method
+is used for radiocarbon calibration ranges.}
 
-\item{k_iterations}{Integer. The default number of MCMC passes.}
+\item{k_iterations}{Integer. The default number of MCMC
+passes.}
 
-\item{plus_minus}{Logical. Whether + and - are used in place of BC and AD in log files.}
+\item{plus_minus}{Logical. Whether + and - are used in
+place of BC and AD in log files.}
 
-\item{raw_data}{Logical. Whether raw calibration curve data is included in the output data file.}
+\item{raw_data}{Logical. Whether raw calibration curve
+data is included in the output data file.}
 
-\item{resolution}{Integer. The default bin size for probability distributions of Date and Interval type.}
+\item{resolution}{Integer. The default bin size for
+probability distributions of Date and Interval type.}
 
-\item{round}{Logical. Whether ranges are rounded off.}
+\item{round}{Logical. Whether ranges are rounded
+off.}
 
-\item{round_by}{Integer. Resolution of rounding (0 for automatic).}
+\item{round_by}{Integer. Resolution of rounding
+(0 for automatic).}
 
-\item{sd1}{Logical. Whether 68.2\% (1 σ) ranges are given in the log and tab delimited files.}
+\item{sd1}{Logical. Whether 68.2\% (1 σ) ranges
+are given in the log and tab delimited files.}
 
-\item{sd2}{Logical. Whether 95.4\% (2 σ) ranges are given in the log and tab delimited files.}
+\item{sd2}{Logical. Whether 95.4\% (2 σ) ranges
+are given in the log and tab delimited files.}
 
-\item{sd3}{Logical. Whether 99.7\% (3 σ) ranges are given in the log and tab delimited files.}
+\item{sd3}{Logical. Whether 99.7\% (3 σ) ranges
+are given in the log and tab delimited files.}
 
-\item{uniform_span_prior}{Logical. Whether the two extra prior factors suggested by Nicholls and Jones 2001 are used.}
+\item{uniform_span_prior}{Logical. Whether the two extra prior
+factors suggested by Nicholls and Jones 2001 are used.}
 
-\item{use_f14c}{Logical. Whether all calibrations take place in F14C space (rather than BP space).}
+\item{use_f14c}{Logical. Whether all calibrations
+take place in F14C space (rather than BP space).}
 
-\item{year}{Numeric. The datum point for ages - the default is mid AD 1950.}
+\item{year}{Numeric. The datum point for ages -
+the default is mid AD 1950.}
 
-\item{...}{Additional named arguments converted to OxCal options. See details.}
+\item{...}{Additional named arguments converted
+to OxCal options. See details.}
 }
 \value{
 A \code{cql} object.

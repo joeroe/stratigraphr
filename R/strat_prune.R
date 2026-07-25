@@ -3,8 +3,9 @@
 
 #' Remove redundant relations from a stratigraph
 #'
-#' strg_prune() removes redundant relations from a stratigraphic graph by
-#' computing its [transitive reduction](https://en.wikipedia.org/wiki/Transitive_reduction).
+#' strg_prune() removes redundant relations from a stratigraphic
+#' graph by computing its
+#' [transitive reduction](https://en.wikipedia.org/wiki/Transitive_reduction).
 #' The result is a 'pruned' graph that follows Harris' "Law of Stratigraphical
 #' Succession": that only the uppermost and undermost relations are significant
 #' when placing a unit in a stratigraphic sequence.
@@ -58,7 +59,10 @@ strg_to_transitive_reduction <- function(graph) {
 strg_to_relation <- function(graph) {
   tidygraph::with_graph(graph, {
     relations::endorelation(
-      domain = lapply(1:nrow(tidygraph::.N()), sets::as.set),
+      domain = lapply(
+        seq_len(nrow(tidygraph::.N())),
+        sets::as.set
+      ),
       graph = tidygraph::.E()
     )
   })
@@ -74,8 +78,9 @@ strg_to_relation <- function(graph) {
 #' @keywords {internal}
 edges_from_relation <- function(relation) {
   adjacency <- relations::relation_incidence(relation)
-  graph <- igraph::graph_from_adjacency_matrix(adjacency, mode = "directed",
-                                               add.colnames = FALSE)
+  graph <- igraph::graph_from_adjacency_matrix(
+    adjacency, mode = "directed",
+    add.colnames = FALSE
+  )
   data.frame(igraph::as_edgelist(graph))
 }
-

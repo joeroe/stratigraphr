@@ -34,8 +34,7 @@
 #' @export
 cql <- function(...) {
   cql <- paste(..., sep = "\n", collapse = "\n")
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 
@@ -50,7 +49,7 @@ as_cql <- function(x) UseMethod("as_cql", x)
 as_cql.list <- function(x) {
   x <- purrr::map(x, as_cql)
   class(x) <- c("cql", "list")
-  return(x)
+  x
 }
 
 #' @rdname cql
@@ -58,7 +57,7 @@ as_cql.list <- function(x) {
 as_cql.default <- function(x) {
   x <- as.character(x)
   class(x) <- c("cql", "character")
-  return(x)
+  x
 }
 
 #' @export
@@ -81,26 +80,46 @@ print.cql <- function(x, ...) {
 #'
 #' This function generates a CQL command that sets OxCal's global options.
 #'
-#' @param bcad               Logical. Whether BC/AD are used in the log file output.
-#' @param convergence_data   Logical. Whether sample convergence data is included in the output data file.
+#' @param bcad               Logical. Whether BC/AD are used in the
+#'   log file output.
+#' @param convergence_data   Logical. Whether sample convergence
+#'   data is included in the output data file.
 #' @param curve              Character. The default calibration curve.
-#' @param cubic              Logical. Whether cubic (as opposed to linear) interpolation is used for calibration curves.
-#' @param ensembles          Integer. The number of age-depth ensembles stored during the analysis.
-#' @param floruit            Logical. Whether quantile ranges are calculated instead of the default highest posterior density (hpd).
-#' @param intercept          Logical. Whether the intercept method is used for radiocarbon calibration ranges.
-#' @param k_iterations       Integer. The default number of MCMC passes.
-#' @param plus_minus         Logical. Whether + and - are used in place of BC and AD in log files.
-#' @param raw_data           Logical. Whether raw calibration curve data is included in the output data file.
-#' @param resolution         Integer. The default bin size for probability distributions of Date and Interval type.
-#' @param round              Logical. Whether ranges are rounded off.
-#' @param round_by           Integer. Resolution of rounding (0 for automatic).
-#' @param sd1                Logical. Whether 68.2% (1 σ) ranges are given in the log and tab delimited files.
-#' @param sd2                Logical. Whether 95.4% (2 σ) ranges are given in the log and tab delimited files.
-#' @param sd3                Logical. Whether 99.7% (3 σ) ranges are given in the log and tab delimited files.
-#' @param uniform_span_prior Logical. Whether the two extra prior factors suggested by Nicholls and Jones 2001 are used.
-#' @param use_f14c           Logical. Whether all calibrations take place in F14C space (rather than BP space).
-#' @param year               Numeric. The datum point for ages - the default is mid AD 1950.
-#' @param ...                Additional named arguments converted to OxCal options. See details.
+#' @param cubic              Logical. Whether cubic (as opposed to
+#'   linear) interpolation is used for calibration curves.
+#' @param ensembles          Integer. The number of age-depth
+#'   ensembles stored during the analysis.
+#' @param floruit            Logical. Whether quantile ranges are
+#'   calculated instead of the default highest posterior density
+#'   (hpd).
+#' @param intercept          Logical. Whether the intercept method
+#'   is used for radiocarbon calibration ranges.
+#' @param k_iterations       Integer. The default number of MCMC
+#'   passes.
+#' @param plus_minus         Logical. Whether + and - are used in
+#'   place of BC and AD in log files.
+#' @param raw_data           Logical. Whether raw calibration curve
+#'   data is included in the output data file.
+#' @param resolution         Integer. The default bin size for
+#'   probability distributions of Date and Interval type.
+#' @param round              Logical. Whether ranges are rounded
+#'   off.
+#' @param round_by           Integer. Resolution of rounding
+#'   (0 for automatic).
+#' @param sd1                Logical. Whether 68.2% (1 σ) ranges
+#'   are given in the log and tab delimited files.
+#' @param sd2                Logical. Whether 95.4% (2 σ) ranges
+#'   are given in the log and tab delimited files.
+#' @param sd3                Logical. Whether 99.7% (3 σ) ranges
+#'   are given in the log and tab delimited files.
+#' @param uniform_span_prior Logical. Whether the two extra prior
+#'   factors suggested by Nicholls and Jones 2001 are used.
+#' @param use_f14c           Logical. Whether all calibrations
+#'   take place in F14C space (rather than BP space).
+#' @param year               Numeric. The datum point for ages -
+#'   the default is mid AD 1950.
+#' @param ...                Additional named arguments converted
+#'   to OxCal options. See details.
 #'
 #' @details
 #' Parameter descriptions and defaults are taken from the OxCal v4.4
@@ -176,13 +195,11 @@ cql_options <- function(bcad = TRUE,
                   "{\n",
                   cql, ";",
                   "\n};")
-  }
-  else {
+  } else {
     cql <- "Options();"
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 # CQL date functions ------------------------------------------------------
@@ -198,9 +215,10 @@ cql_options <- function(bcad = TRUE,
 #' OxCal's internal format.
 #'
 #' @param name  Character. Date label(s), usually a lab code.
-#' @param date  Numeric. Date or dates expressed in radiocarbon years (`cql_r_date()`),
-#'              F14C (`cql_f14c_date()`), calendar years (`cql_c_date()`), or
-#'              OxCal's internal format (`cql_date()`) See details.
+#' @param date  Numeric. Date or dates expressed in radiocarbon
+#'   years (`cql_r_date()`), F14C (`cql_f14c_date()`), calendar
+#'   years (`cql_c_date()`), or OxCal's internal format
+#'   (`cql_date()`) See details.
 #' @param error Integer. Uncertainty associated with the date(s).
 #'
 #' @details
@@ -210,8 +228,9 @@ cql_options <- function(bcad = TRUE,
 #' F14C measurements are recommended for modern, "post-bomb" radiocarbon dates
 #' \insertCite{Reimer2004-yl}{stratigraphr}.
 #'
-#' OxCal's internal date format, used with `Date()`, is a decimal Gregorian
-#' year, for details see: <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html>
+#' OxCal's internal date format, used with `Date()`, is a decimal
+#' Gregorian year, for details see:
+#' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html>
 #'
 #' @return
 #' A `cql` object, or a list of `cql` objects if the arguments are vectors.
@@ -231,16 +250,15 @@ cql_r_date <- function(name, date, error) {
   checkmate::assert_integerish(date)
   checkmate::assert_integerish(error)
 
-  if(length(name) != length(date) |
-     length(date) != length(error) |
-     length(error) != length(name)) {
+  if (length(name) != length(date) ||
+        length(date) != length(error) ||
+        length(error) != length(name)) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
   cql <- glue::glue('R_Date("{name}", {date}, {error});')
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_r_date
@@ -250,16 +268,15 @@ cql_c_date <- function(name, date, error) {
   checkmate::assert_integerish(date)
   checkmate::assert_integerish(error)
 
-  if(length(name) != length(date) |
-     length(date) != length(error) |
-     length(error) != length(name)) {
+  if (length(name) != length(date) ||
+        length(date) != length(error) ||
+        length(error) != length(name)) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
   cql <- glue::glue('C_date("{name}", {date}, {error});')
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_r_date
@@ -269,16 +286,15 @@ cql_r_f14c <- function(name, date, error) {
   checkmate::assert_integerish(date)
   checkmate::assert_integerish(error)
 
-  if(length(name) != length(date) |
-     length(date) != length(error) |
-     length(error) != length(name)) {
+  if (length(name) != length(date) ||
+        length(date) != length(error) ||
+        length(error) != length(name)) {
     stop("Vector arguments to name, date, error must all be the same length.")
   }
 
   cql <- glue::glue('F14C_date("{name}", {date}, {error});')
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_r_date
@@ -288,8 +304,7 @@ cql_date <- function(name, date) {
 
   cql <- glue::glue('Date("{name}", {date});')
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 
@@ -325,8 +340,8 @@ cql_date <- function(name, date) {
 cql_phase <- function(name, cql) {
   name <- assert_cql_name(name, "cql_phase")
 
-  if(length(name) > 1) {
-    if(length(unique(name)) != 1) {
+  if (length(name) > 1) {
+    if (length(unique(name)) != 1) {
       warning("Vector arguments to name after the first are ignored.")
     }
     name <- name[[1]]
@@ -337,8 +352,7 @@ cql_phase <- function(name, cql) {
                 paste(cql, collapse = "\n"),
                 "\n};")
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 
@@ -382,8 +396,8 @@ cql_sequence <- function(name, cql, boundaries = FALSE) {
   name <- assert_cql_name(name, "cql_sequence")
   checkmate::assert_logical(boundaries)
 
-  if(length(name) > 1) {
-    if(length(unique(name)) != 1) {
+  if (length(name) > 1) {
+    if (length(unique(name)) != 1) {
       warning("Vector arguments to name after the first are ignored.")
     }
     name <- name[[1]]
@@ -391,7 +405,7 @@ cql_sequence <- function(name, cql, boundaries = FALSE) {
 
 
   # TODO: Different types of boundaries, parameters, etc.
-  if(boundaries) {
+  if (boundaries) {
     cql <- as.vector(rbind(cql, rep(cql_boundary(""), length(cql))))
     cql <- c(cql_boundary(""), cql)
   }
@@ -404,25 +418,32 @@ cql_sequence <- function(name, cql, boundaries = FALSE) {
                "};",
                sep = "\n")
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_sequence
 #' @export
-cql_d_sequence <- function() { warning("CQL command D_Sequence is not yet implemented in stratigraphr") }
+cql_d_sequence <- function() {
+  warning("CQL command D_Sequence is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_sequence
 #' @export
-cql_p_sequence <- function() { warning("CQL command P_Sequence is not yet implemented in stratigraphr") }
+cql_p_sequence <- function() {
+  warning("CQL command P_Sequence is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_sequence
 #' @export
-cql_u_sequence <- function() { warning("CQL command U_Sequence is not yet implemented in stratigraphr") }
+cql_u_sequence <- function() {
+  warning("CQL command U_Sequence is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_sequence
 #' @export
-cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implemented in stratigraphr") }
+cql_v_sequence <- function() {
+  warning("CQL command V_Sequence is not yet implemented in stratigraphr")
+}
 
 # CQL boundary functions --------------------------------------------------
 
@@ -432,7 +453,8 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #' The CQL command `Boundary` describes constraints within an ordered sequence
 #' (see [cql_sequence()]). Groups of events between two boundaries are assumed
 #' to be sampled from the same prior distribution. `Boundary` alone models a
-#' uniform prior. Other types of boundary, i.e. `Sigma_Boundary`, `Tau_Boundary`,
+#' uniform prior. Other types of boundary, i.e.
+#' `Sigma_Boundary`, `Tau_Boundary`,
 #' and `Zero_Boundary` are not yet implemented in stratigraphr.
 #'
 #' Boundaries can contain a `Transition` command, in which case they describe
@@ -440,8 +462,8 @@ cql_v_sequence <- function() { warning("CQL command V_Sequence is not yet implem
 #'
 #' @param name        Character. Label for a boundary or transition.
 #' @param ...         `cql` objects contained within a boundary.
-#' @param prior       `cql` object. Expression describing the prior likelihood of
-#'                    a boundary or transition.
+#' @param prior       `cql` object. Expression describing the
+#'   prior likelihood of a boundary or transition.
 #'
 #' @return
 #' A `cql` object.
@@ -499,15 +521,14 @@ cql_boundary <- function(name, ..., prior = NULL) {
   checkmate::assert_class(prior, "cql", null.ok = TRUE)
   assert_cql_dots(...)
 
-  if(is.null(prior)) {
+  if (is.null(prior)) {
     cql <- glue::glue('Boundary("{name}")')
-  }
-  else {
+  } else {
     prior <- stringr::str_remove(prior, stringr::coll(";"))
     cql <- glue::glue('Boundary("{name}", {prior})')
   }
 
-  if(!missing(...)) {
+  if (!missing(...)) {
     innercql <- paste(..., sep = "\n")
     cql <- paste0(
       cql, "\n",
@@ -515,26 +536,36 @@ cql_boundary <- function(name, ..., prior = NULL) {
       innercql, "\n",
       "};"
     )
-  }
-  else {
+  } else {
     cql <- paste0(cql, ";")
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_boundary
 #' @export
-cql_sigma_boundary <- function() { warning("CQL command Sigma_Boundary is not yet implemented in stratigraphr") }
+cql_sigma_boundary <- function() {
+  warning(
+    "CQL command Sigma_Boundary is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_boundary
 #' @export
-cql_tau_boundary <- function() { warning("CQL command Tau_Boundary is not yet implemented in stratigraphr") }
+cql_tau_boundary <- function() {
+  warning(
+    "CQL command Tau_Boundary is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_boundary
 #' @export
-cql_zero_boundary <- function() { warning("CQL command Zero_Boundary is not yet implemented in stratigraphr") }
+cql_zero_boundary <- function() {
+  warning(
+    "CQL command Zero_Boundary is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_boundary
 #' @export
@@ -542,16 +573,14 @@ cql_transition <- function(name, prior = NULL) {
   name <- as.character(name)
   checkmate::assert_class(prior, "cql", null.ok = TRUE)
 
-  if(is.null(prior)) {
+  if (is.null(prior)) {
     cql <- glue::glue('Transition("{name}");')
-  }
-  else {
+  } else {
     prior <- stringr::str_remove(prior, stringr::coll(";"))
     cql <- glue::glue('Transition("{name}", {prior});')
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 
@@ -560,7 +589,8 @@ cql_transition <- function(name, prior = NULL) {
 #' Describe distributions in CQL
 #'
 #' The CQL commands `N`, `LnN`, `T`, `U` and `Top_Hat` describe various types
-#' of probability distribution functions. `cql_n()` defines a normal distribution
+#' of probability distribution functions. `cql_n()` defines a
+#' normal distribution
 #' by its mean and standard deviation; `cql_lnn()` a log–normal distribution by
 #' its mean and standard deviation; `cql_t()` a Student's t distribution by
 #' degrees of freedom; `cql_u()` a uniform distribution by its start and end;
@@ -568,14 +598,18 @@ cql_transition <- function(name, prior = NULL) {
 #'
 #' @param name        Character. Label for the distribution.
 #' @param mu          Integer. Mean of a normal or log–normal distribution.
-#' @param sigma       Integer. Standard deviation of a normal or log–normal distribution.
-#' @param freedom     Integer. Degrees of freedom of a Student's t distribution.
-#' @param scale       Numeric. Optional scaling parameter for a Student's t distribution.
+#' @param sigma       Integer. Standard deviation of a normal or
+#'   log–normal distribution.
+#' @param freedom     Integer. Degrees of freedom of a Student's
+#'   t distribution.
+#' @param scale       Numeric. Optional scaling parameter for a
+#'   Student's t distribution.
 #' @param mid         Integer. Centre point of a uniform distribution.
 #' @param half_width  Integer. Half-width of a uniform distribution.
 #' @param from        Integer. Start point of a uniform distribution.
 #' @param to          Integer. End point of a uniform distribution.
-#' @param resolution  Integer. Resolution of the PDF. Leave `NULL` (the default) to use the OxCal default.
+#' @param resolution  Integer. Resolution of the PDF. Leave
+#'   `NULL` (the default) to use the OxCal default.
 #'
 #' @return
 #' A `cql` object.
@@ -598,15 +632,13 @@ cql_n <- function(name, mu, sigma, resolution = NULL) {
   checkmate::assert_integerish(sigma)
   checkmate::assert_integerish(resolution, null.ok = TRUE)
 
-  if(is.null(resolution)) {
+  if (is.null(resolution)) {
     cql <- glue::glue('N("{name}", {mu}, {sigma});')
-  }
-  else {
+  } else {
     cql <- glue::glue('N("{name}", {mu}, {sigma}, {resolution});')
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_n
@@ -617,15 +649,13 @@ cql_lnn <- function(name, mu, sigma, resolution = NULL) {
   checkmate::assert_integerish(sigma)
   checkmate::assert_integerish(resolution, null.ok = TRUE)
 
-  if(is.null(resolution)) {
+  if (is.null(resolution)) {
     cql <- glue::glue('LnN("{name}", {mu}, {sigma});')
-  }
-  else {
+  } else {
     cql <- glue::glue('LnN("{name}", {mu}, {sigma}, {resolution});')
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_n
@@ -636,15 +666,15 @@ cql_t <- function(name, freedom, scale = 1, resolution = NULL) {
   checkmate::assert_integerish(scale)
   checkmate::assert_integerish(resolution, null.ok = TRUE)
 
-  if(is.null(resolution)) {
+  if (is.null(resolution)) {
     cql <- glue::glue('T("{name}", {freedom}, {scale});')
-  }
-  else {
-    cql <- glue::glue('T("{name}", {freedom}, {scale}, {resolution});')
+  } else {
+    cql <- glue::glue(
+      'T("{name}", {freedom}, {scale}, {resolution});'
+    )
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_n
@@ -656,8 +686,7 @@ cql_top_hat <- function(name, mid, half_width) {
 
   cql <- glue::glue('Top_Hat("{name}", {mid}, {half_width});')
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
 #' @rdname cql_n
@@ -668,18 +697,16 @@ cql_u <- function(name, from, to, resolution = NULL) {
   checkmate::assert_integerish(to)
   checkmate::assert_integerish(resolution, null.ok = TRUE)
 
-  if(is.null(resolution)) {
+  if (is.null(resolution)) {
     cql <- glue::glue('U("{name}", {from}, {to});')
-  }
-  else {
+  } else {
     cql <- glue::glue('U("{name}", {from}, {to}, {resolution});')
   }
 
-  cql <- as_cql(cql)
-  return(cql)
+  as_cql(cql)
 }
 
-# Other CQL functions ------------------------------------------------------------
+# Other CQL functions ----------------------------------------------------
 
 #' Other CQL functions (unimplemented)
 #'
@@ -704,183 +731,319 @@ NULL
 
 #' @rdname cql_other
 #' @export
-cql_age <- function(...) { warning("CQL command Age is not yet implemented in stratigraphr") }
+cql_age <- function(...) {
+  warning("CQL command Age is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_axis <- function(...) { warning("CQL command Axis is not yet implemented in stratigraphr") }
+cql_axis <- function(...) {
+  warning("CQL command Axis is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_c_combine <- function(...) { warning("CQL command C_Combine is not yet implemented in stratigraphr") }
+cql_c_combine <- function(...) {
+  warning(
+    "CQL command C_Combine is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_c_simulate <- function(...) { warning("CQL command C_Simulate is not yet implemented in stratigraphr") }
+cql_c_simulate <- function(...) {
+  warning(
+    "CQL command C_Simulate is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_correl_matrix <- function(...) { warning("CQL command Correl_Matrix is not yet implemented in stratigraphr") }
+cql_correl_matrix <- function(...) {
+  warning(
+    "CQL command Correl_Matrix is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_correlation <- function(...) { warning("CQL command Correlation is not yet implemented in stratigraphr") }
+cql_correlation <- function(...) {
+  warning(
+    "CQL command Correlation is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_covar_matrix <- function(...) { warning("CQL command Covar_Matrix is not yet implemented in stratigraphr") }
+cql_covar_matrix <- function(...) {
+  warning(
+    "CQL command Covar_Matrix is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_curve <- function(...) { warning("CQL command Curve is not yet implemented in stratigraphr") }
+cql_curve <- function(...) {
+  warning(
+    "CQL command Curve is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_delta_r <- function(...) { warning("CQL command Delta_R is not yet implemented in stratigraphr") }
+cql_delta_r <- function(...) {
+  warning(
+    "CQL command Delta_R is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_difference <- function(...) { warning("CQL command Difference is not yet implemented in stratigraphr") }
+cql_difference <- function(...) {
+  warning(
+    "CQL command Difference is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_end <- function(...) { warning("CQL command End is not yet implemented in stratigraphr") }
+cql_end <- function(...) {
+  warning("CQL command End is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_exp <- function(...) { warning("CQL command Exp is not yet implemented in stratigraphr") }
+cql_exp <- function(...) {
+  warning("CQL command Exp is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_gap <- function(...) { warning("CQL command Gap is not yet implemented in stratigraphr") }
+cql_gap <- function(...) {
+  warning("CQL command Gap is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_interval <- function(...) { warning("CQL command Interval is not yet implemented in stratigraphr") }
+cql_interval <- function(...) {
+  warning(
+    "CQL command Interval is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_kde_model <- function(...) { warning("CQL command KDE_Model is not yet implemented in stratigraphr") }
+cql_kde_model <- function(...) {
+  warning(
+    "CQL command KDE_Model is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_kde_plot <- function(...) { warning("CQL command KDE_Plot is not yet implemented in stratigraphr") }
+cql_kde_plot <- function(...) {
+  warning(
+    "CQL command KDE_Plot is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_label <- function(...) { warning("CQL command Label is not yet implemented in stratigraphr") }
+cql_label <- function(...) {
+  warning("CQL command Label is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_line <- function(...) { warning("CQL command Line is not yet implemented in stratigraphr") }
+cql_line <- function(...) {
+  warning("CQL command Line is not yet implemented in stratigraphr")
+}
 
 
 #' @rdname cql_other
 #' @export
-cql_mcmc_sample <- function(...) { warning("CQL command MCMC_Sample is not yet implemented in stratigraphr") }
+cql_mcmc_sample <- function(...) {
+  warning(
+    "CQL command MCMC_Sample is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_mix_curves <- function(...) { warning("CQL command Mix_Curves is not yet implemented in stratigraphr") }
+cql_mix_curves <- function(...) {
+  warning(
+    "CQL command Mix_Curves is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_number <- function(...) { warning("CQL command Number is not yet implemented in stratigraphr") }
+cql_number <- function(...) {
+  warning(
+    "CQL command Number is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_offset <- function(...) { warning("CQL command Offset is not yet implemented in stratigraphr") }
+cql_offset <- function(...) {
+  warning(
+    "CQL command Offset is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_outlier <- function(...) { warning("CQL command Outlier is not yet implemented in stratigraphr") }
+cql_outlier <- function(...) {
+  warning(
+    "CQL command Outlier is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_outlier_model <- function(...) { warning("CQL command Outlier_Model is not yet implemented in stratigraphr") }
+cql_outlier_model <- function(...) {
+  warning(
+    "CQL command Outlier_Model is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_p <- function(...) { warning("CQL command P is not yet implemented in stratigraphr") }
+cql_p <- function(...) {
+  warning("CQL command P is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_pois <- function(...) { warning("CQL command Pois is not yet implemented in stratigraphr") }
+cql_pois <- function(...) {
+  warning("CQL command Pois is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_prior <- function(...) { warning("CQL command Prior is not yet implemented in stratigraphr") }
+cql_prior <- function(...) {
+  warning("CQL command Prior is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_probability <- function(...) { warning("CQL command Probability is not yet implemented in stratigraphr") }
+cql_probability <- function(...) {
+  warning(
+    "CQL command Probability is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_r_combine <- function(...) { warning("CQL command R_Combine is not yet implemented in stratigraphr") }
+cql_r_combine <- function(...) {
+  warning(
+    "CQL command R_Combine is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_r_simulate <- function(...) { warning("CQL command R_Simulate is not yet implemented in stratigraphr") }
+cql_r_simulate <- function(...) {
+  warning(
+    "CQL command R_Simulate is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_reservoir <- function(...) { warning("CQL command Reservoir is not yet implemented in stratigraphr") }
+cql_reservoir <- function(...) {
+  warning(
+    "CQL command Reservoir is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_sample <- function(...) { warning("CQL command Sample is not yet implemented in stratigraphr") }
+cql_sample <- function(...) {
+  warning(
+    "CQL command Sample is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_sapwood <- function(...) { warning("CQL command Sapwood is not yet implemented in stratigraphr") }
+cql_sapwood <- function(...) {
+  warning(
+    "CQL command Sapwood is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_sapwood_model <- function(...) { warning("CQL command Sapwood_Model is not yet implemented in stratigraphr") }
+cql_sapwood_model <- function(...) {
+  warning(
+    "CQL command Sapwood_Model is not yet implemented in stratigraphr"
+  )
+}
 
 #' @rdname cql_other
 #' @export
-cql_shift <- function(...) { warning("CQL command Shift is not yet implemented in stratigraphr") }
+cql_shift <- function(...) {
+  warning("CQL command Shift is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_start <- function(...) { warning("CQL command Start is not yet implemented in stratigraphr") }
+cql_start <- function(...) {
+  warning("CQL command Start is not yet implemented in stratigraphr")
+}
 
 
 # CQL group functions -----------------------------------------------------
 
 #' @rdname cql_other
 #' @export
-cql_after <- function() { warning("CQL command After is not yet implemented in stratigraphr") }
+cql_after <- function() {
+  warning("CQL command After is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_before <- function() { warning("CQL command Before is not yet implemented in stratigraphr") }
+cql_before <- function() {
+  warning("CQL command Before is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_combine <- function() { warning("CQL command Combine is not yet implemented in stratigraphr") }
+cql_combine <- function() {
+  warning("CQL command Combine is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_first <- function() { warning("CQL command First is not yet implemented in stratigraphr") }
+cql_first <- function() {
+  warning("CQL command First is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_last <- function() { warning("CQL command Last is not yet implemented in stratigraphr") }
+cql_last <- function() {
+  warning("CQL command Last is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_order <- function() { warning("CQL command Order is not yet implemented in stratigraphr") }
+cql_order <- function() {
+  warning("CQL command Order is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_span <- function() { warning("CQL command Span is not yet implemented in stratigraphr") }
+cql_span <- function() {
+  warning("CQL command Span is not yet implemented in stratigraphr")
+}
 
 #' @rdname cql_other
 #' @export
-cql_sum <- function() { warning("CQL command Sum is not yet implemented in stratigraphr") }
+cql_sum <- function() {
+  warning("CQL command Sum is not yet implemented in stratigraphr")
+}
 
 
 # CQL utility functions (not exported) ----------------------------------------
@@ -889,29 +1052,39 @@ cql_in <- function(x) {
   x <- stringr::str_split(x, stringr::coll("\n"))
   x <- purrr::map(x, function(x) {
     idd <- 1
-    for(i in 1:length(x)) {
-      if(stringr::str_starts(stringr::str_trim(x[i]), stringr::coll("}"))) idd <- idd - 1
+    for (i in seq_along(x)) {
+      if (stringr::str_starts(
+        stringr::str_trim(x[i]),
+        stringr::coll("}")
+      )) {
+        idd <- idd - 1
+      }
       indent <- paste0(rep(" ", idd), collapse = "")
       x[i] <- paste0(indent, x[i])
-      if(stringr::str_starts(stringr::str_trim(x[i]), stringr::coll("{"))) idd <- idd + 1
+      if (stringr::str_starts(
+        stringr::str_trim(x[i]),
+        stringr::coll("{")
+      )) {
+        idd <- idd + 1
+      }
     }
 
     x <- paste0(x, collapse = "\n")
-    return(x)
+    x
   })
 
-  if(length(x) == 1) {
+  if (length(x) == 1) {
     x <- unlist(x)
   }
 
   x <- as_cql(x)
-  return(x)
+  x
 }
 
 assert_cql_dots <- function(...) {
   purrr::map(list(...),
              checkmate::assert_class,
-             classes= "cql",
+             classes = "cql",
              .var.name = "...")
 }
 
@@ -929,14 +1102,19 @@ assert_cql_dots <- function(...) {
 assert_cql_name <- function(name, function_name = "CQL function") {
   # TODO: Could be simplified if not is added to checkmate:
   # https://github.com/mllg/checkmate/issues/193
-  if(checkmate::test_class(name, "cql")) {
-    stop("First argument to ", function_name, " is a cql object. ",
-         "Did you forget to include a name?")
-  }
-  else if (!checkmate::test_character(name)) {
-    warning("First argument to ", function_name, " is not a string. ",
-            "Did you forget to include a name?")
+  if (checkmate::test_class(name, "cql")) {
+    stop(
+      "First argument to ", function_name,
+      " is a cql object. ",
+      "Did you forget to include a name?"
+    )
+  } else if (!checkmate::test_character(name)) {
+    warning(
+      "First argument to ", function_name,
+      " is not a string. ",
+      "Did you forget to include a name?"
+    )
   }
 
-  return(as.character(name))
+  as.character(name)
 }

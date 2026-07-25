@@ -1,2 +1,4 @@
-linters: linters_with_defaults() # see vignette("lintr")
+linters: linters_with_defaults(
+    assignment_linter(operator = c("<-", "->"), allow_trailing = TRUE)
+  )
 encoding: "UTF-8"
