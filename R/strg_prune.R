@@ -29,25 +29,10 @@
 #'
 #' strg_prune(bushy_stratigraphy)
 strg_prune <- function(strg) {
-  # TODO: use tidygraph morphers to maintain original data?
-  strg_to_transitive_reduction(strg)
-}
-
-#' Generate the transitive reduction of a graph
-#'
-#' Morpher function (see [tidygraph::morphers]) that returns the transitive
-#' reduction of a graph.
-#'
-#' @noRd
-#' @keywords {internal}
-strg_to_transitive_reduction <- function(graph) {
-  relation <- strg_to_relation(graph)
-  reduction <- relations::transitive_reduction(relation)
-  tidygraph::tbl_graph(
-    tidygraph::with_graph(graph, tidygraph::.N()),
-    edges_from_relation(reduction),
-    directed = TRUE
-  )
+  keep_ids <- strg_reduction_edge_ids(strg)
+  strg |>
+    tidygraph::activate("edges") |>
+    dplyr::filter(seq_len(dplyr::n()) %in% keep_ids)
 }
 
 #' Convert tidy graph to endorelation
@@ -68,6 +53,18 @@ strg_to_relation <- function(graph) {
   })
 }
 
+#' Get edge IDs to keep in transitive reduction
+#'
+#' @noRd
+#' @keywords {internal}
+strg_reduction_edge_ids <- function(strg) {
+  relation <- strg_to_relation(strg)
+  reduction <- relations::transitive_reduction(relation)
+  reduced_edges <- edges_from_relation(reduction)
+  edge_vector <- c(rbind(reduced_edges[, 1], reduced_edges[, 2]))
+  igraph::get_edge_ids(strg, edge_vector)
+}
+
 #' @noRd
 #' @keywords {internal}
 strg_has_redundant_relations <- function(strg) {
@@ -77,8 +74,7 @@ strg_has_redundant_relations <- function(strg) {
   if (!tidygraph::with_graph(strg, tidygraph::graph_is_dag())) {
     return(NA)
   }
-  reduced <- strg_to_transitive_reduction(strg)
-  igraph::gsize(strg) > igraph::gsize(reduced)
+  length(strg_reduction_edge_ids(strg)) < igraph::gsize(strg)
 }
 
 #' @noRd
@@ -89,9 +85,8 @@ strg_redundant_edges <- function(strg) {
   }
 
   original <- as.data.frame(tidygraph::as_tibble(strg, active = "edges"))
-  reduced <- as.data.frame(tidygraph::as_tibble(
-    strg_to_transitive_reduction(strg), active = "edges"
-  ))
+  keep_ids <- strg_reduction_edge_ids(strg)
+  reduced <- vctrs::vec_slice(original, keep_ids)
 
   # Edges in original but not in reduction
   vctrs::vec_slice(original, !vctrs::vec_in(original, reduced))

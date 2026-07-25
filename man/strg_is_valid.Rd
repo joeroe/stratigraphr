@@ -17,8 +17,7 @@ Default: \code{FALSE}.}
 }
 \value{
 \code{strg_is_valid()} returns \code{TRUE} or \code{FALSE}. \code{strg_validate()} returns
-the object invisibly and is called for its side effect of signalling an
-error/warning if invalid.
+the object (or signals an error/warning if invalid).
 }
 \description{
 Validation of stratigraphic graphs
