@@ -52,7 +52,7 @@
 <li>Removes deprecated <code>c14_*</code> and <code>cal_*</code> functions. These now live in the <a href="https://c14.joeroe.io/" class="external-link">c14 package</a>.
 <ul><li>Removes <code>shub1_radiocarbon</code> dataset (also now found in c14)</li>
 </ul></li>
-<li>Adds dependencies on vctrs, vroom and c14 (suggested)</li>
+<li>Adds dependencies on vctrs and vroom</li>
 <li>Drops dependencies on rcarbon, magrittr, tidyr, Bchron (suggested) and ggplot2 (suggested)</li>
 <li>Downgrades dependencies on tibble, dplyr and readr to suggested</li>
 </ul></div>
@@ -77,7 +77,7 @@
 </li>
 </ul></li>
 <li>
-<strong>Breaking change</strong>: <code><a href="https://c14.joeroe.io/reference/cal.html" class="external-link">cal()</a></code> and <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
+<strong>Breaking change</strong>: <code>cal()</code> and <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code> renamed <code>c14_calibrate</code> and <code>c14_sum</code> and now return <code>cal</code> objects.</li>
 <li>
 <strong>Breaking changes</strong> to <code>stratigraph</code> interface:
 <ul><li>Renamed functions: <code>harris()</code> → <code><a href="../reference/strat_connect.html">strat_connect()</a></code>, <code>is_valid_harris()</code> → <code>strat_is_valid()</code>

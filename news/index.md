@@ -22,7 +22,7 @@
 - Removes deprecated `c14_*` and `cal_*` functions. These now live in
   the [c14 package](https://c14.joeroe.io/).
   - Removes `shub1_radiocarbon` dataset (also now found in c14)
-- Adds dependencies on vctrs, vroom and c14 (suggested)
+- Adds dependencies on vctrs and vroom
 - Drops dependencies on rcarbon, magrittr, tidyr, Bchron (suggested) and
   ggplot2 (suggested)
 - Downgrades dependencies on tibble, dplyr and readr to suggested
@@ -54,8 +54,7 @@
     `as_cal.BchronCalibratedDates()`)
   - New
     [`vignette("tidy_radiocarbon")`](https://stratigraphr.joeroe.io/articles/tidy_radiocarbon.md)
-- **Breaking change**:
-  [`cal()`](https://c14.joeroe.io/reference/cal.html) and
+- **Breaking change**: `cal()` and
   [`sum()`](https://rdrr.io/r/base/sum.html) renamed `c14_calibrate` and
   `c14_sum` and now return `cal` objects.
 - **Breaking changes** to `stratigraph` interface:

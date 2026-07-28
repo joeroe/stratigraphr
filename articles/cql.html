@@ -105,22 +105,9 @@ package</a>.</li>
 interface offers little benefit over writing CQL directly. Its real
 power is in combining <code><a href="../reference/cql.html">cql()</a></code> with other R tools to build
 models based on other data.</p>
-<p>For the following examples, we will use stratigraphic and radiocarbon
-data from Shubayqa 1 <span class="citation">(Richter et al.
-2017)</span>. The latter is made available by the c14 package:</p>
+<p>For the following examples, we will use a simple example dataset of
+radiocarbon dates:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://c14.joeroe.io" class="external-link">c14</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"shub1_c14"</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="tabular-data">Tabular data<a class="anchor" aria-label="anchor" href="#tabular-data"></a>
-</h3>
-<p>With radiocarbon and stratigraphic data in a tabular format, you can
-take advantage of <code>dplyr</code>’s powerful tools for data
-manipulation to build CQL models programmatically.</p>
-<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to concisely express a
-table of dates as CQL <code>R_Date</code> commands:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://purrr.tidyverse.org/" class="external-link">"purrr"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -132,119 +119,67 @@ table of dates as CQL <code>R_Date</code> commands:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span></span>
-<span><span class="va">shub1_c14</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>r_date <span class="op">=</span> <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">c14_age</span>, <span class="va">c14_error</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  lab_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ABC-001"</span>, <span class="st">"ABC-002"</span>, <span class="st">"ABC-003"</span>, <span class="st">"ABC-004"</span>, <span class="st">"ABC-005"</span><span class="op">)</span>,</span>
+<span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5050</span>, <span class="fl">5000</span>, <span class="fl">4950</span>, <span class="fl">4900</span>, <span class="fl">4850</span><span class="op">)</span>,</span>
+<span>  error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">30</span>, <span class="fl">30</span>, <span class="fl">30</span>, <span class="fl">30</span><span class="op">)</span>,</span>
+<span>  phase <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Phase 1"</span>, <span class="st">"Phase 1"</span>, <span class="st">"Phase 1"</span>, <span class="st">"Phase 2"</span>, <span class="st">"Phase 2"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="tabular-data">Tabular data<a class="anchor" aria-label="anchor" href="#tabular-data"></a>
+</h3>
+<p>With radiocarbon data in a tabular format, you can take advantage of
+<code>dplyr</code>’s powerful tools for data manipulation to build CQL
+models programmatically.</p>
+<p>For example, use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to concisely express a
+table of dates as CQL <code>R_Date</code> commands:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>r_date <span class="op">=</span> <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">age</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"r_date"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  // CQL2 generated by stratigraphr v0.4.0.9000</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7951", 12166, 55);</span></span>
-<span><span class="co">#&gt;  R_Date("Beta-112146", 12310, 60);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7317", 12289, 46);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7318", 12332, 46);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7948", 12478, 38);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7947", 12322, 38);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7313", 12346, 46);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7311", 12367, 65);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7312", 12405, 50);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7314", 12273, 48);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7316", 12337, 46);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-7315", 12445, 70);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6818", 12477, 76);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6820", 12385, 75);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6821", 12385, 78);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6822", 12412, 79);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6823", 12321, 78);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6813", 12344, 85);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6816", 12389, 78);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6819", 11325, 74);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6812", 11365, 72);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6817", 11322, 75);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-8904", 10317, 38);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6814", 10229, 70);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-8902", 10107, 53);</span></span>
-<span><span class="co">#&gt;  R_Date("RTD-8903", 10095, 52);</span></span>
-<span><span class="co">#&gt;  R_Date("RTK-6815", 1229, 54);</span></span></code></pre></div>
+<span><span class="co">#&gt;  R_Date("ABC-001", 5050, 30);</span></span>
+<span><span class="co">#&gt;  R_Date("ABC-002", 5000, 30);</span></span>
+<span><span class="co">#&gt;  R_Date("ABC-003", 4950, 30);</span></span>
+<span><span class="co">#&gt;  R_Date("ABC-004", 4900, 30);</span></span>
+<span><span class="co">#&gt;  R_Date("ABC-005", 4850, 30);</span></span></code></pre></div>
 <p>Or use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> and
 <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">dplyr::summarise()</a></code> to build phase models. This is a three
-stage process, illustrated below with the phase model from Shubayqa
-1:</p>
+stage process:</p>
 <ol style="list-style-type: decimal">
-<li>Preprocess the dates, e.g. to remove outliers and order phases.</li>
+<li>Preprocess the dates, e.g. to order phases.</li>
 <li>Group dates by phase and summarise them with
 <code><a href="../reference/cql_phase.html">cql_phase()</a></code>.</li>
 <li>Group phases into a sequence, using <code>boundaries</code> to
-automatically add boundary constraints between them. If we had multiple
-independent sequences, we could include an additional grouping variable
-here, before concatenating them with <code><a href="../reference/cql.html">cql()</a></code>.</li>
+automatically add boundary constraints between them.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">shub1_c14</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outlier</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">dates</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_phase.html">cql_phase</a></span><span class="op">(</span><span class="va">phase</span>, <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">c14_age</span>, <span class="va">c14_error</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_phase.html">cql_phase</a></span><span class="op">(</span><span class="va">phase</span>, <span class="fu"><a href="../reference/cql_r_date.html">cql_r_date</a></span><span class="op">(</span><span class="va">lab_id</span>, <span class="va">age</span>, <span class="va">error</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">phase</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_sequence.html">cql_sequence</a></span><span class="op">(</span><span class="st">"Shubayqa 1"</span>, <span class="va">cql</span>, boundaries <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>cql <span class="op">=</span> <span class="fu"><a href="../reference/cql_sequence.html">cql_sequence</a></span><span class="op">(</span><span class="st">"Example Sequence"</span>, <span class="va">cql</span>, boundaries <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"cql"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/cql.html">cql</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">shub1_cql</span></span>
+<span>  <span class="va">example_cql</span></span>
 <span></span>
-<span><span class="va">shub1_cql</span></span>
+<span><span class="va">example_cql</span></span>
 <span><span class="co">#&gt;  // CQL2 generated by stratigraphr v0.4.0.9000</span></span>
-<span><span class="co">#&gt;  Sequence("Shubayqa 1")</span></span>
+<span><span class="co">#&gt;  Sequence("Example Sequence")</span></span>
 <span><span class="co">#&gt;  {</span></span>
-<span><span class="co">#&gt;   Boundary("");</span></span>
-<span><span class="co">#&gt;   Phase("Phase 7")</span></span>
-<span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7951", 12166, 55);</span></span>
-<span><span class="co">#&gt;    R_Date("Beta-112146", 12310, 60);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7317", 12289, 46);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7318", 12332, 46);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7948", 12478, 38);</span></span>
-<span><span class="co">#&gt;   };</span></span>
-<span><span class="co">#&gt;   Boundary("");</span></span>
-<span><span class="co">#&gt;   Phase("Phase 6")</span></span>
-<span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7947", 12322, 38);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7313", 12346, 46);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7311", 12367, 65);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7312", 12405, 50);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7314", 12273, 48);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7316", 12337, 46);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-7315", 12445, 70);</span></span>
-<span><span class="co">#&gt;   };</span></span>
-<span><span class="co">#&gt;   Boundary("");</span></span>
-<span><span class="co">#&gt;   Phase("Phase 5")</span></span>
-<span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6818", 12477, 76);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6820", 12385, 75);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6821", 12385, 78);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6822", 12412, 79);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6823", 12321, 78);</span></span>
-<span><span class="co">#&gt;   };</span></span>
-<span><span class="co">#&gt;   Boundary("");</span></span>
-<span><span class="co">#&gt;   Phase("Phase 4")</span></span>
-<span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6813", 12344, 85);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6816", 12389, 78);</span></span>
-<span><span class="co">#&gt;   };</span></span>
-<span><span class="co">#&gt;   Boundary("");</span></span>
-<span><span class="co">#&gt;   Phase("Phase 3")</span></span>
-<span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6819", 11325, 74);</span></span>
-<span><span class="co">#&gt;   };</span></span>
 <span><span class="co">#&gt;   Boundary("");</span></span>
 <span><span class="co">#&gt;   Phase("Phase 2")</span></span>
 <span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6812", 11365, 72);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6817", 11322, 75);</span></span>
+<span><span class="co">#&gt;    R_Date("ABC-004", 4900, 30);</span></span>
+<span><span class="co">#&gt;    R_Date("ABC-005", 4850, 30);</span></span>
 <span><span class="co">#&gt;   };</span></span>
 <span><span class="co">#&gt;   Boundary("");</span></span>
 <span><span class="co">#&gt;   Phase("Phase 1")</span></span>
 <span><span class="co">#&gt;   {</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-8904", 10317, 38);</span></span>
-<span><span class="co">#&gt;    R_Date("RTK-6814", 10229, 70);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-8902", 10107, 53);</span></span>
-<span><span class="co">#&gt;    R_Date("RTD-8903", 10095, 52);</span></span>
+<span><span class="co">#&gt;    R_Date("ABC-001", 5050, 30);</span></span>
+<span><span class="co">#&gt;    R_Date("ABC-002", 5000, 30);</span></span>
+<span><span class="co">#&gt;    R_Date("ABC-003", 4950, 30);</span></span>
 <span><span class="co">#&gt;   };</span></span>
 <span><span class="co">#&gt;   Boundary("");</span></span>
 <span><span class="co">#&gt;  };</span></span></code></pre></div>
@@ -304,8 +239,8 @@ results in <code>$posterior_sigma_ranges</code> and
 these with the built-in plotting functions:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Not run: slow</span></span>
-<span><span class="va">shub1_oxcal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">executeOxcalScript</a></span><span class="op">(</span><span class="va">shub1_cql</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">readOxcalOutput</a></span><span class="op">(</span><span class="va">shub1_oxcal</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">example_oxcal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/executeOxcalScript.html" class="external-link">executeOxcalScript</a></span><span class="op">(</span><span class="va">example_cql</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/readOxcalOutput.html" class="external-link">readOxcalOutput</a></span><span class="op">(</span><span class="va">example_oxcal</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/oxcAAR/man/parseOxcalOutput.html" class="external-link">parseOxcalOutput</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -320,13 +255,6 @@ Bronk Ramsey, Christopher. 1998. <span>“Probability and Dating.”</span>
 <div id="ref-Bronk_Ramsey2009-yk" class="csl-entry">
 Bronk Ramsey, Christopher. 2009. <span>“Bayesian Analysis of Radiocarbon
 Dates.”</span> <em>Radiocarbon</em> 51 (1): 337–60. <a href="https://doi.org/10.1017/S0033822200033865" class="external-link">https://doi.org/10.1017/S0033822200033865</a>.
-</div>
-<div id="ref-Richter2017-xy" class="csl-entry">
-Richter, Tobias, Amaia Arranz-Otaegui, Lisa Yeomans, and Elisabetta
-Boaretto. 2017. <span>“High Resolution <span>AMS</span> Dates from
-Shubayqa 1, Northeast Jordan Reveal Complex Origins of Late
-Epipalaeolithic Natufian in the Levant.”</span> <em>Scientific
-Reports</em> 7 (1): 17025. <a href="https://doi.org/10.1038/s41598-017-17096-5" class="external-link">https://doi.org/10.1038/s41598-017-17096-5</a>.
 </div>
 </div>
 </div>
