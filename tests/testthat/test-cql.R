@@ -1,88 +1,152 @@
-test_that("cql_* functions return cql objects", {
-  r_dates <- cql_r_date(c("ABC-001", "ABC-002", "ABC-003"),
-                        c(11000, 12000, 13000),
-                        c(10, 20, 30))
-
-  # Date functions
-  expect_s3_class(cql_options(), "cql")
-  expect_s3_class(cql_r_date("ABC-001", 11000, 10), "cql")
-  expect_s3_class(cql_c_date("ABC-002", 12000, 20), "cql")
-  expect_s3_class(cql_r_f14c("ABC-003", 13000, 30), "cql")
-  expect_s3_class(cql_date("Hastings", 1066.5), "cql")
-
-  # Phase functions
-  expect_s3_class(cql_phase("P1", r_dates), "cql")
-
-  # Sequence functions
-  expect_s3_class(cql_sequence("S1", r_dates), "cql")
-  # expect_s3_class(cql_d_sequence("S2", r_dates), "cql")
-  # expect_s3_class(cql_p_sequence("S3", r_dates), "cql")
-  # expect_s3_class(cql_u_sequence("S4", r_dates), "cql")
-  # expect_s3_class(cql_v_sequence("S5", r_dates), "cql")
-
-  # Boundary functions
-  expect_s3_class(cql_boundary("B1"), "cql")
-  # expect_s3_class(cql_sigma_boundary("B1"), "cql")
-  # expect_s3_class(cql_tau_boundary("B1"), "cql")
-  # expect_s3_class(cql_zero_boundary("B1"), "cql")
-  expect_s3_class(cql_transition("T1"), "cql")
-
-  # Distribution functions
-  expect_s3_class(cql_n("N", 1000, 10), "cql")
-  expect_s3_class(cql_lnn("LNN", 1000, 10), "cql")
-  expect_s3_class(cql_t("T", 2), "cql")
-  expect_s3_class(cql_top_hat("Top Hat", 1000, 500), "cql")
-  expect_s3_class(cql_u("U", 500, 1500), "cql")
-
-  # Other CQL functions
-  # TODO: add tests as implemented
-  # expect_s3_class(cql_age(), "cql")
-  # expect_s3_class(cql_axis(), "cql")
-  # expect_s3_class(cql_c_combine(), "cql")
-  # expect_s3_class(cql_c_simulate(), "cql")
-  # expect_s3_class(cql_correl_matrix(), "cql")
-  # expect_s3_class(cql_correlation(), "cql")
-  # expect_s3_class(cql_covar_matrix(), "cql")
-  # expect_s3_class(cql_curve(), "cql")
-  # expect_s3_class(cql_delta_r(), "cql")
-  # expect_s3_class(cql_difference(), "cql")
-  # expect_s3_class(cql_end(), "cql")
-  # expect_s3_class(cql_exp(), "cql")
-  # expect_s3_class(cql_gap(), "cql")
-  # expect_s3_class(cql_interval(), "cql")
-  # expect_s3_class(cql_kde_model(), "cql")
-  # expect_s3_class(cql_kde_plot(), "cql")
-  # expect_s3_class(cql_label(), "cql")
-  # expect_s3_class(cql_line(), "cql")
-  # expect_s3_class(cql_mcmc_sample(), "cql")
-  # expect_s3_class(cql_mix_curves(), "cql")
-  # expect_s3_class(cql_number(), "cql")
-  # expect_s3_class(cql_offset(), "cql")
-  # expect_s3_class(cql_outlier(), "cql")
-  # expect_s3_class(cql_outlier_model(), "cql")
-  # expect_s3_class(cql_p(), "cql")
-  # expect_s3_class(cql_pois(), "cql")
-  # expect_s3_class(cql_prior(), "cql")
-  # expect_s3_class(cql_probability(), "cql")
-  # expect_s3_class(cql_r_combine(), "cql")
-  # expect_s3_class(cql_r_simulate(), "cql")
-  # expect_s3_class(cql_reservoir(), "cql")
-  # expect_s3_class(cql_sample(), "cql")
-  # expect_s3_class(cql_sapwood(), "cql")
-  # expect_s3_class(cql_sapwood_model(), "cql")
-  # expect_s3_class(cql_shift(), "cql")
-  # expect_s3_class(cql_start(), "cql")
-
-  # Group functions
-  # expect_s3_class(cql_after(), "cql")
-  # expect_s3_class(cql_before(), "cql")
-  # expect_s3_class(cql_combine(), "cql")
-  # expect_s3_class(cql_first(), "cql")
-  # expect_s3_class(cql_last(), "cql")
-  # expect_s3_class(cql_order(), "cql")
-  # expect_s3_class(cql_span(), "cql")
-  # expect_s3_class(cql_sum(), "cql")
+test_that("cql() combines cql objects", {
+  result <- cql(
+    cql_r_date("A", 1000, 50),
+    cql_r_date("B", 2000, 50)
+  )
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'R_Date\\("A", 1000, 50\\);')
+  expect_match(as.character(result), 'R_Date\\("B", 2000, 50\\);')
 })
 
-# TODO: test vectorisation
-# TODO: test exact output?
+test_that("as_cql() coerces character to cql", {
+  result <- as_cql("test")
+  expect_s3_class(result, "cql")
+  expect_equal(as.character(result), "test")
+})
+
+test_that("as_cql() coerces list to cql", {
+  result <- as_cql(list("a", "b"))
+  expect_s3_class(result, "cql")
+  expect_s3_class(result, "list")
+})
+
+test_that("cql_options() returns cql object", {
+  result <- cql_options()
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), "Options\\(\\);")
+})
+
+test_that("cql_options() generates correct output with parameters", {
+  result <- cql_options(bcad = FALSE, curve = "intcal13.14c")
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), "BCAD = FALSE")
+  expect_match(as.character(result), 'Curve = "intcal13.14c"')
+})
+
+test_that("cql_r_date() generates correct output", {
+  result <- cql_r_date("ABC-001", 11000, 10)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'R_Date\\("ABC-001", 11000, 10\\);')
+})
+
+test_that("cql_r_date() handles vectorized inputs", {
+  result <- cql_r_date(c("A", "B"), c(1000, 2000), c(10, 20))
+  expect_s3_class(result, "cql")
+  expect_length(result, 2)
+  expect_match(as.character(result[[1]]), 'R_Date\\("A", 1000, 10\\);')
+  expect_match(as.character(result[[2]]), 'R_Date\\("B", 2000, 20\\);')
+})
+
+test_that("cql_c_date() generates correct output", {
+  result <- cql_c_date("ABC-002", 12000, 20)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'C_date\\("ABC-002", 12000, 20\\);')
+})
+
+test_that("cql_r_f14c() generates correct output", {
+  result <- cql_r_f14c("ABC-003", 5000, 100)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'F14C_date\\("ABC-003", 5000, 100\\);')
+})
+
+test_that("cql_date() generates correct output", {
+  result <- cql_date("Hastings", 1066.5)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Date\\("Hastings", 1066.5\\);')
+})
+
+test_that("cql_phase() generates correct output", {
+  dates <- cql_r_date("A", 1000, 50)
+  result <- cql_phase("P1", dates)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Phase\\("P1"\\)')
+  expect_match(as.character(result), 'R_Date\\("A", 1000, 50\\);')
+})
+
+test_that("cql_sequence() generates correct output", {
+  dates <- cql_r_date("A", 1000, 50)
+  result <- cql_sequence("S1", dates)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Sequence\\("S1"\\)')
+  expect_match(as.character(result), 'R_Date\\("A", 1000, 50\\);')
+})
+
+test_that("cql_boundary() generates correct output", {
+  result <- cql_boundary("B1")
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Boundary\\("B1"\\);')
+})
+
+test_that("cql_transition() generates correct output", {
+  result <- cql_transition("T1")
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Transition\\("T1"\\);')
+})
+
+test_that("cql_n() generates correct output", {
+  result <- cql_n("N", 1000, 10)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'N\\("N", 1000, 10\\);')
+})
+
+test_that("cql_lnn() generates correct output", {
+  result <- cql_lnn("LNN", 1000, 10)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'LnN\\("LNN", 1000, 10\\);')
+})
+
+test_that("cql_t() generates correct output", {
+  result <- cql_t("T", 2)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'T\\("T", 2, 1\\);')
+})
+
+test_that("cql_top_hat() generates correct output", {
+  result <- cql_top_hat("TH", 1000, 500)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'Top_Hat\\("TH", 1000, 500\\);')
+})
+
+test_that("cql_u() generates correct output", {
+  result <- cql_u("U", 500, 1500)
+  expect_s3_class(result, "cql")
+  expect_match(as.character(result), 'U\\("U", 500, 1500\\);')
+})
+
+test_that("print.cql() adds header comment", {
+  result <- cql_r_date("A", 1000, 50)
+  output <- capture.output(print(result))
+  expect_true(any(grepl("// CQL2 generated by stratigraphr", output)))
+})
+
+test_that("unimplemented cql_* functions warn", {
+  unimplemented_funs <- c(
+    "cql_age", "cql_axis", "cql_c_combine", "cql_c_simulate",
+    "cql_correl_matrix", "cql_correlation", "cql_covar_matrix", "cql_curve",
+    "cql_delta_r", "cql_difference", "cql_end", "cql_exp", "cql_gap",
+    "cql_interval", "cql_kde_model", "cql_kde_plot", "cql_label", "cql_line",
+    "cql_mcmc_sample", "cql_mix_curves", "cql_number", "cql_offset",
+    "cql_outlier", "cql_outlier_model", "cql_p", "cql_pois", "cql_prior",
+    "cql_probability", "cql_r_combine", "cql_r_simulate", "cql_reservoir",
+    "cql_sample", "cql_sapwood", "cql_sapwood_model", "cql_shift", "cql_start",
+    "cql_sigma_boundary", "cql_tau_boundary", "cql_zero_boundary",
+    "cql_after", "cql_before", "cql_combine", "cql_first", "cql_last",
+    "cql_order", "cql_span", "cql_sum",
+    "cql_d_sequence", "cql_p_sequence", "cql_u_sequence", "cql_v_sequence"
+  )
+  
+  for (fun_name in unimplemented_funs) {
+    fun <- get(fun_name)
+    expect_warning(fun(), regexp = "not yet implemented")
+  }
+})
