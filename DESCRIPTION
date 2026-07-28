@@ -33,7 +33,6 @@ Imports:
     vctrs,
     vroom,
 Suggests: 
-    c14,
     covr,
     dplyr,
     ggraph,
@@ -44,8 +43,6 @@ Suggests:
     rmarkdown,
     testthat,
     tibble,
-Remotes:
-    joeroe/c14
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
