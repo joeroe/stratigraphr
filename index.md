@@ -2,14 +2,21 @@
 
 stratigraphr is a tidy framework for working with archaeological
 stratigraphy and chronology in R. It includes tools for reading,
-analysing, and visualising stratigraphies (Harris matrices) and
-sequences as directed graphs; helper functions for using radiocarbon
-dates in a tidy data analysis; and an R interface to OxCal’s
-Chronological Query Language (CQL).
+analysing, and visualising stratigraphic sequences (Harris matrices) and
+as directed graphs and an R interface to OxCal’s Chronological Query
+Language (CQL).
 
 ## Installation
 
-You can install the development version of stratigraphr from GitHub with
+You can install the latest release of era [from
+CRAN](https://cran.r-project.org/package=stratigraphr) with:
+
+``` r
+
+install.packages("stratigraphr")
+```
+
+Or install the development version from GitHub with
 [pak](https://pak.r-lib.org/):
 
 ``` r

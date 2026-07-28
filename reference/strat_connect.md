@@ -28,3 +28,16 @@ strat_connect(units, relations, direction = c("above", "below"))
 A data frame of directed edges represented by `to` and `from` columns,
 which can be used as the `nodes` argument to
 [`tidygraph::tbl_graph()`](https://tidygraph.data-imaginist.com/reference/tbl_graph.html).
+
+## Examples
+
+``` r
+strat_connect(
+  units = c("A", "B", "C"),
+  relations = list("B", "C", NA),
+  direction = "above"
+)
+#>   to from
+#> 1  A    B
+#> 2  B    C
+```

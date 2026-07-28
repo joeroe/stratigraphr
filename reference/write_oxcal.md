@@ -36,3 +36,15 @@ Other CQL functions:
 [`cql_phase()`](https://stratigraphr.joeroe.io/reference/cql_phase.md),
 [`cql_r_date()`](https://stratigraphr.joeroe.io/reference/cql_r_date.md),
 [`cql_sequence()`](https://stratigraphr.joeroe.io/reference/cql_sequence.md)
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+script <- cql(
+  cql_r_date("ABC-001", 10100, 50),
+  cql_r_date("ABC-002", 10200, 50)
+)
+write_oxcal(script, tempfile(fileext = ".oxcal"))
+} # }
+```

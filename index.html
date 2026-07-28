@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Archaeological Stratigraphy and Chronological Sequences">
-<meta name="description" content="A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphy (Harris matrices) and sequences as directed graphs (Dye &amp; Buck 2015) &lt;doi:10.1016/j.jas.2015.08.008&gt;; helper functions for using radiocarbon dates in a tidy data analysis; and an R interface to the Chronological Query Language (CQL) used by OxCal (Bronk Ramsey 2009) &lt;doi:10.1017/S0033822200033865&gt;.">
-<meta property="og:description" content="A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphy (Harris matrices) and sequences as directed graphs (Dye &amp; Buck 2015) &lt;doi:10.1016/j.jas.2015.08.008&gt;; helper functions for using radiocarbon dates in a tidy data analysis; and an R interface to the Chronological Query Language (CQL) used by OxCal (Bronk Ramsey 2009) &lt;doi:10.1017/S0033822200033865&gt;.">
+<meta name="description" content="A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphic sequences (Harris matrices) as directed graphs (Dye &amp; Buck 2015) &lt;doi:10.1016/j.jas.2015.08.008&gt; and an R interface to the Chronological Query Language (CQL) used by OxCal (Bronk Ramsey 2009) &lt;doi:10.1017/S0033822200033865&gt;.">
+<meta property="og:description" content="A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphic sequences (Harris matrices) as directed graphs (Dye &amp; Buck 2015) &lt;doi:10.1016/j.jas.2015.08.008&gt; and an R interface to the Chronological Query Language (CQL) used by OxCal (Bronk Ramsey 2009) &lt;doi:10.1017/S0033822200033865&gt;.">
 <meta property="og:image" content="https://stratigraphr.joeroe.io/logo.svg">
 <script async src="https://umami.joeroe.io/script.js" data-website-id="b5838248-6cd1-4bb2-857f-6094b09e9b74"></script>
 </head>
@@ -68,12 +68,15 @@
 </div>
 <!-- badges: start -->
 
-<p>stratigraphr is a tidy framework for working with archaeological stratigraphy and chronology in R. It includes tools for reading, analysing, and visualising stratigraphies (Harris matrices) and sequences as directed graphs; helper functions for using radiocarbon dates in a tidy data analysis; and an R interface to OxCal’s Chronological Query Language (CQL).</p>
+<p>stratigraphr is a tidy framework for working with archaeological stratigraphy and chronology in R. It includes tools for reading, analysing, and visualising stratigraphic sequences (Harris matrices) and as directed graphs and an R interface to OxCal’s Chronological Query Language (CQL).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of stratigraphr from GitHub with <a href="https://pak.r-lib.org/" class="external-link">pak</a>:</p>
+<p>You can install the latest release of era <a href="https://cran.r-project.org/package=stratigraphr" class="external-link">from CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"stratigraphr"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub with <a href="https://pak.r-lib.org/" class="external-link">pak</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"joeroe/stratigraphr"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -81,7 +84,7 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p><code><a href="reference/stratigraph.html">stratigraph()</a></code> uses a data frame of stratigraphic relations to construct a <em>stratigraphic graph</em>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stratigraphr.joeroe.io">stratigraphr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Example stratigraphy from Harris (1979), figure 12:</span></span>
@@ -115,7 +118,7 @@
 <span><span class="co">#&gt;                 │</span></span>
 <span><span class="co">#&gt;              natural</span></span></code></pre></div>
 <p>stratigraph objects are built on top of <a href="https://tidygraph.data-imaginist.com/" class="external-link">tidygraph</a>, which gives access to a powerful tidy interface for manipulating and analysing the stratigraphy. It also works seamlessly with <a href="https://ggraph.data-imaginist.com/" class="external-link">ggraph</a>. For example, to approximate a conventional ‘Harris matrix’ visualisation with ggraph:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ggraph.data-imaginist.com" class="external-link">"ggraph"</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: ggplot2</span></span>
 <span></span>
@@ -166,7 +169,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://joeroe.io" class="external-link">Joe Roe</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1011-1244" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<a href="https://joeroe.io" class="external-link">Joe Roe</a> <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-1011-1244" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 

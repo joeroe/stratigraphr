@@ -40,3 +40,29 @@ Currently looks for:
 `strg_is_valid()` returns `TRUE` or `FALSE` silently. `strg_validate()`
 signals an error (or warning if `warn = TRUE`) with details of any
 validity issues found.
+
+## Examples
+
+``` r
+data("harris12")
+strg <- stratigraph(harris12, "context", "above")
+
+strg_is_valid(strg)
+#> [1] TRUE
+strg_validate(strg)
+#> # A stratigraph: 10 units and 12 relations
+#> # ✔ Valid stratigraphic graph
+#>                 1
+#> ┌───────────────┼───────────────┐
+#> 2               3               4
+#> └───────────────┼───────────────┘
+#>                 5
+#>                 │
+#>                 6
+#>         ┌───────┴───────┐
+#>         7               8
+#>         └───────┬───────┘
+#>                 9
+#>                 │
+#>              natural
+```
