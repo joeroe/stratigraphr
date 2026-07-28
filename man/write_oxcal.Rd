@@ -17,6 +17,15 @@ Returns \code{cql} invisibly.
 \description{
 Writes a CQL script (from \code{\link[=cql]{cql()}}) to an .oxcal file, for input to OxCal.
 }
+\examples{
+\dontrun{
+script <- cql(
+  cql_r_date("ABC-001", 10100, 50),
+  cql_r_date("ABC-002", 10200, 50)
+)
+write_oxcal(script, tempfile(fileext = ".oxcal"))
+}
+}
 \seealso{
 Other CQL functions:
 \code{\link[=cql]{cql()}},

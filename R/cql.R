@@ -32,6 +32,16 @@
 #' <https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html>
 #'
 #' @export
+#'
+#' @examples
+#' # Assemble individual CQL commands into a script
+#' cql(
+#'   cql_r_date("ABC-001", 10100, 50),
+#'   cql_r_date("ABC-002", 10200, 50)
+#' )
+#'
+#' # Coerce a character string to a cql object
+#' as_cql("R_Date(\"ABC-001\", 10100, 50);")
 cql <- function(...) {
   cql <- paste(..., sep = "\n", collapse = "\n")
   as_cql(cql)
@@ -138,6 +148,13 @@ print.cql <- function(x, ...) {
 #' @family CQL functions
 #'
 #' @export
+#'
+#' @examples
+#' # Use default options
+#' cql_options()
+#'
+#' # Set specific options
+#' cql_options(curve = "intcal13.14c", k_iterations = 50)
 cql_options <- function(bcad = TRUE,
                         convergence_data = FALSE,
                         curve = "intcal20.14c",
@@ -245,6 +262,22 @@ cql_options <- function(bcad = TRUE,
 #' @family CQL functions
 #'
 #' @export
+#'
+#' @examples
+#' # Radiocarbon date
+#' cql_r_date("ABC-001", 10100, 50)
+#'
+#' # Calendar date
+#' cql_c_date("ABC-002", -5000, 50)
+#'
+#' # F14C date
+#' cql_r_f14c("ABC-003", 5000, 10)
+#'
+#' # Date in OxCal internal format
+#' cql_date("ABC-004", 2020.5)
+#'
+#' # Vectorized: multiple dates at once
+#' cql_r_date(c("ABC-001", "ABC-002"), c(10100, 10200), c(50, 50))
 cql_r_date <- function(name, date, error) {
   name <- as.character(name)
   checkmate::assert_integerish(date)

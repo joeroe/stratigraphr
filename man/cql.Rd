@@ -36,6 +36,16 @@ List arguments to \code{cql()} are collapsed to produce a single script. If you
 want to coerce an object to \code{cql} and preserve its structure, use \code{as_cql()}
 instead.
 }
+\examples{
+# Assemble individual CQL commands into a script
+cql(
+  cql_r_date("ABC-001", 10100, 50),
+  cql_r_date("ABC-002", 10200, 50)
+)
+
+# Coerce a character string to a cql object
+as_cql("R_Date(\"ABC-001\", 10100, 50);")
+}
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_commands.html}
 }

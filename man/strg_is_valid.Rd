@@ -36,3 +36,10 @@ implied by transitivity)
 signals an error (or warning if \code{warn = TRUE}) with details of any validity
 issues found.
 }
+\examples{
+data("harris12")
+strg <- stratigraph(harris12, "context", "above")
+
+strg_is_valid(strg)
+strg_validate(strg)
+}

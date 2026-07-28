@@ -15,6 +15,13 @@
 #' can be used as the `nodes` argument to [tidygraph::tbl_graph()].
 #'
 #' @export
+#'
+#' @examples
+#' strat_connect(
+#'   units = c("A", "B", "C"),
+#'   relations = list("B", "C", NA),
+#'   direction = "above"
+#' )
 strat_connect <- function(units, relations, direction = c("above", "below")) {
   direction <- match.arg(direction)
 

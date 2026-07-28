@@ -47,6 +47,22 @@ OxCal's internal date format, used with \code{Date()}, is a decimal
 Gregorian year, for details see:
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_calend.html}
 }
+\examples{
+# Radiocarbon date
+cql_r_date("ABC-001", 10100, 50)
+
+# Calendar date
+cql_c_date("ABC-002", -5000, 50)
+
+# F14C date
+cql_r_f14c("ABC-003", 5000, 10)
+
+# Date in OxCal internal format
+cql_date("ABC-004", 2020.5)
+
+# Vectorized: multiple dates at once
+cql_r_date(c("ABC-001", "ABC-002"), c(10100, 10200), c(50, 50))
+}
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_inform.html#date}
 

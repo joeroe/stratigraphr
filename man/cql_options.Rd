@@ -102,6 +102,13 @@ Options not explicitly included here can be specified as additional named
 arguments to this function. The name must exactly match the name of the
 option expected by OxCal; unknown or misspelled options are silently ignored.
 }
+\examples{
+# Use default options
+cql_options()
+
+# Set specific options
+cql_options(curve = "intcal13.14c", k_iterations = 50)
+}
 \references{
 \url{https://c14.arch.ox.ac.uk/oxcalhelp/hlp_analysis_detail.html#opt}
 }

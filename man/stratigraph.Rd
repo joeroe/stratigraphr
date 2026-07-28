@@ -30,12 +30,6 @@ Takes a data frame describing stratigraphic units and relations and turns
 it into a graph representation.
 }
 \examples{
-# List column format (wide format)
-stratigraph(data.frame(
-  label = c("A", "B", "C"),
-  below = list("B", "C", NA)
-), "label", "below")
-
 # Long format (one relation per row)
 stratigraph(data.frame(
   label = c("A", "B", "C", "C"),

@@ -24,6 +24,13 @@
 #' the object (or signals an error/warning if invalid).
 #'
 #' @export
+#'
+#' @examples
+#' data("harris12")
+#' strg <- stratigraph(harris12, "context", "above")
+#'
+#' strg_is_valid(strg)
+#' strg_validate(strg)
 strg_is_valid <- function(stratigraph) {
   length(strg_validity_issues(stratigraph)) == 0
 }

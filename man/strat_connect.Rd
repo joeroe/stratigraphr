@@ -22,3 +22,10 @@ can be used as the \code{nodes} argument to \code{\link[tidygraph:tbl_graph]{tid
 Constructs a table of directed edges between stratigraphic units based on a
 vector of relations (e.g. "above" or "below").
 }
+\examples{
+strat_connect(
+  units = c("A", "B", "C"),
+  relations = list("B", "C", NA),
+  direction = "above"
+)
+}
