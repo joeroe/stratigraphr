@@ -62,8 +62,7 @@
     [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md).
   - [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md)
     will now return a graph even if it is not stratigraphically valid.
-  - Renamed `vignette("harris")` →
-    [`vignette("stratigraph")`](https://stratigraphr.joeroe.io/articles/stratigraph.md)
+  - Renamed `vignette("harris")` → `vignette("stratigraph")`
 - Expanded the `stratigraph` interface, adding:
   - Utility functions for validating stratigraphies:
     [`strat_is_mirror()`](https://stratigraphr.joeroe.io/reference/strat_is_mirror.md)

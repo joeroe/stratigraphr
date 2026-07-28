@@ -86,7 +86,7 @@ harris12 |>
 For further information on:
 
 - **Graph-bases stratigraphic analysis**, see
-  [`vignette("stratigraph")`](https://stratigraphr.joeroe.io/articles/stratigraph.md).
+  [`vignette("stratigraphr")`](https://stratigraphr.joeroe.io/articles/stratigraphr.md).
 - **Chronological query language**, see
   [`vignette("cql")`](https://stratigraphr.joeroe.io/articles/cql.md).
 
