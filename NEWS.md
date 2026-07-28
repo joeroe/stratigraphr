@@ -1,4 +1,4 @@
-# stratigraphr (development version)
+# stratigraphr 0.5.0
 
 - `stratigraph()` supports tidy/long-format data frames where each row
   represents a single relation (#15)
