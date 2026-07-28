@@ -2,6 +2,10 @@
 
 ## stratigraphr (development version)
 
+- [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md)
+  supports tidy/long-format data frames where each row represents a
+  single relation
+  ([\#15](https://github.com/joeroe/stratigraphr/issues/15))
 - Improved validation workflow for stratigraphs
   - Validation now considers redundant relations.
   - `strat_is_valid()` renamed to

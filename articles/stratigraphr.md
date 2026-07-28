@@ -99,18 +99,18 @@ h12_graph |>
   activate("nodes") |>
   as_tibble()
 #> # A tibble: 10 × 4
-#>    context above     below     equal
-#>    <chr>   <list>    <list>    <chr>
-#>  1 1       <chr [1]> <chr [3]> NA   
-#>  2 2       <chr [1]> <chr [1]> NA   
-#>  3 3       <chr [1]> <chr [1]> NA   
-#>  4 4       <chr [1]> <chr [1]> NA   
-#>  5 5       <chr [3]> <chr [1]> NA   
-#>  6 6       <chr [1]> <chr [2]> NA   
-#>  7 7       <chr [1]> <chr [1]> 8    
-#>  8 8       <chr [1]> <chr [1]> 7    
-#>  9 9       <chr [2]> <chr [1]> NA   
-#> 10 natural <chr [1]> <chr [1]> NA
+#>    context above below     equal
+#>    <chr>   <chr> <list>    <chr>
+#>  1 1       NA    <chr [3]> NA   
+#>  2 2       1     <chr [1]> NA   
+#>  3 3       1     <chr [1]> NA   
+#>  4 4       1     <chr [1]> NA   
+#>  5 5       2     <chr [1]> NA   
+#>  6 6       5     <chr [2]> NA   
+#>  7 7       6     <chr [1]> 8    
+#>  8 8       6     <chr [1]> 7    
+#>  9 9       7     <chr [1]> NA   
+#> 10 natural 9     <chr [1]> NA
 
 # Inspect the edges (relations)
 h12_graph |>
@@ -144,8 +144,11 @@ relations. The
 function expects:
 
 - A **label column** with unique identifiers for each unit
-- A **relation column** as a list-column, where each element is a vector
-  of related units
+- A **relation column** describing stratigraphic relations between units
+
+The relation column can be either a list-column (where each element is a
+vector of related units) or a regular column in long format (where each
+row represents a single relation).
 
 ### Constructing from scratch
 
@@ -155,7 +158,7 @@ You can construct a stratigraphic data frame directly in R:
 
 strat_data <- data.frame(
   unit = c("A", "B", "C"),
-  below = I(list("B", "C", NA))
+  below = c("B", "C", NA)
 )
 
 stratigraph(strat_data, "unit", "below", direction = "below")
@@ -170,22 +173,20 @@ stratigraph(strat_data, "unit", "below", direction = "below")
 
 ### Reading from CSV
 
-More commonly, stratigraphic data is stored in a CSV file. The challenge
-is that relations are typically recorded as comma-separated strings
-(e.g., “B,C”), which need to be converted to list-columns:
+More commonly, stratigraphic data is stored in a CSV file. With
+long-format input, you can read the CSV and pass it directly to
+[`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md):
 
 ``` r
 
 library("readr")
-library("stringr")
 
 csv_text <- "context,above
 A,
 B,A
 C,A"
 
-strat_data <- read_csv(csv_text, show_col_types = FALSE) |>
-  mutate(above = str_split(above, ","))
+strat_data <- read_csv(csv_text, show_col_types = FALSE)
 
 stratigraph(strat_data, "context", "above")
 #> # A stratigraph: 3 units and 2 relations
@@ -276,7 +277,7 @@ violates the law of superposition and indicates an error in the data:
 
 cycle_data <- data.frame(
   unit = c("A", "B", "C"),
-  below = I(list("B", "C", "A"))
+  below = c("B", "C", "A")
 )
 
 cycle_graph <- stratigraph(cycle_data, "unit", "below", direction = "below")
@@ -293,8 +294,8 @@ stratigraphic graph.
 ``` r
 
 redundant_data <- data.frame(
-  unit = c("A", "B", "C"),
-  above = I(list(NA, "A", c("A", "B")))
+  unit = c("A", "B", "B", "C"),
+  above = c("B", "C", "C", NA)
 )
 
 redundant_graph <- stratigraph(redundant_data, "unit", "above")
@@ -312,11 +313,11 @@ pruned_graph <- strg_prune(redundant_graph)
 pruned_graph
 #> # A stratigraph: 3 units and 2 relations
 #> # ✔ Valid stratigraphic graph
-#> A
+#> C
 #> │
 #> B
 #> │
-#> C
+#> A
 strg_is_valid(pruned_graph)
 #> [1] TRUE
 ```
