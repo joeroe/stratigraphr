@@ -40,11 +40,13 @@ Suggests:
     readr,
     readxl,
     rmarkdown,
+    spelling,
     testthat,
-    tibble,
+    tibble
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RdMacros: Rdpack
 Depends: 
     R (>= 4.1)
 Config/roxygen2/version: 8.0.0
+Language: en-GB

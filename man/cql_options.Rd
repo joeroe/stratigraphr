@@ -67,13 +67,13 @@ off.}
 \item{round_by}{Integer. Resolution of rounding
 (0 for automatic).}
 
-\item{sd1}{Logical. Whether 68.2\% (1 σ) ranges
+\item{sd1}{Logical. Whether 68.2\% (1 \eqn{\sigma}) ranges
 are given in the log and tab delimited files.}
 
-\item{sd2}{Logical. Whether 95.4\% (2 σ) ranges
+\item{sd2}{Logical. Whether 95.4\% (2 \eqn{\sigma}) ranges
 are given in the log and tab delimited files.}
 
-\item{sd3}{Logical. Whether 99.7\% (3 σ) ranges
+\item{sd3}{Logical. Whether 99.7\% (3 \eqn{\sigma}) ranges
 are given in the log and tab delimited files.}
 
 \item{uniform_span_prior}{Logical. Whether the two extra prior

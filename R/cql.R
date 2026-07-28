@@ -116,11 +116,11 @@ print.cql <- function(x, ...) {
 #'   off.
 #' @param round_by           Integer. Resolution of rounding
 #'   (0 for automatic).
-#' @param sd1                Logical. Whether 68.2% (1 σ) ranges
+#' @param sd1                Logical. Whether 68.2% (1 \eqn{\sigma}) ranges
 #'   are given in the log and tab delimited files.
-#' @param sd2                Logical. Whether 95.4% (2 σ) ranges
+#' @param sd2                Logical. Whether 95.4% (2 \eqn{\sigma}) ranges
 #'   are given in the log and tab delimited files.
-#' @param sd3                Logical. Whether 99.7% (3 σ) ranges
+#' @param sd3                Logical. Whether 99.7% (3 \eqn{\sigma}) ranges
 #'   are given in the log and tab delimited files.
 #' @param uniform_span_prior Logical. Whether the two extra prior
 #'   factors suggested by Nicholls and Jones 2001 are used.
