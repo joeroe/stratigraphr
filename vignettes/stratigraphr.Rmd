@@ -80,7 +80,9 @@ Stratigraphic data is fundamentally simple: a data frame of units and relations.
 The `stratigraph()` function expects:
 
 - A **label column** with unique identifiers for each unit
-- A **relation column** as a list-column, where each element is a vector of related units
+- A **relation column** describing stratigraphic relations between units
+
+The relation column can be either a list-column (where each element is a vector of related units) or a regular column in long format (where each row represents a single relation).
 
 ### Constructing from scratch
 
@@ -89,7 +91,7 @@ You can construct a stratigraphic data frame directly in R:
 ```{r from-scratch}
 strat_data <- data.frame(
   unit = c("A", "B", "C"),
-  below = I(list("B", "C", NA))
+  below = c("B", "C", NA)
 )
 
 stratigraph(strat_data, "unit", "below", direction = "below")
@@ -98,19 +100,17 @@ stratigraph(strat_data, "unit", "below", direction = "below")
 ### Reading from CSV
 
 More commonly, stratigraphic data is stored in a CSV file.
-The challenge is that relations are typically recorded as comma-separated strings (e.g., "B,C"), which need to be converted to list-columns:
+With long-format input, you can read the CSV and pass it directly to `stratigraph()`:
 
 ```{r csv-workflow}
 library("readr")
-library("stringr")
 
 csv_text <- "context,above
 A,
 B,A
 C,A"
 
-strat_data <- read_csv(csv_text, show_col_types = FALSE) |>
-  mutate(above = str_split(above, ","))
+strat_data <- read_csv(csv_text, show_col_types = FALSE)
 
 stratigraph(strat_data, "context", "above")
 ```
@@ -161,7 +161,7 @@ This violates the law of superposition and indicates an error in the data:
 ```{r cycle-example}
 cycle_data <- data.frame(
   unit = c("A", "B", "C"),
-  below = I(list("B", "C", "A"))
+  below = c("B", "C", "A")
 )
 
 cycle_graph <- stratigraph(cycle_data, "unit", "below", direction = "below")
@@ -175,8 +175,8 @@ An explicit relation between A and C is redundant and should be removed to produ
 
 ```{r redundant-example}
 redundant_data <- data.frame(
-  unit = c("A", "B", "C"),
-  above = I(list(NA, "A", c("A", "B")))
+  unit = c("A", "B", "B", "C"),
+  above = c("B", "C", "C", NA)
 )
 
 redundant_graph <- stratigraph(redundant_data, "unit", "above")
