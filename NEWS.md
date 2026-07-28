@@ -1,5 +1,7 @@
 # stratigraphr (development version)
 
+- `stratigraph()` supports tidy/long-format data frames where each row
+  represents a single relation (#15)
 - Improved validation workflow for stratigraphs
   - Validation now considers redundant relations.
   - `strat_is_valid()` renamed to `strg_is_valid()` (#21) and silently returns 

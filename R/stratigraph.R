@@ -9,7 +9,11 @@
 #' it into a graph representation.
 #'
 #' @param data Data frame of stratigraphic units, containing at least a unique
-#'   label column and a column describing stratigraphic relations.
+#'   label column and a column describing stratigraphic relations. The relation
+#'   column can be either a list column (where each element is a vector of
+#'   related units) or a regular column (where each row represents a single
+#'   relation). If the relation column is a list, it will be automatically
+#'   unnested to long format.
 #' @param label Name of the column containing labels of the stratigraphic units.
 #' @param relation  Name of the column describing the stratigraphic relations
 #'   between units.
@@ -22,22 +26,57 @@
 #' @export
 #'
 #' @examples
-#' circle <- stratigraph(data.frame(
-#'   label = LETTERS[1:4],
-#'   below = c("B", "C", "D", "A")
-#' ), "label", "below", "below")
+#' # List column format (wide format)
+#' stratigraph(data.frame(
+#'   label = c("A", "B", "C"),
+#'   below = list("B", "C", NA)
+#' ), "label", "below")
+#'
+#' # Long format (one relation per row)
+#' stratigraph(data.frame(
+#'   label = c("A", "B", "C", "C"),
+#'   below = c("B", "C", "A", "B")
+#' ), "label", "below")
 stratigraph <- function(data, label, relation,
                         direction = c("above", "below")) {
   direction <- match.arg(direction)
 
+  # Normalize to long format if relation column is a list
+  if (is.list(data[[relation]])) {
+    data <- strat_unnest_relations(data, label, relation)
+  }
+
+  # Extract edges from long-format data (preserves all relations)
   edges <- strat_connect(data[[label]], data[[relation]], direction)
-  graph <- tidygraph::tbl_graph(nodes = data, edges = edges, node_key = label,
+
+  # Deduplicate nodes by label (handles long-format input)
+  nodes <- data[!duplicated(data[[label]]), , drop = FALSE]
+
+  graph <- tidygraph::tbl_graph(nodes = nodes, edges = edges, node_key = label,
                                 directed = TRUE)
 
   # TODO: turn into an as.stratigraph function?
   class(graph) <- c("stratigraph", class(graph))
 
   strg_validate(graph, warn = TRUE)
+}
+
+#' Unnest list-column relations to long format
+#'
+#' @param data Data frame with a list column for relations
+#' @param label Name of the label column
+#' @param relation Name of the relation column
+#'
+#' @return Data frame with unnested relations (one relation per row)
+#'
+#' @noRd
+strat_unnest_relations <- function(data, label, relation) {
+  rel_col <- data[[relation]]
+  times <- purrr::map_int(rel_col, length)
+  indices <- vctrs::vec_rep_each(seq_len(nrow(data)), times = times)
+  result <- vctrs::vec_slice(data, indices)
+  result[[relation]] <- vctrs::list_unchop(rel_col)
+  result
 }
 
 #' Print a stratigraphic graph

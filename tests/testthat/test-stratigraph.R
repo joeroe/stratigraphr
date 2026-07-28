@@ -34,6 +34,56 @@ test_that("stratigraph() warns on invalid graphs", {
   expect_warning(stratigraph(df, "id", "above"), class = "invalid_stratigraph")
 })
 
+test_that("stratigraph() handles long-format input", {
+  # Long format (one relation per row)
+  df_long <- data.frame(
+    id = c("a", "b", "c", "c"),
+    above = c("b", "c", "a", "b")
+  )
+
+  # Equivalent list-column format
+  df_list <- data.frame(
+    id = c("a", "b", "c"),
+    above = I(list("b", "c", c("a", "b")))
+  )
+
+  g_long <- stratigraph(df_long, "id", "above")
+  g_list <- stratigraph(df_list, "id", "above")
+
+  expect_equal(igraph::gorder(g_long), igraph::gorder(g_list))
+  expect_equal(igraph::gsize(g_long), igraph::gsize(g_list))
+  expect_equal(
+    igraph::as_edgelist(g_long, names = TRUE),
+    igraph::as_edgelist(g_list, names = TRUE)
+  )
+})
+
+test_that("stratigraph() handles long-format input with NA relations", {
+  df <- data.frame(
+    id = c("a", "b", "c"),
+    above = c(NA, NA, NA)
+  )
+
+  g <- stratigraph(df, "id", "above")
+
+  expect_s3_class(g, "stratigraph")
+  expect_equal(igraph::gorder(g), 3)
+  expect_equal(igraph::gsize(g), 0)
+})
+
+test_that("stratigraph() handles long-format input with multiple relations per unit", {
+  df <- data.frame(
+    id = c("a", "a", "b", "b", "c"),
+    above = c("b", "c", "c", "c", NA)
+  )
+
+  g <- stratigraph(df, "id", "above")
+
+  expect_s3_class(g, "stratigraph")
+  expect_equal(igraph::gorder(g), 3)  # a, b, c
+  expect_equal(igraph::gsize(g), 4)   # a->b, a->c, b->c, b->c (duplicate edge)
+})
+
 # print.stratigraph() -----------------------------------------------------
 
 test_that("print.stratigraph() produces output", {
