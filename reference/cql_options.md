@@ -91,18 +91,18 @@ cql_options(
 
 - sd1:
 
-  Logical. Whether 68.2% (1 σ) ranges are given in the log and tab
-  delimited files.
+  Logical. Whether 68.2% (1 \\\sigma\\) ranges are given in the log and
+  tab delimited files.
 
 - sd2:
 
-  Logical. Whether 95.4% (2 σ) ranges are given in the log and tab
-  delimited files.
+  Logical. Whether 95.4% (2 \\\sigma\\) ranges are given in the log and
+  tab delimited files.
 
 - sd3:
 
-  Logical. Whether 99.7% (3 σ) ranges are given in the log and tab
-  delimited files.
+  Logical. Whether 99.7% (3 \\\sigma\\) ranges are given in the log and
+  tab delimited files.
 
 - uniform_span_prior:
 
