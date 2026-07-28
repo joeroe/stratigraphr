@@ -8,7 +8,11 @@ stratigraph(data, label, relation, direction = c("above", "below"))
 }
 \arguments{
 \item{data}{Data frame of stratigraphic units, containing at least a unique
-label column and a column describing stratigraphic relations.}
+label column and a column describing stratigraphic relations. The relation
+column can be either a list column (where each element is a vector of
+related units) or a regular column (where each row represents a single
+relation). If the relation column is a list, it will be automatically
+unnested to long format.}
 
 \item{label}{Name of the column containing labels of the stratigraphic units.}
 
@@ -26,8 +30,15 @@ Takes a data frame describing stratigraphic units and relations and turns
 it into a graph representation.
 }
 \examples{
-circle <- stratigraph(data.frame(
-  label = LETTERS[1:4],
-  below = c("B", "C", "D", "A")
-), "label", "below", "below")
+# List column format (wide format)
+stratigraph(data.frame(
+  label = c("A", "B", "C"),
+  below = list("B", "C", NA)
+), "label", "below")
+
+# Long format (one relation per row)
+stratigraph(data.frame(
+  label = c("A", "B", "C", "C"),
+  below = c("B", "C", "A", "B")
+), "label", "below")
 }
