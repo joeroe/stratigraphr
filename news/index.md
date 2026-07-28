@@ -1,6 +1,6 @@
 # Changelog
 
-## stratigraphr (development version)
+## stratigraphr 0.5.0
 
 - [`stratigraph()`](https://stratigraphr.joeroe.io/reference/stratigraph.md)
   supports tidy/long-format data frames where each row represents a
