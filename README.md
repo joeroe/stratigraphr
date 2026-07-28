@@ -96,7 +96,8 @@ harris12 |>
 
 For further information on:
 
-- **Graph-bases stratigraphic analysis**, see `vignette("stratigraph")`.
+- **Graph-bases stratigraphic analysis**, see
+  `vignette("stratigraphr")`.
 - **Chronological query language**, see `vignette("cql")`.
 
 This package previous contained functions for tidy radiocarbon data.
