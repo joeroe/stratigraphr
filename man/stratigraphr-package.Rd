@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
-A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphic sequences (Harris matrices) as directed graphs (Dye & Buck 2015) \doi{10.1016/j.jas.2015.08.008} and an R interface to the Chronological Query Language (CQL) used by 'OxCal' (Bronk Ramsey 2009) \doi{10.1017/S0033822200033865}.
+A tidy framework for working with archaeological stratigraphy and chronology. Includes tools for reading, analysing, and visualising stratigraphic sequences (Harris matrices) as directed graphs following the definition of Dye and Buck (2015) \doi{10.1016/j.jas.2015.08.008} and an R interface to the Chronological Query Language (CQL) used in 'OxCal' by Bronk Ramsey (2009) \doi{10.1017/S0033822200033865}.
 }
 \seealso{
 Useful links:
