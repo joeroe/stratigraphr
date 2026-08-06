@@ -18,12 +18,16 @@ Returns \code{cql} invisibly.
 Writes a CQL script (from \code{\link[=cql]{cql()}}) to an .oxcal file, for input to OxCal.
 }
 \examples{
-\dontrun{
+\dontshow{
+.old_wd <- setwd(tempdir())
+}
 script <- cql(
   cql_r_date("ABC-001", 10100, 50),
   cql_r_date("ABC-002", 10200, 50)
 )
-write_oxcal(script, tempfile(fileext = ".oxcal"))
+write_oxcal(script, "script.oxcal")
+\dontshow{
+setwd(.old_wd)
 }
 }
 \seealso{
