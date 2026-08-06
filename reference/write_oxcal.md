@@ -40,11 +40,9 @@ Other CQL functions:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 script <- cql(
   cql_r_date("ABC-001", 10100, 50),
   cql_r_date("ABC-002", 10200, 50)
 )
-write_oxcal(script, tempfile(fileext = ".oxcal"))
-} # }
+write_oxcal(script, "script.oxcal")
 ```
